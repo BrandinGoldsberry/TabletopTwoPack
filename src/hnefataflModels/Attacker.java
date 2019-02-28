@@ -11,8 +11,11 @@ public class Attacker extends Piece {
 
 	@Override
 	public boolean IsSurrounded(boolean[][] enemiesNear) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean ret = false;
+		
+		ret = enemiesNear[1][1] && enemiesNear[1][2] || enemiesNear[2][1] && enemiesNear[2][2];
+		
+		return ret;
 	}
 
 	@Override
