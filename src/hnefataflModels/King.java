@@ -11,7 +11,11 @@ public class King extends Defender {
 
 	@Override
 	public boolean IsSurrounded(boolean[][] enemiesNear) {
-		return false;
+		boolean ret = false;
+		
+		ret = (enemiesNear[1][1] && enemiesNear[1][2]) && (enemiesNear[2][1] && enemiesNear[2][2]);
+		
+		return ret;
 	}
 	
 	@Override

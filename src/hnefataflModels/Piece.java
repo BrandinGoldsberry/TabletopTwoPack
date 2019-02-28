@@ -14,10 +14,6 @@ public abstract class Piece {
 		return this.sprite;
 	}
 	
-	public boolean CheckMovement() {
-		return false;
-	}
-	
 	public abstract boolean IsSurrounded(boolean[][] enemiesNear);
 	
 	@Override
