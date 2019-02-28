@@ -24,7 +24,6 @@ public class Main extends Application {
 		launch(args);
 	}
 
-	this is my commit wow its the besetest - julius
 	
 	
 }
