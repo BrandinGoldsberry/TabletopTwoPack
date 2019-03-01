@@ -15,7 +15,7 @@ public class Hnefatafl {
 		
 	}
 	
-	private static void update(Game game) {
+	private static void update() {
 		
 	}
 	
@@ -24,11 +24,6 @@ public class Hnefatafl {
 	}
 	
 	private static void movePiece() {
-		
-	}
-	
-	private static boolean checkIfTaken() {
-		return false;
 		
 	}
 

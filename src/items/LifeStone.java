@@ -13,7 +13,9 @@ public class LifeStone extends Item {
 	@Override
 	public void use(BaseCharacter target) {
 		// TODO Auto-generated method stub
+		float toHeal = target.getBaseHP() * (float)0.3;
 		
+		target.setCurrentHP(target.getBaseHP() + toHeal);
 	}
 	
 }

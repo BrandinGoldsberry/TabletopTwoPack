@@ -3,7 +3,7 @@ package models_RPG;
 public class BaseCharacter {
 	private String name;
 	private int baseHP;
-	private int currentHP;
+	private float currentHP;
 	private int baseMP;
 	private int currentMP;
 	private int str;
@@ -49,13 +49,16 @@ public class BaseCharacter {
 	}
 
 
-	public int getCurrentHP() {
+	public float getCurrentHP() {
 		return currentHP;
 	}
 
 
-	public void setCurrentHP(int currentHP) {
+	public void setCurrentHP(float currentHP) {
 		this.currentHP = currentHP;
+		if(this.currentHP > this.getBaseHP()) {
+			this.currentHP = this.getCurrentHP();
+		}
 	}
 
 

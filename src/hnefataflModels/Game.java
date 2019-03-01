@@ -1,6 +1,7 @@
 package hnefataflModels;
 
 import java.util.HashMap;
+import java.util.Set;
 
 public class Game {
 	private HashMap<CoordinateKey, Piece> pieces;
@@ -88,6 +89,8 @@ public class Game {
 	}
 
 	public HashMap<CoordinateKey, Piece> update(CoordinateKey LastMoved) {
+		HashMap <CoordinateKey, Piece> ret = clonePieces();
+		
 		CoordinateKey[] keys = { 
 			new CoordinateKey(LastMoved.getY() - 1, LastMoved.getX()),
 			new CoordinateKey(LastMoved.getY(), LastMoved.getX() - 1),
@@ -120,12 +123,23 @@ public class Game {
 				}
 
 				if (toCheck.IsSurrounded(surroundings)) {
-					pieces.put(CK, null);
+					ret.put(CK, null);
 				}
 			}
 		}
 
-		return getPieces();
+		return ret;
+	}
+
+	private HashMap<CoordinateKey, Piece> clonePieces() {
+		HashMap<CoordinateKey, Piece> ret = new HashMap<>();
+		
+		Set<CoordinateKey> keys = pieces.keySet();
+		
+		for(CoordinateKey k : keys) {
+			ret.put(k, pieces.get(k));
+		}
+		return ret;
 	}
 
 //	private void updateHashMap() {
