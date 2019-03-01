@@ -1,5 +1,6 @@
 package items;
 
+import models_RPG.BaseCharacter;
 import models_RPG.Item;
 
 public class MagUp extends Item {
@@ -9,4 +10,9 @@ public class MagUp extends Item {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public void use(BaseCharacter target) {
+		// TODO Auto-generated method stub
+		target.setMag(target.getMag()+1);
+	}
 }

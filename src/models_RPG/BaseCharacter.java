@@ -13,8 +13,19 @@ public class BaseCharacter {
   
 	private boolean isAlive;
 	
-	public BaseCharacter() {
-		
+	public BaseCharacter(String name, int baseHP, int currentHP, int baseMP, int currentMP, int str, int dex, int mag,
+			int luc) {
+		super();
+		this.name = name;
+		this.baseHP = baseHP;
+		this.currentHP = currentHP;
+		this.baseMP = baseMP;
+		this.currentMP = currentMP;
+		this.str = str;
+		this.dex = dex;
+		this.mag = mag;
+		this.luc = luc;
+		this.isAlive = true;
 	}
 
 

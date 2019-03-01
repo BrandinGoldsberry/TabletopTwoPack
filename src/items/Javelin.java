@@ -1,5 +1,6 @@
 package items;
 
+import models_RPG.BaseCharacter;
 import models_RPG.Item;
 
 public class Javelin extends Item {
@@ -16,6 +17,12 @@ public class Javelin extends Item {
 
 	public void setDamageValue(int damageValue) {
 		this.damageValue = damageValue;
+	}
+
+	@Override
+	public void use(BaseCharacter target) {
+		// TODO Auto-generated method stub
+		target.setCurrentHP(target.getCurrentHP() - damageValue);
 	}
 
 	
