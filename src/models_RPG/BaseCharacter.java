@@ -107,11 +107,6 @@ public class BaseCharacter {
 	}
 
 
-	public void setLuc(int luc) {
-		this.luc = luc;
-	}
-
-
 	public boolean isAlive() {
 		return isAlive;
 	}
@@ -127,6 +122,9 @@ public class BaseCharacter {
 	
 
 	public int calculateMagic(int mag) {
+		return mag;
+		
+	}
 
 	public int caclulateMagicAttack(int mag) {
 
@@ -135,16 +133,6 @@ public class BaseCharacter {
 	
 	public boolean determineIsAlive(int currentHP) {
 		return false;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("BaseCharacter\nName = ").append(name).append("\n Base HP = ").append(baseHP).append("\n Current HP = ")
-				.append(currentHP).append("\n Base MP = ").append(baseMP).append("\n Current MP = ").append(currentMP)
-				.append("\nStr = ").append(str).append("\nDex = ").append(dex).append("\nMag = ").append(mag).append("\nLuc = ")
-				.append(luc);
-		return true;
 	}
 
 
