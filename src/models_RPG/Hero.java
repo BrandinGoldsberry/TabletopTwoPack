@@ -20,7 +20,7 @@ public class Hero extends BaseCharacter {
 	
 	public Hero(String name, int baseHP, int currentHP, int baseMP, int currentMP, int str, int dex, int mag, int luc,
 			int eXP, int nextLevelEXP, int level, Weapon weapon, Armor armor, Job job, int weaponRating, int armorRating) {
-		super(name, baseHP, currentHP, baseMP, currentMP, str, dex, mag, luc);
+		super(name, str, dex, mag, luc);
 		EXP = eXP;
 		this.nextLevelEXP = nextLevelEXP;
 		this.level = level;

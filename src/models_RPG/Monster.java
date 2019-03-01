@@ -6,7 +6,7 @@ public class Monster extends BaseCharacter {
 	
 	public Monster(String name, int baseHP, int currentHP, int baseMP, int currentMP, int str, int dex, int mag,
 			int luc, int defenseRating, Item heldItem) {
-		super(name, baseHP, currentHP, baseMP, currentMP, str, dex, mag, luc);
+		super(name, str, dex, mag, luc);
 		this.defenseRating = defenseRating;
 		this.heldItem = heldItem;
 	}
