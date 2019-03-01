@@ -27,9 +27,9 @@ public class Hnefatafl {
 		
 	}
 
-	private static void removePiece() {
-		
-	}
+//	private static void removePiece() {
+//		
+//	}
 	
 	private static void checkForWin() {
 		
