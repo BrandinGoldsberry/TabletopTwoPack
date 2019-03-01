@@ -13,14 +13,13 @@ public class BaseCharacter {
   
 	private boolean isAlive;
 	
-	public BaseCharacter(String name, int baseHP, int currentHP, int baseMP, int currentMP, int str, int dex, int mag,
-			int luc) {
-		super();
+	public BaseCharacter(String name, int str, int dex, int mag, int luc) {
+		
 		this.name = name;
-		this.baseHP = baseHP;
-		this.currentHP = currentHP;
-		this.baseMP = baseMP;
-		this.currentMP = currentMP;
+		this.baseHP = 100 + (8 * str);
+		this.currentHP = this.baseHP;
+		this.baseMP = 50 + (6 * mag);
+		this.currentMP = this.baseMP;
 		this.str = str;
 		this.dex = dex;
 		this.mag = mag;
@@ -130,23 +129,25 @@ public class BaseCharacter {
 		this.isAlive = isAlive;
 	}
 	
-	public int calculateAttack(int str) {
-		return 0;
+	public int calculateAttack() {
+		int damage = this.str * 10;
+		return damage;
+	}
+
+	public int caclulateMagicAttack() {
+		int damage = this.currentMP -= 10;
+		return damage;
 	}
 	
-
-	public int calculateMagic(int mag) {
-		return mag;
+	public boolean determineIsAlive() {
+		boolean isInfactAlive;
 		
-	}
-
-	public int caclulateMagicAttack(int mag) {
-
-		return 0;
-	}
-	
-	public boolean determineIsAlive(int currentHP) {
-		return false;
+		if(this.currentHP <= 0) {
+			isInfactAlive = false;
+		} else {
+			isInfactAlive = true;
+		}
+		return isInfactAlive;
 	}
 
 
@@ -156,7 +157,7 @@ public class BaseCharacter {
 		builder.append("BaseCharacter\nName = ").append(name).append("\nBase HP=").append(baseHP).append("\nCurrent HP = ")
 				.append(currentHP).append("\nBase MP = ").append(baseMP).append("\nCurrent MP = ").append(currentMP)
 				.append("\nStr = ").append(str).append("\nDex = ").append(dex).append("\n Mag = ").append(mag).append("\n Luc = ")
-				.append(luc).append("\n Is Alive=").append(isAlive).append("]");
+				.append(luc).append("\n Is Alive=").append(isAlive);
 		return builder.toString();
 	}
 	
