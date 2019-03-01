@@ -10,8 +10,8 @@ public class BaseCharacter {
 	private int dex;
 	private int mag;
 	private int luc;
+  
 	private boolean isAlive;
-	
 	
 	public BaseCharacter() {
 		
@@ -56,7 +56,6 @@ public class BaseCharacter {
 	public void setBaseMP(int baseMP) {
 		this.baseMP = baseMP;
 	}
-
 
 	public int getCurrentMP() {
 		return currentMP;
@@ -108,6 +107,11 @@ public class BaseCharacter {
 	}
 
 
+	public void setLuc(int luc) {
+		this.luc = luc;
+	}
+
+
 	public boolean isAlive() {
 		return isAlive;
 	}
@@ -121,11 +125,25 @@ public class BaseCharacter {
 		return 0;
 	}
 	
+
+	public int calculateMagic(int mag) {
+
 	public int caclulateMagicAttack(int mag) {
+
 		return 0;
 	}
 	
 	public boolean determineIsAlive(int currentHP) {
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("BaseCharacter\nName = ").append(name).append("\n Base HP = ").append(baseHP).append("\n Current HP = ")
+				.append(currentHP).append("\n Base MP = ").append(baseMP).append("\n Current MP = ").append(currentMP)
+				.append("\nStr = ").append(str).append("\nDex = ").append(dex).append("\nMag = ").append(mag).append("\nLuc = ")
+				.append(luc);
 		return true;
 	}
 

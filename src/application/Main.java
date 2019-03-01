@@ -8,6 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
+//Test Commit
 public class Main extends Application {
 	private VBox root;
 	private GridPane boardGrid;
