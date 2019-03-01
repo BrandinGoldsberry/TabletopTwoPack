@@ -1,7 +1,11 @@
 package controllers;
 
+import hnefataflModels.Attacker;
 import hnefataflModels.CoordinateKey;
+import hnefataflModels.Defender;
 import hnefataflModels.Game;
+import hnefataflModels.King;
+import javafx.scene.image.Image;
 
 public class Hnefatafl {
 	
@@ -13,9 +17,29 @@ public class Hnefatafl {
 	}
 	
 	private static void init() {
-		CoordinateKey[] defenderPos = new CoordinateKey[24];
-		CoordinateKey[] attackerPos = new CoordinateKey[24];
+		Image defenderImg = new Image("/TabletopTwoPack/resources/nhefetafl/defender.png");
+		Image attackerImg = new Image("/TabletopTwoPack/resources/nhefetafl/attacker.png");
+		Image kingImg = new Image("/TabletopTwoPack/resources/nhefetafl/King.png");
 		
+		CoordinateKey[] defenderPos = new CoordinateKey[24];
+		CoordinateKey[] attackerPos = new CoordinateKey[12];
+		
+		Defender[] defenders = new Defender[12];
+		Attacker[] attackers = new Attacker[24];
+		
+		for(CoordinateKey ck : defenderPos) {
+			
+		}
+		
+		for(Defender d : defenders) {
+			d = new Defender(defenderImg);
+		}
+		
+		for(Attacker a : attackers) {
+			a = new Attacker(attackerImg);
+		}
+		
+		defenders[11] = new King(kingImg);
 	}
 	
 	private static void playGame() {
