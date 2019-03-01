@@ -1,4 +1,4 @@
-package enums;
+package rpgenums;
 
 public enum Tile {
 
