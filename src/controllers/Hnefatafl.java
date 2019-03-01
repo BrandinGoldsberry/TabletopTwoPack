@@ -1,5 +1,6 @@
 package controllers;
 
+import hnefataflModels.CoordinateKey;
 import hnefataflModels.Game;
 
 public class Hnefatafl {
@@ -8,6 +9,12 @@ public class Hnefatafl {
 	private int turn;
 	
 	public static void run() {
+		
+	}
+	
+	private static void init() {
+		CoordinateKey[] defenderPos = new CoordinateKey[24];
+		CoordinateKey[] attackerPos = new CoordinateKey[24];
 		
 	}
 	
