@@ -2,22 +2,40 @@ package models_RPG;
 
 import java.util.ArrayList;
 
+import rpgenums.*;
+
 
 public class Hero extends BaseCharacter {
 	private int EXP;
 	private int nextLevelEXP;
 	private int level;
-	//private Weapon weapon;
-	//private Armor armor;
-	//private Job job;
+	private Weapon weapon;
+	private Armor armor;
+	private Job job;
 	private int weaponRating;
 	private int armorRating;
-	//private static ArrayList<Item> inventory = new ArrayList<Item>();
+	private static ArrayList<Item> inventory = new ArrayList<Item>();
 	
-	public Hero() {
-		
+	
+	
+	public Hero(String name, int baseHP, int currentHP, int baseMP, int currentMP, int str, int dex, int mag, int luc,
+			int eXP, int nextLevelEXP, int level, Weapon weapon, Armor armor, Job job, int weaponRating, int armorRating) {
+		super(name, baseHP, currentHP, baseMP, currentMP, str, dex, mag, luc);
+		EXP = eXP;
+		this.nextLevelEXP = nextLevelEXP;
+		this.level = level;
+		this.setWeapon(weapon);
+		this.setArmor(armor);
+		this.setJob(job);
+		this.weaponRating = weaponRating;
+		this.armorRating = armorRating;
 	}
+
 	//public Hero(String name, Job job)
+
+	public static ArrayList<Item> getInventory() {
+		return inventory;
+	}
 
 	public int getEXP() {
 		return EXP;
@@ -69,6 +87,30 @@ public class Hero extends BaseCharacter {
 	
 	public int calculateNextLevelEXP(int level) {
 		return 0;
+	}
+
+	public Armor getArmor() {
+		return armor;
+	}
+
+	public void setArmor(Armor armor) {
+		this.armor = armor;
+	}
+
+	public Weapon getWeapon() {
+		return weapon;
+	}
+
+	public void setWeapon(Weapon weapon) {
+		this.weapon = weapon;
+	}
+
+	public Job getJob() {
+		return job;
+	}
+
+	public void setJob(Job job) {
+		this.job = job;
 	}
 	
 	
