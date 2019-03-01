@@ -1,6 +1,6 @@
 package models_RPG;
 
-public class Monster extends BaseCharacter implements Item {
+public class Monster extends BaseCharacter {
 	private int defenseRating;
 	private Item heldItem;
 	
@@ -29,6 +29,7 @@ public class Monster extends BaseCharacter implements Item {
 	}
 	
 	public Item calculateItemDrop() {
+		return heldItem;
 		
 	}
 

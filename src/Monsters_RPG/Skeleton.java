@@ -2,11 +2,11 @@ package Monsters_RPG;
 
 import models_RPG.Monster;
 
-public class GiantRat extends Monster {
+public class Skeleton extends Monster {
 
-	public GiantRat(String name) {
+	public Skeleton(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 }
