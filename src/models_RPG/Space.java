@@ -1,6 +1,6 @@
 package models_RPG;
 
-import enums.Tile;
+import rpgenums.Tile;
 
 public class Space {
 	private Tile type;
