@@ -1,6 +1,6 @@
 package models_RPG;
 
-public class Item {
+public abstract class Item {
 	private String name;
 
 	public Item(String name) {
@@ -16,7 +16,5 @@ public class Item {
 		this.name = name;
 	}
 	
-	public void use(BaseCharacter target) {
-		
-	}
+	public abstract void use(BaseCharacter target);
 }
