@@ -1,6 +1,7 @@
 package models_RPG;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import rpgenums.*;
 
@@ -15,15 +16,15 @@ public class Hero extends BaseCharacter {
 	private int weaponRating;
 	private int armorRating;
 	private static ArrayList<Item> inventory = new ArrayList<Item>();
+	private static Random rng = new Random();
 	
 	
 	
-	public Hero(String name, int baseHP, int currentHP, int baseMP, int currentMP, int str, int dex, int mag, int luc,
-			int eXP, int nextLevelEXP, int level, Weapon weapon, Armor armor, Job job, int weaponRating, int armorRating) {
+	public Hero(String name, int str, int dex, int mag, int luc, int level, Weapon weapon, Armor armor, Job job, int weaponRating, int armorRating) {
 		super(name, str, dex, mag, luc);
-		EXP = eXP;
-		this.nextLevelEXP = nextLevelEXP;
+		EXP = 0;
 		this.level = level;
+		this.nextLevelEXP = calculateNextLevelEXP(this.level);
 		this.setWeapon(weapon);
 		this.setArmor(armor);
 		this.setJob(job);
@@ -78,17 +79,50 @@ public class Hero extends BaseCharacter {
 	}
 	
 	public int calculateAttackWithWeapon(int str, int weaponRating) {
-		return 0;
+		int damage = this.getStr() * 10 + (this.weaponRating * 2);
+		float criticalChance = rng.nextInt(100) + 1;
+		
+		if(this.job == Job.LUCKY_TED) {
+			criticalChance += 0.35 * this.level;
+		}
+		
+		if(criticalChance > 95) {
+			damage += str * 4;
+		}
+		return damage;
 	}
 	
-	public void takeDamage(int armorRating) {
+	public void takeDamage(int incomingDamage) {
+		int takenDamage = incomingDamage - (armorRating * 2);
+		this.setCurrentHP(this.getCurrentHP() - takenDamage);
+		
+		if(this.determineIsAlive() == false) {
+			this.setAlive(false);
+		} else {
+			this.setAlive(true);
+		}
 		
 	}
 	
 	public int calculateNextLevelEXP(int level) {
-		return 0;
+		int newEXP = 1000 + (this.level * 1000);
+		
+		if(this.job == Job.LUCKY_TED) {
+			newEXP -= 100 * level;
+		}
+		
+		return newEXP;
 	}
 
+	public void earnEXP(int incomingEXP) {
+		this.EXP += incomingEXP;
+		
+		while(this.EXP > this.nextLevelEXP) {
+			this.level++;
+			this.nextLevelEXP = calculateNextLevelEXP(this.level);			
+		}
+	}
+	
 	public Armor getArmor() {
 		return armor;
 	}
