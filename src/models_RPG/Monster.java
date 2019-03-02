@@ -1,11 +1,13 @@
 package models_RPG;
 
+import java.util.Random;
+
 public class Monster extends BaseCharacter {
 	private int defenseRating;
 	private Item heldItem;
+	private static Random rng = new Random();
 	
-	public Monster(String name, int baseHP, int currentHP, int baseMP, int currentMP, int str, int dex, int mag,
-			int luc, int defenseRating, Item heldItem) {
+	public Monster(String name, int str, int dex, int mag, int luc, int defenseRating, Item heldItem) {
 		super(name, str, dex, mag, luc);
 		this.defenseRating = defenseRating;
 		this.heldItem = heldItem;
@@ -27,13 +29,27 @@ public class Monster extends BaseCharacter {
 		this.heldItem = heldItem;
 	}
 	
-	public void takeDamage(int defenseRating) {
+	public void takeDamage(int incomingDamage) {
+		int takenDamage = incomingDamage - (this.defenseRating * 2);
+		this.setCurrentHP(this.getCurrentHP() - takenDamage);
 		
+		if(this.determineIsAlive() == false) {
+			this.setAlive(false);
+		} else {
+			this.setAlive(true);
+		}
 	}
 	
-	public Item calculateItemDrop() {
-		return heldItem;
+	public boolean calculateItemDrop() {
+		int dropChance = rng.nextInt(100) + 1;
+		boolean itemDropped;
 		
+		if(dropChance > 85) {
+			itemDropped = true;
+		} else {
+			itemDropped = false;
+		}
+		return itemDropped;
 	}
 
 	@Override
