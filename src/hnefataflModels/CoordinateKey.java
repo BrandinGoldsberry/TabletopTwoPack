@@ -36,6 +36,10 @@ public class CoordinateKey {
         CoordinateKey key = (CoordinateKey) o;
         return x == key.x && y == key.y;
     }
+	
+	public boolean equals(int x, int y) {
+        return getX() == x && getY() == y;
+    }
 
     @Override
     public int hashCode() {
