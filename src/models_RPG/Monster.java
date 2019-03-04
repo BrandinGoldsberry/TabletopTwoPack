@@ -9,8 +9,21 @@ public class Monster extends BaseCharacter {
 	
 	public Monster(String name, int str, int dex, int mag, int luc, int defenseRating, Item heldItem) {
 		super(name, str, dex, mag, luc);
+		this.setBaseHP(30 + (3 * str));
+		this.setCurrentHP(this.getBaseHP());
+		this.setBaseMP(20 + (2 * mag));
+		this.setCurrentMP(this.getBaseMP());
 		this.defenseRating = defenseRating;
 		this.heldItem = heldItem;
+	}
+	
+	public Monster(String name, int str, int dex, int mag, int luc) {
+		super(name, str, dex, mag, luc);
+		this.name = name;
+		this.str = str;
+		this.dex = dex;
+		this.mag = mag;
+		this.luc = luc;
 	}
 
 	public int getDefenseRating() {
@@ -27,6 +40,29 @@ public class Monster extends BaseCharacter {
 
 	public void setHeldItem(Item heldItem) {
 		this.heldItem = heldItem;
+	}
+	
+	public int calculateMonsterAttack() {
+		int damage = this.getStr() * 4;
+		float criticalChance = (float) (rng.nextInt(100) + 1 + (this.getLuc() * 0.2));
+		
+		if(criticalChance > 95) {
+			damage += str * 2;
+		}
+		return damage;
+	}
+	
+	public int calculateMonsterMagicAttack() {
+		int damage = 0;
+		if(this.currentMP - 10 < 0) {
+			//Message for insufficient magic
+			//TODO
+		} else {
+			this.currentMP -= 10;
+			damage = 7 * mag;
+		}
+		
+		return 0;
 	}
 	
 	public void takeDamage(int incomingDamage) {
