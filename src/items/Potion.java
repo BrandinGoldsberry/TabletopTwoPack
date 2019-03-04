@@ -4,7 +4,7 @@ import models_RPG.BaseCharacter;
 import models_RPG.Item;
 
 public class Potion extends Item {
-	private int healValue;
+	private int healValue = 100;
 	
 	public Potion(String name) {
 		super(name);
