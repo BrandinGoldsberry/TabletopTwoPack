@@ -13,11 +13,12 @@ import javafx.scene.image.Image;
 public class Hnefatafl {
 	
 	private static Game game;
-	private static
-	int turn;
+	private static int turn;
+	private static boolean end;
 	
 	public static void run() {
 		init();
+		playGame();
 	}
 	
 	private static void init() {
@@ -113,15 +114,18 @@ public class Hnefatafl {
 	}
 	
 	private static void playGame() {
-		
+		do {
+			takeTurn();
+			update();
+		} while(!end);
 	}
 	
 	private static void update() {
-		
+		movePiece();
 	}
 	
 	private static void takeTurn() {
-		
+		checkForWin();
 	}
 	
 	private static void movePiece() {
@@ -133,11 +137,11 @@ public class Hnefatafl {
 //	}
 	
 	private static void checkForWin() {
-		
+		declareWinner();
 	}
 	
 	private static void declareWinner() {
-		
+		displayEndGameMenu();
 	}
 	
 	private static void displayEndGameMenu() {
