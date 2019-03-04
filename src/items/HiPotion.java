@@ -4,7 +4,7 @@ import models_RPG.BaseCharacter;
 import models_RPG.Item;
 
 public class HiPotion extends Item {
-	private int healValue;
+	private int healValue = 500;
 
 	public HiPotion(String name) {
 		super(name);
