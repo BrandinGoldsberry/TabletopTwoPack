@@ -20,13 +20,6 @@ import javafx.stage.Stage;
 
 	
 public class Main extends Application {
-		
-	//private VBox root;
-	private GridPane boardGrid;
-	private Label AttName;
-	private Label DefName;
-	private Game gameBoard;
-
 	@Override
 	public void start(Stage primaryStage) {
 		try {				
@@ -93,7 +86,7 @@ public class Main extends Application {
           
            	text.setText("Group 8 Rpg");
 
-            root.getChildren().addAll(text, switchBox);
+            root.getChildren().addAll(text, switchBox, startHnefaltafl);
 
             Scene scene = new Scene(root, 400, 400);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
