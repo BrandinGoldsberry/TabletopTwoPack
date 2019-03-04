@@ -4,7 +4,7 @@ import models_RPG.BaseCharacter;
 import models_RPG.Item;
 
 public class Javelin extends Item {
-	private int damageValue;
+	private int damageValue = 75;
 	
 	public Javelin(String name) {
 		super(name);
