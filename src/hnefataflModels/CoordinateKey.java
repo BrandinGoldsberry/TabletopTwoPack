@@ -47,4 +47,15 @@ public class CoordinateKey {
         result = 31 * result + y;
         return result;
     }
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("CoordinateKey [x=");
+		builder.append(x);
+		builder.append(", y=");
+		builder.append(y);
+		builder.append("]");
+		return builder.toString();
+	}
 }
