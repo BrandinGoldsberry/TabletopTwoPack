@@ -1,14 +1,23 @@
 package Monsters_RPG;
 
+import items.LucUp;
 import models_RPG.Item;
 import models_RPG.Monster;
 
 public class Vanguard extends Monster {
 
-	public Vanguard(String name, int baseHP, int currentHP, int baseMP, int currentMP, int str, int dex, int mag,
-			int luc, int defenseRating, Item heldItem) {
-		super(name, baseHP, currentHP, baseMP, currentMP, str, heldItem);
-		// TODO Auto-generated constructor stub
+	public Vanguard(String name, int str, int dex, int mag, int luc, int defenseRating, Item heldItem) {
+		super(name, str, dex, mag, luc);
+		this.setStr(8);
+		this.setDex(10);
+		this.setMag(2);
+		this.setLuc(6);
+		this.setBaseHP(30 + (3 * str));
+		this.setCurrentHP(this.getBaseHP());
+		this.setBaseMP(20 + (2 * mag));
+		this.setCurrentMP(this.getBaseMP());
+		this.setDefenseRating(8);
+		this.setHeldItem(new LucUp("Luc Up"));
 	}
 
 }
