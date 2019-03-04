@@ -22,6 +22,10 @@ public class Hero extends BaseCharacter {
 	
 	public Hero(String name, int str, int dex, int mag, int luc, int level, Weapon weapon, Armor armor, Job job, int weaponRating, int armorRating) {
 		super(name, str, dex, mag, luc);
+		this.setBaseHP(100 + (8 * str));
+		this.setCurrentHP(this.getBaseHP());
+		this.setBaseMP(50 + (6 * mag));
+		this.setCurrentMP(this.getBaseMP());
 		EXP = 0;
 		this.level = level;
 		this.nextLevelEXP = calculateNextLevelEXP(this.level);
@@ -80,7 +84,7 @@ public class Hero extends BaseCharacter {
 	
 	public int calculateAttackWithWeapon(int str, int weaponRating) {
 		int damage = this.getStr() * 10 + (this.weaponRating * 2);
-		float criticalChance = rng.nextInt(100) + 1;
+		float criticalChance = (float) (rng.nextInt(100) + 1 + (this.getLuc() * 0.2));
 		
 		if(this.job == Job.LUCKY_TED) {
 			criticalChance += 0.35 * this.level;
@@ -119,8 +123,20 @@ public class Hero extends BaseCharacter {
 		
 		while(this.EXP > this.nextLevelEXP) {
 			this.level++;
-			this.nextLevelEXP = calculateNextLevelEXP(this.level);			
+			assignStatPoints();
+			this.nextLevelEXP = calculateNextLevelEXP(this.level);
+			int tempBaseHP = this.getBaseHP();
+			this.setBaseHP(tempBaseHP + 5 + (this.getStr() * 2));
+			int tempBaseMP = this.getBaseMP();
+			this.setBaseMP(tempBaseMP + 3 + (this.getMag() * 2));
 		}
+	}
+	
+	public void assignStatPoints() {
+		//GUi process to assign stat points
+			//Don't allow players to allocate beyond 255
+		
+		//Stat setting based on user input
 	}
 	
 	public Armor getArmor() {
