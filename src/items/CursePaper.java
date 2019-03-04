@@ -13,7 +13,7 @@ public class CursePaper extends Item {
 	@Override
 	public void use(BaseCharacter target) {
 		// TODO Auto-generated method stub
-		
+		target.setCurrentHP(target.getCurrentHP() - (target.getStr() * target.getDex() * target.getMag() - target.getLuc() * 2));
 	}
 
 }
