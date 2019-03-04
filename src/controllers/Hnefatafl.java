@@ -22,7 +22,6 @@ public class Hnefatafl {
 	
 	private static Game game;
 	private static int turn;
-	private static boolean end = false;
 	private static GridPane grid;
 	
 	public static void run() {
@@ -38,13 +37,12 @@ public class Hnefatafl {
 		root.getChildren().add(grid);
 		Scene SC = new Scene(root, 400, 400);
 		
-		for(int i = 0; i < 12; i++) {
-			for(int j = 0; j < 12; j++) {
+		for(int i = 0; i < 11; i++) {
+			for(int j = 0; j < 11; j++) {
 				ImageView newImage = new ImageView();
 				grid.add(newImage, j, i, 1, 1);
 			}
 		}
-		System.out.println(grid.getChildren().size());
 		nhef.setScene(SC);
 		nhef.show();
 	}
@@ -54,14 +52,14 @@ public class Hnefatafl {
 		Image defenderImg = null;
 		Image attackerImg = null;
 		Image kingImg = null;
-		defenderImg = new Image("file:resources/nhefetafl/defender.png", 100, 100, true, true);
-		attackerImg = new Image("file:resources/nhefetafl/attacker.png", 100, 100, true, true);
-		kingImg = new Image("file:resources/nhefetafl/King.png", 100, 100, true, true);
+		defenderImg = new Image("file:resources/nhefetafl/defender.png", 75, 75, true, true);
+		attackerImg = new Image("file:resources/nhefetafl/attacker.png", 75, 75, true, true);
+		kingImg = new Image("file:resources/nhefetafl/King.png", 75, 75, true, true);
 		
 		CoordinateKey[] defenderPos;
 		CoordinateKey[] attackerPos;
 		
-		Defender[] defenders = new Defender[12];
+		Defender[] defenders = new Defender[13];
 		Attacker[] attackers = new Attacker[24];
 		
 		defenderPos = initDef();
@@ -78,8 +76,8 @@ public class Hnefatafl {
 			}
 		}
 		
-		for(int i = 0; i < 12; i++) {
-			if(defenderPos[i].equals(6, 6)) {
+		for(int i = 0; i < 13; i++) {
+			if(defenderPos[i].equals(5, 5)) {
 				defenders[i] = new King(kingImg);
 				pieces.put(defenderPos[i], defenders[i]);	
 			} else {
@@ -102,33 +100,32 @@ public class Hnefatafl {
 		CoordinateKey[] attackerPos = new CoordinateKey[24];
 		
 		for(int i = 4; i <= 8; i++) {
-			attackerPos[ckCount] = new CoordinateKey(1, i);
+			attackerPos[ckCount] = new CoordinateKey(0, i-1);
 			ckCount++;
 		}
-		attackerPos[ckCount] = new CoordinateKey(2, 6);
+		attackerPos[ckCount] = new CoordinateKey(1, 5);
 		ckCount++;
 		
 		for(int i = 4; i <= 8; i++) {
-			attackerPos[ckCount] = new CoordinateKey(i, 1);
+			attackerPos[ckCount] = new CoordinateKey(i-1, 0);
 			ckCount++;
 		}
-		attackerPos[ckCount] = new CoordinateKey(6, 2);
+		attackerPos[ckCount] = new CoordinateKey(5, 1);
 		ckCount++;
 		
 		for(int i = 4; i <= 8; i++) {
-			attackerPos[ckCount] = new CoordinateKey(11, i);
+			attackerPos[ckCount] = new CoordinateKey(10, i-1);
 			ckCount++;
 		}
-		attackerPos[ckCount] = new CoordinateKey(10, 6);
+		attackerPos[ckCount] = new CoordinateKey(9, 5);
 		ckCount++;
 		
 		for(int i = 4; i <= 8; i++) {
-			attackerPos[ckCount] = new CoordinateKey(i, 11);
+			attackerPos[ckCount] = new CoordinateKey(i-1, 10);
 			ckCount++;
 		}
-		attackerPos[ckCount] = new CoordinateKey(6, 10);
+		attackerPos[ckCount] = new CoordinateKey(5, 9);
 		ckCount++;
-		System.out.println(ckCount);
 		return attackerPos;
 	}
 	
@@ -137,25 +134,25 @@ public class Hnefatafl {
 		
 		CoordinateKey[] defenderPos = new CoordinateKey[13];
 		
-		defenderPos[ckCount] = new CoordinateKey(4, 6);
+		defenderPos[ckCount] = new CoordinateKey(3, 5);
 		ckCount++;
 		
 		for(int i = 5; i <= 7; i++) {
-			defenderPos[ckCount] = new CoordinateKey(5, i);
+			defenderPos[ckCount] = new CoordinateKey(4, i-1);
 			ckCount++;
 		}
 		
 		for(int i = 4; i <= 8; i++) {
-			defenderPos[ckCount] = new CoordinateKey(6, i);
+			defenderPos[ckCount] = new CoordinateKey(5, i-1);
 			ckCount++;
 		}
 		
 		for(int i = 5; i <= 7; i++) {
-			defenderPos[ckCount] = new CoordinateKey(7, i);
+			defenderPos[ckCount] = new CoordinateKey(6, i-1);
 			ckCount++;
 		}
 		
-		defenderPos[ckCount] = new CoordinateKey(8, 6);
+		defenderPos[ckCount] = new CoordinateKey(7, 5);
 		return defenderPos;
 	}
 	
@@ -164,29 +161,16 @@ public class Hnefatafl {
 	}
 	
 	private static void update() {
-		int pCount = 0;
-		
-		int d = 0;
-		int a = 0;
 		for(CoordinateKey key : game.getPieces().keySet()) {
 			Piece toShow = game.getPieces().get(key);
-			if(game.getPieces().get(key) != null) {
-				if(toShow.getClass().getName().equals("hnefataflModels.Defender")) {
-					d++;
-				}
-				if(toShow.getClass().getName().equals("hnefataflModels.Attacker")) {
-					a++;
-				}
+			if(toShow != null) {
 				ImageView IV = (ImageView) getNodeFromGridPane(grid, key.getY(), key.getX());
 				IV.setImage(game.getPieces().get(key).GetSprite());
 			} else {
 				ImageView IV = (ImageView) getNodeFromGridPane(grid, key.getY(), key.getX());
-				IV.setImage(new Image("file:resources/nhefetafl/emptyWhite.png", 100, 100, true, true));
+				IV.setImage(new Image("file:resources/nhefetafl/emptyWhite.png", 75, 75, true, true));
 			}
-			pCount++;
 		}
-		System.out.println(a);
-		System.out.println(d);
 		movePiece();
 	}
 	
