@@ -1,17 +1,20 @@
 package models_RPG;
 
+import java.util.Random;
+
 public class BaseCharacter {
-	private String name;
-	private int baseHP;
-	private float currentHP;
-	private int baseMP;
-	private int currentMP;
-	private int str;
-	private int dex;
-	private int mag;
-	private int luc;
+	protected String name;
+	protected int baseHP;
+	protected float currentHP;
+	protected int baseMP;
+	protected int currentMP;
+	protected int str;
+	protected int dex;
+	protected int mag;
+	protected int luc;
   
 	private boolean isAlive;
+	private static Random rng = new Random();
 	
 	public BaseCharacter(String name, int str, int dex, int mag, int luc) {
 		
@@ -129,13 +132,32 @@ public class BaseCharacter {
 		this.isAlive = isAlive;
 	}
 	
+	public boolean calculateHit() {
+		boolean hitConfirm = false;
+		float hitChance = (float) (rng.nextInt(100) + 1 + (this.dex * 0.1));
+		
+		
+		if(hitChance > 20) {
+			hitConfirm = true;
+		}
+		
+		return hitConfirm;
+	}
+	
 	public int calculateAttack() {
 		int damage = this.str * 10;
 		return damage;
 	}
 
 	public int caclulateMagicAttack() {
-		int damage = this.currentMP -= 10;
+		int damage = 0;
+		if(this.currentMP - 10 < 0) {
+			//Message for insufficient magic
+			//TODO
+		} else {
+			this.currentMP -= 10;
+			damage = 12 * mag;
+		}
 		return damage;
 	}
 	
