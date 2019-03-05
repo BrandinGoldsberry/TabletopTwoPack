@@ -1,13 +1,17 @@
 package controllers;
 
+
 import java.util.HashMap;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models_RPG.Dungeon;
 import models_RPG.Hero;
@@ -36,6 +40,8 @@ public class RPG {
 	}
 	
 	private static Job choseClass() {
+
+		Job job = null;
 		
 		Stage stage = new Stage();
 		
@@ -45,10 +51,15 @@ public class RPG {
 		VBox box = new VBox();
 		box.setAlignment(Pos.CENTER);
 		box.setPadding(new Insets(20, 80, 20, 80));
+
+		String text1 = "Warroir";
+		
+		
 		
 		final ToggleGroup group = new ToggleGroup();
+		
 
-		RadioButton rb1 = new RadioButton("Warrior");
+		RadioButton rb1 = new RadioButton(text1);
 		rb1.setToggleGroup(group);
 		rb1.setSelected(true);
 
@@ -61,7 +72,12 @@ public class RPG {
 		RadioButton rb4 = new RadioButton("Lucky Ted");
 		rb4.setToggleGroup(group);
 		
-		root.getChildren().addAll(box, rb1, rb2, rb3, rb4 );
+				
+		Button button = new Button("submit");
+		
+		
+		
+		root.getChildren().addAll(box, rb1, rb2, rb3, rb4, button);
 		
 		
 		
@@ -75,7 +91,6 @@ public class RPG {
         
         stage.show();
         
-        Job job = null;
 		return job;
 		
 	}
