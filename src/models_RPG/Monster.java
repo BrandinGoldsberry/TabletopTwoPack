@@ -5,6 +5,7 @@ import java.util.Random;
 public class Monster extends BaseCharacter {
 	private int defenseRating;
 	private Item heldItem;
+	private int EXPValue;
 	private static Random rng = new Random();
 	
 	public Monster(String name, int str, int dex, int mag, int luc, int defenseRating, Item heldItem) {
@@ -26,6 +27,14 @@ public class Monster extends BaseCharacter {
 		this.luc = luc;
 	}
 
+	public int getEXPValue() {
+		return this.EXPValue;
+	}
+	
+	public void setEXPValue(int EXPValue) {
+		this.EXPValue = EXPValue;
+	}
+	
 	public int getDefenseRating() {
 		return defenseRating;
 	}

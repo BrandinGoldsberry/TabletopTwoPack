@@ -18,6 +18,7 @@ public class GiantRat extends Monster {
 		this.setCurrentMP(this.getBaseMP());
 		this.setDefenseRating(0);
 		this.setHeldItem(new Potion("Potion"));
+		this.setEXPValue(120);
 	}
 	
 }

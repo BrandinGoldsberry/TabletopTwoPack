@@ -18,6 +18,7 @@ public class DungeonLord extends Monster {
 		this.setCurrentMP(this.getBaseMP());
 		this.setDefenseRating(10);
 		this.setHeldItem(null);
+		this.setEXPValue(5000);
 	}
 
 }

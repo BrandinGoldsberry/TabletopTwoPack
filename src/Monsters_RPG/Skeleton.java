@@ -18,6 +18,7 @@ public class Skeleton extends Monster {
 		this.setCurrentMP(this.getBaseMP());
 		this.setDefenseRating(4);
 		this.setHeldItem(new CursePaper("Curse Paper"));
+		this.setEXPValue(900);
 	}
 
 

@@ -18,6 +18,7 @@ public class Drake extends Monster {
 		this.setCurrentMP(this.getBaseMP());
 		this.setDefenseRating(3);
 		this.setHeldItem(new StrUp("Str Up"));
+		this.setEXPValue(1400);
 	}
 	
 	

@@ -18,6 +18,7 @@ public class Vanguard extends Monster {
 		this.setCurrentMP(this.getBaseMP());
 		this.setDefenseRating(8);
 		this.setHeldItem(new LucUp("Luc Up"));
+		this.setEXPValue(1050);
 	}
 
 }

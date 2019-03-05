@@ -18,7 +18,7 @@ public class RatKing extends Monster {
 		this.setCurrentMP(this.getBaseMP());
 		this.setDefenseRating(2);
 		this.setHeldItem(new BottledLightning("Bottled Lightning"));
-		
+		this.setEXPValue(1400);
 	}
 
 

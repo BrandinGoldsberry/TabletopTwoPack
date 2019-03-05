@@ -18,6 +18,7 @@ public class MassiveRat extends Monster {
 		this.setCurrentMP(this.getBaseMP());
 		this.setDefenseRating(2);
 		this.setHeldItem(new HiPotion("Hi-Potion"));
+		this.setEXPValue(360);
 	}
 
 

@@ -18,6 +18,7 @@ public class Slime extends Monster {
 		this.setCurrentMP(this.getBaseMP());
 		this.setDefenseRating(0);
 		this.setHeldItem(new LifeStone("Life Stone"));
+		this.setEXPValue(400);
 	}
 
 

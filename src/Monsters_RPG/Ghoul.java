@@ -18,6 +18,7 @@ public class Ghoul extends Monster {
 		this.setCurrentMP(this.getBaseMP());
 		this.setDefenseRating(0);
 		this.setHeldItem(new DexUp("Dex Up"));
+		this.setEXPValue(290);
 	}
 
 

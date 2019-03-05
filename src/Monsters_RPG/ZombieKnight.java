@@ -18,6 +18,7 @@ public class ZombieKnight extends Monster {
 		this.setCurrentMP(this.getBaseMP());
 		this.setDefenseRating(6);
 		this.setHeldItem(new Javelin("Javelin"));
+		this.setEXPValue(1240);
 	}
 
 

@@ -18,6 +18,7 @@ public class GigaSlime extends Monster {
 		this.setCurrentMP(this.getBaseMP());
 		this.setDefenseRating(1);
 		this.setHeldItem(new MagUp("Mag Up"));
+		this.setEXPValue(940);
 	}
 
 
