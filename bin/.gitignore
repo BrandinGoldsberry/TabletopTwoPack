@@ -1,9 +1,7 @@
-/application/
-/enums/
-/hnefataflModels/
-/models_RPG/
-/controllers/
 /Monsters_RPG/
-/intrfaces_RPG/
+/application/
+/controllers/
+/hnefataflModels/
 /items/
+/models_RPG/
 /rpgenums/
