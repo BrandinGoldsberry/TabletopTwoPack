@@ -1,19 +1,19 @@
 package models_RPG;
 
 public class Dungeon {
-	private Room[][] rooms;
+	private Space[][] floor;
 
-	public Dungeon(Room[][] rooms) {
+	public Dungeon(Space[][] rooms) {
 		super();
 		this.setRooms(rooms);
 	}
 
-	public Room[][] getRooms() {
-		return rooms;
+	public Space[][] getRooms() {
+		return floor;
 	}
 
-	public void setRooms(Room[][] rooms) {
-		this.rooms = rooms;
+	public void setRooms(Space[][] rooms) {
+		this.floor = rooms;
 	}
 	
 	public void generateRooms() {
