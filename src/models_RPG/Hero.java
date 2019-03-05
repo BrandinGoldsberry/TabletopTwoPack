@@ -7,7 +7,8 @@ import rpgenums.*;
 
 
 public class Hero extends BaseCharacter {
-	private int EXP;
+	private static String defaultName = "Hero";
+	private int EXP = 0;
 	private int nextLevelEXP;
 	private int level;
 	private Weapon weapon;
@@ -20,23 +21,45 @@ public class Hero extends BaseCharacter {
 	
 	
 	
-	public Hero(String name, int str, int dex, int mag, int luc, int level, Weapon weapon, Armor armor, Job job, int weaponRating, int armorRating) {
-		super(name, str, dex, mag, luc);
+	public Hero(String name, Job job) {
+		super(name);
+		this.setStr(3);
+		this.setDex(3);
+		this.setMag(3);
+		this.setLuc(3);
 		this.setBaseHP(100 + (8 * str));
 		this.setCurrentHP(this.getBaseHP());
 		this.setBaseMP(50 + (6 * mag));
 		this.setCurrentMP(this.getBaseMP());
 		EXP = 0;
-		this.level = level;
+		this.level = 1;
 		this.nextLevelEXP = calculateNextLevelEXP(this.level);
-		this.setWeapon(weapon);
-		this.setArmor(armor);
+		this.setWeapon(null);
+		this.setArmor(null);
 		this.setJob(job);
-		this.weaponRating = weaponRating;
-		this.armorRating = armorRating;
+		this.weaponRating = 0;
+		this.armorRating = 0;
+		
+		if(job == Job.WARRIOR) {
+			this.str += 3;
+		} else if (job == Job.MAGE) {
+			this.mag += 3;
+		} else if (job == Job.ROGUE) {
+			this.dex += 3;
+		} else if (job == Job.LUCKY_TED) {
+			this.luc += 3;
+		}
+		
 	}
 
-	//public Hero(String name, Job job)
+	public Hero() {
+		super(defaultName);
+		this.str = 6;
+		this.dex = 3;
+		this.mag = 3;
+		this.luc = 3;
+		this.job = Job.WARRIOR;
+	}
 
 	public static ArrayList<Item> getInventory() {
 		return inventory;

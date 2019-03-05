@@ -30,6 +30,9 @@ public class BaseCharacter {
 		this.isAlive = true;
 	}
 
+	public BaseCharacter(String name) {
+		this.name = name;
+	}
 
 	public String getName() {
 		return name;

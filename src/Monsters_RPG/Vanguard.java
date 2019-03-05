@@ -6,8 +6,8 @@ import models_RPG.Monster;
 
 public class Vanguard extends Monster {
 
-	public Vanguard(String name, int str, int dex, int mag, int luc, int defenseRating, Item heldItem) {
-		super(name, str, dex, mag, luc);
+	public Vanguard() {
+		super();
 		this.setStr(8);
 		this.setDex(10);
 		this.setMag(2);

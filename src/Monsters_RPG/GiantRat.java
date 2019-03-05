@@ -6,8 +6,8 @@ import models_RPG.Monster;
 
 public class GiantRat extends Monster {
 
-	public GiantRat(String name, int str, int dex, int mag, int luc, int defenseRating, Item heldItem) {
-		super(name, str, dex, mag, luc);
+	public GiantRat() {
+		super();
 		this.setStr(4);
 		this.setDex(2);
 		this.setMag(0);

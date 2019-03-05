@@ -6,8 +6,8 @@ import models_RPG.Monster;
 
 public class DungeonLord extends Monster {
 
-	public DungeonLord(String name, int str, int dex, int mag, int luc, int defenseRating, Item heldItem) {
-		super(name, str, dex, mag, luc);
+	public DungeonLord() {
+		super();
 		this.setStr(15);
 		this.setDex(15);
 		this.setMag(15);

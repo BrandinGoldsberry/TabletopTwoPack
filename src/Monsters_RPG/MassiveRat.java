@@ -6,8 +6,8 @@ import models_RPG.Monster;
 
 public class MassiveRat extends Monster {
 
-	public MassiveRat(String name, int str, int dex, int mag, int luc, int defenseRating, Item heldItem) {
-		super(name, str, dex, mag, luc);
+	public MassiveRat() {
+		super();
 		this.setStr(8);
 		this.setDex(4);
 		this.setMag(0);

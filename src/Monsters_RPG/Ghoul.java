@@ -6,8 +6,8 @@ import models_RPG.Monster;
 
 public class Ghoul extends Monster {
 
-	public Ghoul(String name, int str, int dex, int mag, int luc, int defenseRating, Item heldItem) {
-		super(name, str, dex, mag, luc);
+	public Ghoul() {
+		super();
 		this.setStr(4);
 		this.setDex(3);
 		this.setMag(3);

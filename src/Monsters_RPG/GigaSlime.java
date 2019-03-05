@@ -6,8 +6,8 @@ import models_RPG.Monster;
 
 public class GigaSlime extends Monster {
 
-	public GigaSlime(String name, int str, int dex, int mag, int luc, int defenseRating, Item heldItem) {
-		super(name, str, dex, mag, luc);
+	public GigaSlime() {
+		super();
 		this.setStr(14);
 		this.setDex(14);
 		this.setMag(0);

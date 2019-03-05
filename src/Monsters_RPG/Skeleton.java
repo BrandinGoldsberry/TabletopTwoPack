@@ -6,8 +6,8 @@ import models_RPG.Monster;
 
 public class Skeleton extends Monster {
 
-	public Skeleton(String name, int str, int dex, int mag, int luc, int defenseRating, Item heldItem) {
-		super(name, str, dex, mag, luc);
+	public Skeleton() {
+		super();
 		this.setStr(8);
 		this.setDex(6);
 		this.setMag(6);

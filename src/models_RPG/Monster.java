@@ -18,13 +18,8 @@ public class Monster extends BaseCharacter {
 		this.heldItem = heldItem;
 	}
 	
-	public Monster(String name, int str, int dex, int mag, int luc) {
-		super(name, str, dex, mag, luc);
-		this.name = name;
-		this.str = str;
-		this.dex = dex;
-		this.mag = mag;
-		this.luc = luc;
+	public Monster() {
+		super("Monster");
 	}
 
 	public int getEXPValue() {

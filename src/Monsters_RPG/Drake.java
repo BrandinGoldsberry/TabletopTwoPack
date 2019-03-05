@@ -6,8 +6,8 @@ import models_RPG.Monster;
 
 public class Drake extends Monster {
 
-	public Drake(String name, int str, int dex, int mag, int luc, int defenseRating, Item heldItem) {
-		super(name, str, dex, mag, luc);
+	public Drake() {
+		super();
 		this.setStr(5);
 		this.setDex(11);
 		this.setMag(11);

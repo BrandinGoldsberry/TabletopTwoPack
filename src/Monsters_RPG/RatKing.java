@@ -6,8 +6,8 @@ import models_RPG.Monster;
 
 public class RatKing extends Monster {
 
-	public RatKing(String name, int str, int dex, int mag, int luc, int defenseRating, Item heldItem) {
-		super(name, str, dex, mag, luc);
+	public RatKing() {
+		super();
 		this.setStr(8);
 		this.setDex(8);
 		this.setMag(8);

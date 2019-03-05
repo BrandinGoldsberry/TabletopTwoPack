@@ -6,8 +6,8 @@ import models_RPG.Monster;
 
 public class Slime extends Monster {
 
-	public Slime(String name, int str, int dex, int mag, int luc, int defenseRating, Item heldItem) {
-		super(name, str, dex, mag, luc);
+	public Slime() {
+		super();
 		this.setStr(7);
 		this.setDex(7);
 		this.setMag(0);

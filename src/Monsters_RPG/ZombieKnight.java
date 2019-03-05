@@ -6,8 +6,8 @@ import models_RPG.Monster;
 
 public class ZombieKnight extends Monster {
 
-	public ZombieKnight(String name, int str, int dex, int mag, int luc, int defenseRating, Item heldItem) {
-		super(name, str, dex, mag, luc);
+	public ZombieKnight() {
+		super();
 		this.setStr(8);
 		this.setDex(9);
 		this.setMag(6);
