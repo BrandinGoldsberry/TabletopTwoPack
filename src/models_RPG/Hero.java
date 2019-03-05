@@ -135,7 +135,7 @@ public class Hero extends BaseCharacter {
 		int newEXP = 1000 + (this.level * 1000);
 		
 		if(this.job == Job.LUCKY_TED) {
-			newEXP -= 100 * level;
+			newEXP -= 50 * level;
 		}
 		
 		return newEXP;
