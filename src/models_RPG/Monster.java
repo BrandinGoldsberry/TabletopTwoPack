@@ -64,8 +64,7 @@ public class Monster extends BaseCharacter {
 	public int calculateMonsterMagicAttack() {
 		int damage = 0;
 		if(this.currentMP - 10 < 0) {
-			//Message for insufficient magic
-			//TODO
+			damage = calculateMonsterAttack();
 		} else {
 			this.currentMP -= 10;
 			damage = 7 * mag;
