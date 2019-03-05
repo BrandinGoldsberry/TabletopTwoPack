@@ -16,7 +16,7 @@ public class Dungeon {
 		this.floor = rooms;
 	}
 	
-	public void generateRooms() {
+	public void generateRooms(int dungeonFloor) {
 		
 	}
 }
