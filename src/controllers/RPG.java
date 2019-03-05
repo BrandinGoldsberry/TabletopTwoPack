@@ -11,8 +11,6 @@ public class RPG {
 	private Hero player;
 	private int playerDungeonLocationX;
 	private int playerDungeomLocationY;
-	private int playerLocationRoomX;
-	private int playerLocationRoomY;
 	private int currentFloorNum;
 	private Dungeon currentFloorDungeon;
 	private int battleTurn;
