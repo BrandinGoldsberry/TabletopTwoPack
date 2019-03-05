@@ -1,6 +1,7 @@
 package application;
 	
 import controllers.Hnefatafl;
+import controllers.RPG;
 import hnefataflModels.Game;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -41,38 +42,8 @@ public class Main extends Application {
             button.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					Stage stage = new Stage();
-					
-					Label label = new Label();
-					
-					VBox root = new VBox();
-			        root.setAlignment(Pos.CENTER);
-					
-					Text text = new Text();
-			        text.setTextAlignment(TextAlignment.LEFT);
-			       
-			        text.setText("wow");
-			        
-			        VBox box = new VBox();
-			        box.setAlignment(Pos.CENTER);
-			        box.setPadding(new Insets(20, 80, 20, 80));
-			        box.getChildren().add(text);
-			        
-			        VBox switchBox = new VBox();
-			        switchBox.setAlignment(Pos.CENTER);
-			        switchBox.setPadding(new Insets(20, 80, 20, 80));
-			        switchBox.getChildren().addAll(label, text, box);
-			
-			        root.getChildren().addAll(switchBox);
-			        
-			        Scene scene = new Scene(root, 400, 400);
-			        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			
-			        stage.setScene(scene);
-			        stage.setTitle("RPG");
-			       
-			        
-			        stage.show();
+				
+					RPG.run();
 				}
 			});
 
@@ -84,7 +55,7 @@ public class Main extends Application {
             Text text = new Text();
            	text.setTextAlignment(TextAlignment.CENTER);
           
-           	text.setText("Group 8 Rpg");
+           	text.setText("Group 8 Table Games");
 
             root.getChildren().addAll(text, switchBox, startHnefaltafl);
 
