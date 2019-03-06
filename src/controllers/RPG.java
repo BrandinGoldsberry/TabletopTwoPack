@@ -2,7 +2,10 @@ package controllers;
 
 
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -27,6 +30,7 @@ public class RPG {
 	private static Dungeon currentFloorDungeon;
 	private static int battleTurn;
 	private static HashMap<String, Monster> monsterList = new HashMap();
+	private static Job job;
 	
 	private static String name = "nu";
 	
@@ -41,7 +45,6 @@ public class RPG {
 	
 	private static Job choseClass() {
 
-		Job job = null;
 		
 		Stage stage = new Stage();
 		
@@ -51,15 +54,12 @@ public class RPG {
 		VBox box = new VBox();
 		box.setAlignment(Pos.CENTER);
 		box.setPadding(new Insets(20, 80, 20, 80));
-
-		String text1 = "Warroir";
-		
 		
 		
 		final ToggleGroup group = new ToggleGroup();
 		
 
-		RadioButton rb1 = new RadioButton(text1);
+		RadioButton rb1 = new RadioButton("Warrior");
 		rb1.setToggleGroup(group);
 		rb1.setSelected(true);
 
@@ -78,27 +78,71 @@ public class RPG {
 		
 		
 		root.getChildren().addAll(box, rb1, rb2, rb3, rb4, button);
-		
-		
-		
-		
-		
+			
 		Scene scene = new Scene(root, 400, 400);
 
         stage.setScene(scene);
         stage.setTitle("RPG");
+        
+        
+
        
-        
-        stage.show();
-        
-		return job;
+       
+        	
+        	button.setOnAction(new EventHandler<ActionEvent>() {
+        		
+        		@Override
+        		public void handle(ActionEvent event) {
+        			
+        			if (rb1.isSelected() == true) {
+        				
+        				job = Job.WARRIOR;
+        		        System.out.println(job);
+        		        stage.close();
+        				
+        			} else if (rb2.isSelected() == true) {
+        				
+        				job = Job.MAGE;
+        		        System.out.println(job);
+        				
+        				
+        			} else if (rb3.isSelected() == true) {
+        				
+        				job = Job.ROGUE;
+        		        System.out.println(job);
+        				
+        				
+        			} else if (rb4.isSelected() == true) {
+        				
+        				job = Job.LUCKY_TED;
+        		        System.out.println(job);
+        				
+        			} else {
+        				
+        				job = Job.WARRIOR;
+        		        System.out.println(job);
+	
+        			}
+        			
+        			
+        		}
+        	});
+        	
+
+        	
+        	stage.showAndWait();
+        	
+        return job;
 		
 	}
 	
 	private static void makeCharacter() {
-		
+
 		player = new Hero( name, choseClass());
+
 		
+		
+		System.out.println(player.toString());
 	}
 	
 	

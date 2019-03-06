@@ -185,6 +185,31 @@ public class Hero extends BaseCharacter {
 	public void setJob(Job job) {
 		this.job = job;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Hero: \n\t")
+			   .append("Name: ").append(name).append("\n\t")
+			   .append("Level: ").append(level).append("\n\t")
+			   .append("Current EXP: ").append(EXP).append("/ ").append(nextLevelEXP).append("\n\t")
+			   .append("Weapon: ").append(weapon).append("\n\t")
+			   .append("Armor: ").append(armor).append("\n\t")
+			   .append("Job: ").append(job).append("\n\t")
+			   .append("Weapon Rating: ").append(weaponRating).append("\n\t")
+			   .append("Armor Rating: ").append(armorRating).append("\n\t")
+			   .append("Current Health: ").append(baseHP).append("/  ").append(currentHP).append("\n\t")
+			   .append("Current MP: ").append(baseMP).append("/ ").append(currentMP).append("\n\t")
+			   .append("Str: ").append(str).append("\n\t")
+			   .append("Dex: ").append(dex).append("\n\t")
+			   .append("Mag: ").append(mag).append("\n\t")
+			   .append("Luc: ").append(luc);
+
+		
+		
+		return builder.toString();
+	}
+	
 	
 	
 	
