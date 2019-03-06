@@ -59,6 +59,18 @@ public class Hero extends BaseCharacter {
 		this.mag = 3;
 		this.luc = 3;
 		this.job = Job.WARRIOR;
+		this.setBaseHP(100 + (8 * str));
+		this.setCurrentHP(this.getBaseHP());
+		this.setBaseMP(50 + (6 * mag));
+		this.setCurrentMP(this.getBaseMP());
+		EXP = 0;
+		this.level = 1;
+		this.nextLevelEXP = calculateNextLevelEXP(this.level);
+		this.setWeapon(null);
+		this.setArmor(null);
+		this.setJob(job);
+		this.weaponRating = 0;
+		this.armorRating = 0;
 	}
 
 	public static ArrayList<Item> getInventory() {
