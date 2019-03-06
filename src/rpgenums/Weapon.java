@@ -16,6 +16,10 @@ public enum Weapon {
 	
 	HALBERD,
 	
+	STICK,
+	
+	TABLE,
+	
 	STAFF,
 	
 	CAESTUS,

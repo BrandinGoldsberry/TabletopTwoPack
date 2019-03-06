@@ -14,6 +14,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import models_RPG.Dungeon;
 import models_RPG.Hero;
@@ -54,6 +56,10 @@ public class RPG {
 		box.setAlignment(Pos.CENTER);
 		box.setPadding(new Insets(20, 80, 20, 80));
 		
+		Text text = new Text("Choose a Job");
+		
+		text.setTextAlignment(TextAlignment.CENTER);
+		
 		
 		final ToggleGroup group = new ToggleGroup();
 		
@@ -76,7 +82,7 @@ public class RPG {
 		
 		
 		
-		root.getChildren().addAll(box, rb1, rb2, rb3, rb4, button);
+		root.getChildren().addAll(box, text, rb1, rb2, rb3, rb4, button);
 			
 		Scene scene = new Scene(root, 400, 400);
 
@@ -186,9 +192,13 @@ public class RPG {
 
 		player = new Hero( makeName(), choseClass());
 
+		if(name == null && job == null) {
+			
+			player = new Hero();
+			
+		}
 		
-		
-		System.out.println(player.toString());
+			System.out.println(player.toString());
 	}
 	
 	
