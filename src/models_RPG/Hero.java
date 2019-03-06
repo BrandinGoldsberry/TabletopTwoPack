@@ -144,11 +144,18 @@ public class Hero extends BaseCharacter {
 	}
 	
 	public int calculateNextLevelEXP(int level) {
-		int newEXP = 1000 + (this.level * 1000);
-		
-		if(this.job == Job.LUCKY_TED) {
-			newEXP -= 50 * level;
+		int newEXP;
+		if(level == 1) {
+			newEXP = 1000;
+		} else {
+			newEXP = this.nextLevelEXP + (this.level * 1000);
+			
+			if(this.job == Job.LUCKY_TED) {
+				newEXP -= 50 * level;
+			}
+			
 		}
+		
 		
 		return newEXP;
 	}
