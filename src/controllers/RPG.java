@@ -2,19 +2,18 @@ package controllers;
 
 
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models_RPG.Dungeon;
 import models_RPG.Hero;
@@ -32,7 +31,7 @@ public class RPG {
 	private static HashMap<String, Monster> monsterList = new HashMap();
 	private static Job job;
 	
-	private static String name = "nu";
+	private static String name = null;
 	
 	
 	public static void run() {
@@ -84,61 +83,108 @@ public class RPG {
         stage.setScene(scene);
         stage.setTitle("RPG");
         
-        
-
-       
-       
+        button.setOnAction(new EventHandler<ActionEvent>() {
         	
-        	button.setOnAction(new EventHandler<ActionEvent>() {
+        	@Override
+        	public void handle(ActionEvent event) {
         		
-        		@Override
-        		public void handle(ActionEvent event) {
+        		if (rb1.isSelected() == true) {
         			
-        			if (rb1.isSelected() == true) {
-        				
-        				job = Job.WARRIOR;
-        		        System.out.println(job);
-        		        stage.close();
-        				
-        			} else if (rb2.isSelected() == true) {
-        				
-        				job = Job.MAGE;
-        		        System.out.println(job);
-        				
-        				
-        			} else if (rb3.isSelected() == true) {
-        				
-        				job = Job.ROGUE;
-        		        System.out.println(job);
-        				
-        				
-        			} else if (rb4.isSelected() == true) {
-        				
-        				job = Job.LUCKY_TED;
-        		        System.out.println(job);
-        				
-        			} else {
-        				
-        				job = Job.WARRIOR;
-        		        System.out.println(job);
-	
-        			}
+        			job = Job.WARRIOR;
+        	        System.out.println(job);
+        	        stage.close();
         			
+        		} else if (rb2.isSelected() == true) {
         			
+        			job = Job.MAGE;
+        	        System.out.println(job);
+        	        stage.close();
+        			
+        		} else if (rb3.isSelected() == true) {
+        			
+        			job = Job.ROGUE;
+        	        System.out.println(job);
+        	        stage.close();
+        			
+        		} else if (rb4.isSelected() == true) {
+        			
+        			job = Job.LUCKY_TED;
+        	        System.out.println(job);
+        	        stage.close();
+        	        
+        		} else {
+        			
+        			job = Job.WARRIOR;
+        	        System.out.println(job);
+        	        stage.close();
+	    
         		}
-        	});
-        	
-
-        	
-        	stage.showAndWait();
+        		
+        		
+        	}
+        });
+              	
+        stage.showAndWait();
         	
         return job;
 		
 	}
 	
+	private static String makeName() {
+		
+		Stage stage = new Stage();
+		
+		VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
+		
+		VBox box = new VBox();
+		box.setAlignment(Pos.CENTER);
+		box.setPadding(new Insets(20, 80, 20, 80));
+		
+		Label label = new Label("Name:");
+		
+		TextField textField = new TextField ();
+	
+				
+		Button button = new Button("submit");
+	
+		box.getChildren().addAll(label, textField);
+		
+		
+		root.getChildren().addAll(box, button);
+			
+		Scene scene = new Scene(root, 400, 400);
+
+        stage.setScene(scene);
+        stage.setTitle("RPG");
+        
+        button.setOnAction(new EventHandler<ActionEvent>() {
+        	
+        	@Override
+        	public void handle(ActionEvent event) {
+        		
+        		name = textField.getText();
+        		
+        		if(textField.getText().isEmpty() == true) {
+        			
+        			name = "Are you too lazy to make a name?";
+        		}
+        		
+        		stage.close();
+        	}
+        });
+              	
+        stage.showAndWait();
+		
+		
+		return name;
+		
+	}
+	
+	
 	private static void makeCharacter() {
 
-		player = new Hero( name, choseClass());
+		player = new Hero( makeName(), choseClass());
 
 		
 		
