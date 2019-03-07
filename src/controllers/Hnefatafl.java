@@ -28,6 +28,12 @@ public class Hnefatafl {
 	private static int turn;
 	private static GridPane grid;
 	
+	private static int firstX;
+	private static int firstY;
+	private static int moveX;
+	private static int moveY;
+	private static boolean firstClick = false;
+	
 	private static ImageView lastClicked;
 	
 	public static void run() {
@@ -39,7 +45,7 @@ public class Hnefatafl {
 		HBox root = new HBox();
 		root.setAlignment(Pos.CENTER);
 		grid = new GridPane();
-		grid.setGridLinesVisible(false);
+		grid.setGridLinesVisible(true);
 		root.getChildren().add(grid);
 		Scene SC = new Scene(root, 500, 500);
 		
@@ -49,9 +55,22 @@ public class Hnefatafl {
 				newImage.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
 					@Override
 					public void handle(Event event) {
-						lastClicked = newImage;
-						int x = GridPane.getRowIndex(lastClicked);
-						int y = GridPane.getColumnIndex(lastClicked);
+						if(!firstClick) {
+							lastClicked = newImage;
+							firstX = GridPane.getRowIndex(lastClicked);
+							firstY = GridPane.getColumnIndex(lastClicked);
+							firstClick = true;
+						} else {
+							lastClicked = newImage;
+							moveX = GridPane.getRowIndex(lastClicked);
+							moveY = GridPane.getColumnIndex(lastClicked);
+							if(moveX == firstX && moveY == firstY) {
+							} else {
+								System.out.println(game.movePiece(firstX, firstY, moveX, moveY));
+								firstClick = false;
+								update();																
+							}
+						}
 					}
 				});
 				grid.add(newImage, j, i, 1, 1);
