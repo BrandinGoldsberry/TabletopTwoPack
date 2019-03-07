@@ -37,7 +37,7 @@ public class Game {
 
 				if (startX == endX) {
 					if (startY > endY) {
-						for (int i = startY; i > endY; i--) {
+						for (int i = startY + 1; i > endY; i--) {
 							CK = new CoordinateKey(startX, i);
 							if (pieces.get(CK) != null) {
 								canMove = false;
@@ -46,7 +46,7 @@ public class Game {
 					}
 
 					if (startY < endY) {
-						for (int i = startY; i < endY; i++) {
+						for (int i = startY + 1; i < endY; i++) {
 							CK = new CoordinateKey(startX, i);
 							if (pieces.get(CK) != null) {
 								canMove = false;
@@ -56,7 +56,7 @@ public class Game {
 
 				} else if (startY == endY) {
 					if (startX > endX) {
-						for (int i = startX; i > endX; i--) {
+						for (int i = startX + 1; i > endX; i--) {
 							CK = new CoordinateKey(startY, i);
 							if (pieces.get(CK) != null) {
 								canMove = false;
@@ -65,7 +65,7 @@ public class Game {
 					}
 
 					if (startX < endX) {
-						for (int i = startX; i < endX; i++) {
+						for (int i = startX + 1; i < endX; i++) {
 							CK = new CoordinateKey(startY, i);
 							if (pieces.get(CK) != null) {
 								canMove = false;
