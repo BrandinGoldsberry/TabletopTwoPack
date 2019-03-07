@@ -8,11 +8,15 @@ import hnefataflModels.Defender;
 import hnefataflModels.Game;
 import hnefataflModels.King;
 import hnefataflModels.Piece;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -23,6 +27,8 @@ public class Hnefatafl {
 	private static Game game;
 	private static int turn;
 	private static GridPane grid;
+	
+	private static ImageView lastClicked;
 	
 	public static void run() {
 		init();
@@ -40,6 +46,14 @@ public class Hnefatafl {
 		for(int i = 0; i < 11; i++) {
 			for(int j = 0; j < 11; j++) {
 				ImageView newImage = new ImageView();
+				newImage.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
+					@Override
+					public void handle(Event event) {
+						lastClicked = newImage;
+						System.out.println(GridPane.getRowIndex(lastClicked));
+						System.out.println(GridPane.getColumnIndex(lastClicked));
+					}
+				});
 				grid.add(newImage, j, i, 1, 1);
 			}
 		}
