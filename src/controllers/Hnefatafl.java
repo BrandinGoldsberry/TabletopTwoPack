@@ -33,9 +33,9 @@ public class Hnefatafl {
 		HBox root = new HBox();
 		root.setAlignment(Pos.CENTER);
 		grid = new GridPane();
-		grid.setGridLinesVisible(true);
+		grid.setGridLinesVisible(false);
 		root.getChildren().add(grid);
-		Scene SC = new Scene(root, 400, 400);
+		Scene SC = new Scene(root, 500, 500);
 		
 		for(int i = 0; i < 11; i++) {
 			for(int j = 0; j < 11; j++) {
