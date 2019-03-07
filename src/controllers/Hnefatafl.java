@@ -50,8 +50,8 @@ public class Hnefatafl {
 					@Override
 					public void handle(Event event) {
 						lastClicked = newImage;
-						System.out.println(GridPane.getRowIndex(lastClicked));
-						System.out.println(GridPane.getColumnIndex(lastClicked));
+						int x = GridPane.getRowIndex(lastClicked);
+						int y = GridPane.getColumnIndex(lastClicked);
 					}
 				});
 				grid.add(newImage, j, i, 1, 1);
