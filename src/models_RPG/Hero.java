@@ -144,11 +144,18 @@ public class Hero extends BaseCharacter {
 	}
 	
 	public int calculateNextLevelEXP(int level) {
-		int newEXP = 1000 + (this.level * 1000);
-		
-		if(this.job == Job.LUCKY_TED) {
-			newEXP -= 50 * level;
+		int newEXP;
+		if(level == 1) {
+			newEXP = 1000;
+		} else {
+			newEXP = this.nextLevelEXP + (this.level * 1000);
+			
+			if(this.job == Job.LUCKY_TED) {
+				newEXP -= 50 * level;
+			}
+			
 		}
+		
 		
 		return newEXP;
 	}
@@ -168,10 +175,14 @@ public class Hero extends BaseCharacter {
 	}
 	
 	public void assignStatPoints() {
+		int statPoints = 5;
 		//GUi process to assign stat points
 			//Don't allow players to allocate beyond 255
 		
-		//Stat setting based on user input
+		//Do while that will have players continue to allocate points until the points left are zero
+		
+		//Parse input and allocate points
+			//Do statPoints-- after each input
 	}
 	
 	public Armor getArmor() {
