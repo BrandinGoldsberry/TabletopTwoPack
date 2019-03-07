@@ -3,6 +3,8 @@ package controllers;
 
 import java.util.HashMap;
 
+import com.sun.javafx.scene.KeyboardShortcutsHandler;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -28,7 +30,7 @@ public class RPG {
 	private static int playerDungeonLocationX;
 	private static int playerDungeomLocationY;
 	private static int currentFloorNum;
-	private static Dungeon currentFloorDungeon;
+	private static Dungeon currentFloorDungeon = new Dungeon();
 	private static int battleTurn;
 	private static HashMap<String, Monster> monsterList = new HashMap();
 	private static Job job;
@@ -39,7 +41,7 @@ public class RPG {
 	public static void run() {
 		
 		makeCharacter();
-	
+		currentFloorDungeon.generateFloor(0);
 		
 		
 	}
@@ -151,7 +153,6 @@ public class RPG {
 		
 		TextField textField = new TextField ();
 	
-				
 		Button button = new Button("submit");
 	
 		box.getChildren().addAll(label, textField);
@@ -161,6 +162,8 @@ public class RPG {
 			
 		Scene scene = new Scene(root, 400, 400);
 
+		
+		
         stage.setScene(scene);
         stage.setTitle("RPG");
         
