@@ -1,8 +1,17 @@
 package controllers;
 
 
-import java.util.HashMap;
+import java.util.Random;
 
+import Monsters_RPG.Drake;
+import Monsters_RPG.Ghoul;
+import Monsters_RPG.GiantRat;
+import Monsters_RPG.GigaSlime;
+import Monsters_RPG.MassiveRat;
+import Monsters_RPG.Skeleton;
+import Monsters_RPG.Slime;
+import Monsters_RPG.Vanguard;
+import Monsters_RPG.ZombieKnight;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -30,11 +39,10 @@ public class RPG {
 	private static int currentFloorNum;
 	private static Dungeon currentFloorDungeon;
 	private static int battleTurn;
-	private static HashMap<String, Monster> monsterList = new HashMap();
 	private static Job job;
 	
 	private static String name = null;
-	
+	private static Random rng = new Random();
 	
 	public static void run() {
 		
@@ -207,6 +215,7 @@ public class RPG {
 		//Get direction input
 		//Do collision check
 		//Move player if collision check returns false
+		//Run randomEncounter method
 	}
 	
 	public static boolean collisionCheck(int playerLocation) {
@@ -225,24 +234,81 @@ public class RPG {
 	}
 	
 	public static void overworldInventory(Hero hero) {
+		//Display list of items
+			//Players can click on items to use them
+		//Remove item from list when button is pressed
+		//Update list to display the change
+	}
+	
+	public static void randomEncounter() {
+		int chance = rng.nextInt(100) + 1;
+		
+		if (chance > 90) {
+			
+			battleProcessing(generateMonster(determineMonsterToBattle(currentFloorNum)));
+		}
 		
 	}
 	
-	public static boolean randomEncounter() {
-		return false;
+	public static int determineMonsterToBattle(int floorNumber) {
+		int monsterKey;
 		
+		if(floorNumber == 1) {
+			monsterKey = rng.nextInt(4) + 1;
+			//1 giant rat
+			//2 ghoul
+			//3 slime
+			//4 skeleton
+		} else if(floorNumber == 2);
+			monsterKey = rng.nextInt(6) + 4;
+			//4 skeleton
+			//5 massive rat
+			//6 giga slime
+			//7 zombie knight
+			//8 vanguard
+			//9 Drake
+		return monsterKey;
 	}
 	
-	public static void initializeMonsterList() {
+	public static Monster generateMonster(int monsterKey) {
+		Monster monster = null;
 		
+		switch(monsterKey) {
+		case 1:
+			monster = new GiantRat();
+			break;
+		case 2:
+			monster = new Ghoul();
+			break;
+		case 3:
+			monster = new Slime();
+			break;
+		case 4:
+			monster = new Skeleton();
+			break;
+		case 5:
+			monster = new MassiveRat();
+			break;
+		case 6:
+			monster = new GigaSlime();
+			break;
+		case 7:
+			monster = new ZombieKnight();
+			break;
+		case 8:
+			monster = new Vanguard();
+			break;
+		case 9:
+			monster = new Drake();
+			break;
+		}
+		
+		
+		
+		return monster;
 	}
 	
-	public static Monster generateMonster() {
-		
-		return null;
-	}
-	
-	public static void battleProcessing() {
+	public static void battleProcessing(Monster monster) {
 		
 	}
 	
@@ -258,7 +324,7 @@ public class RPG {
 				//if they do, use the mp and perform a magic attack
 	}
 	
-	public static void battleResults() {
+	public static void battleResults(Monster monster) {
 		//Award EXP
 			//Display EXP earned
 			//Display previous EXP
