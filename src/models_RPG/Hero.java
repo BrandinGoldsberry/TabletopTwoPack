@@ -172,6 +172,78 @@ public class Hero extends BaseCharacter {
 			this.setBaseHP(tempBaseHP + 5 + (this.getStr() * 2));
 			int tempBaseMP = this.getBaseMP();
 			this.setBaseMP(tempBaseMP + 3 + (this.getMag() * 2));
+			
+			this.setCurrentHP(this.getBaseHP());
+			this.setCurrentMP(this.getBaseMP());
+		}
+	}
+	
+	public void randomWeapon() {
+		int roll = rng.nextInt(12) + 1;
+		
+		switch(roll) {
+		case 1:
+			this.setWeapon(Weapon.SWORD);
+			break;
+		case 2:
+			this.setWeapon(Weapon.SPEAR);
+			break;
+		case 3:
+			this.setWeapon(Weapon.HAMMER);
+			break;
+		case 4:
+			this.setWeapon(Weapon.CLUB);
+			break;
+		case 5:
+			this.setWeapon(Weapon.BOW);
+			break;
+		case 6:
+			this.setWeapon(Weapon.CROSSBOW);
+			break;
+		case 7:
+			this.setWeapon(Weapon.HALBERD);
+			break;
+		case 8:
+			this.setWeapon(Weapon.STICK);
+			break;
+		case 9:
+			this.setWeapon(Weapon.TABLE);
+			break;
+		case 10:
+			this.setWeapon(Weapon.STAFF);
+			break;
+		case 11:
+			this.setWeapon(Weapon.CAESTUS);
+			break;
+		case 12:
+			this.setWeapon(Weapon.SPECIAL);
+			break;
+		}
+	}
+	
+	public void randomArmor() {
+		int roll = rng.nextInt(6) + 1;
+		
+		switch(roll) {
+		case 1:
+			this.setArmor(Armor.LEATHER);
+			break;
+		case 2:
+			this.setArmor(Armor.CHAINMAIL);
+			break;
+		case 3:
+			this.setArmor(Armor.PLATE);
+			break;
+		case 4:
+			this.setArmor(Armor.SCALEMAIL);
+			break;
+		case 5:
+			this.setArmor(Armor.BONE);
+			break;
+		case 6:
+			this.setArmor(Armor.SPECIAL);
+			break;
+		
 		}
 	}
 	
