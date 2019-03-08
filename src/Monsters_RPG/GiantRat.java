@@ -8,6 +8,7 @@ public class GiantRat extends Monster {
 
 	public GiantRat() {
 		super();
+		this.setName("Giant Rat");
 		this.setStr(4);
 		this.setDex(2);
 		this.setMag(0);

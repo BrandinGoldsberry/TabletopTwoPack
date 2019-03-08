@@ -8,6 +8,7 @@ public class DungeonLord extends Monster {
 
 	public DungeonLord() {
 		super();
+		this.setName("Dungeon Lord");
 		this.setStr(15);
 		this.setDex(15);
 		this.setMag(15);

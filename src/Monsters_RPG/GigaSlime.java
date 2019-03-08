@@ -8,6 +8,7 @@ public class GigaSlime extends Monster {
 
 	public GigaSlime() {
 		super();
+		this.setName("Giga Slime");
 		this.setStr(14);
 		this.setDex(14);
 		this.setMag(0);

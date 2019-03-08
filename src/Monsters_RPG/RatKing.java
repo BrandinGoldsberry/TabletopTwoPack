@@ -8,6 +8,7 @@ public class RatKing extends Monster {
 
 	public RatKing() {
 		super();
+		this.setName("Rat King");
 		this.setStr(8);
 		this.setDex(8);
 		this.setMag(8);

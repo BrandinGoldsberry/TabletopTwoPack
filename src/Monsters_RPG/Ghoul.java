@@ -8,6 +8,7 @@ public class Ghoul extends Monster {
 
 	public Ghoul() {
 		super();
+		this.setName("Ghoul");
 		this.setStr(4);
 		this.setDex(3);
 		this.setMag(3);

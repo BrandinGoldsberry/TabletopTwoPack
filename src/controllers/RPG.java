@@ -30,6 +30,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import models_RPG.Hero;
+import models_RPG.Item;
 import models_RPG.Monster;
 import rpgenums.Job;
 
@@ -45,13 +46,14 @@ public class RPG {
 	private static int battleTurn;
 	private static int playerDamage;
 	private static int monsterDamage;
+	private static Item playerItemUsed;
+	private static int playerHealing;
 	private static Job job;
 	
 	private static String name = null;
 	private static Random rng = new Random();
 	
 	public static void run() {
-		
 		makeCharacter();
 		playerTurn();
 		
@@ -329,6 +331,10 @@ public class RPG {
 	public static void playerTurn() {
 		//Menu for player
 		int attack = 0;
+		int tempHeroHP = (int) player.getCurrentHP();
+		int tempMonsterHP = (int) monster.getCurrentHP();
+		playerItemUsed = null;
+		playerHealing = 0;
 		
 		final String on = "-fx-background-color: red";
 
@@ -341,8 +347,16 @@ public class RPG {
 				//monster.takeDamage(attack);
 			//} else if(playerInput == useItem) {
 				//inventory();
-				//attack = 0;
+				//playerItemUsed = inventory.get(inventoryIndexForUsedItem);
+				//if(tempHeroHP < player.getCurrentHP()){
+					//playerHealing = player.getCurrentHP() - 
+				//}
 			//}
+		if(tempMonsterHP > monster.getCurrentHP()) {
+			attack = (int) (monster.getCurrentHP() - tempMonsterHP);
+		} else {
+			
+		} 
 		playerDamage = attack;
 		
 		Stage stage = new Stage();
@@ -424,6 +438,55 @@ public class RPG {
 	}
 	
 	public static void turnResults() {
+		Stage primaryStage = new Stage();				
+		VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
+        
+        Text playerAttack = new Text("Null field");
+        Text monsterAttack = new Text("Null field");
+        Text playerItem = new Text ("Null field");
+        Text playerHealingDone = new Text("Null field");
+        
+        if(playerItemUsed != null) {
+        	playerItem = new Text(player.getName() + " used " + playerItemUsed.getName());
+        } else {
+        	playerItem = new Text(player.getName() + " did not use an itme this round.");
+        }
+        
+        if(playerDamage > 0) {
+        	playerAttack = new Text(player.getName() + " attacked " + monster.getName() + " for " + playerDamage + " damage!");
+        } else {
+        	playerAttack = new Text(player.getName() + " did not do any damage this round.");
+        }
+        
+        if(monsterDamage > 0) {
+        	monsterAttack = new Text(monster.getName() + " attacked " + player.getName() + " for " + monsterDamage + " damage!");
+        } else {
+        	monsterAttack = new Text(monster.getName() + " did not do any damage this round.");
+        }
+        
+        if(playerHealing > 0) {
+        	playerHealingDone = new Text(player.getName() + " healed for " + playerHealing + " this round!");
+        } else {
+        	playerHealingDone = new Text(player.getName() + " did not do any healing this round.");
+        }
+        
+        
+        Button button = new Button("Okay");
+        root.getChildren().addAll(playerItem, playerAttack, monsterAttack, playerHealingDone, button);
+        
+        Scene scene = new Scene(root, 300, 300);
+        primaryStage.setScene(scene);
+        
+        button.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				primaryStage.close();
+			}
+		});
+        primaryStage.showAndWait();
+		
 		//Pop-up that shows:
 			//Player action
 				//If player attacked display "Player attacked Monster!"
@@ -449,12 +512,52 @@ public class RPG {
 
 	public static void gameOverLoss() {
 		//Display pop-up graphic for gameOverLoss
-			//Whatever is needed for game to exit
+		//Whatever is needed for game to exit
+		Stage primaryStage = new Stage();				
+				VBox root = new VBox();
+	            root.setAlignment(Pos.CENTER);
+
+	            Text text = new Text("You Are Dead.");
+	            
+	            Button button = new Button("Okay");
+	            root.getChildren().addAll(text, button);
+	            
+	            Scene scene = new Scene(root, 150, 150);
+	            primaryStage.setScene(scene);
+	            
+	            button.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						// TODO Auto-generated method stub
+						primaryStage.close();
+					}
+				});
+	            primaryStage.showAndWait();
 	}
 	
 	public static void gameOverWin() {
 		//display pop-up graphic for gameOverWin
 			//Whatever is needed for game to exit
+		Stage primaryStage = new Stage();				
+		VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
+
+        Text text = new Text("You have shown the Dungeon Lord who's lord of this dungeon!");
+        
+        Button button = new Button("Okay");
+        root.getChildren().addAll(text, button);
+        
+        Scene scene = new Scene(root, 150, 150);
+        primaryStage.setScene(scene);
+        
+        button.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				primaryStage.close();
+			}
+		});
+        primaryStage.showAndWait();
 	}
 
 	public static String stats() {
