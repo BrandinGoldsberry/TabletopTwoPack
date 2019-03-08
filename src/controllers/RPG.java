@@ -389,6 +389,8 @@ public class RPG {
 	}
 	
 	public static void gameOverWin() {
+		
+	}
 
 	public static String stats() {
 		
