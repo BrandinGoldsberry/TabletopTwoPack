@@ -313,7 +313,7 @@ public class RPG {
 		do {
 			playerTurn();
 			enemyTurn();
-			//Turns result pop-up
+			turnResults();
 		} while (monster.isAlive() == true && player.isAlive() == true);
 		
 		if(player.isAlive() == false) {
@@ -336,6 +336,7 @@ public class RPG {
 				//monster.takeDamage(attack);
 			//} else if(playerInput == useItem) {
 				//inventory();
+				//attack = 0;
 			//}
 		playerDamage = attack;
 		
@@ -370,7 +371,7 @@ public class RPG {
 			//Display damage taken
 				//Monster damage taken display as "Monster took X damage!"
 				//Hero damage taken display as "Player took X damage!"
-			//Display healing done if any
+			//Display healing done if any as "Player healed X HP!"
 	}
 	
 	public static void battleResults() {
@@ -385,11 +386,13 @@ public class RPG {
 	
 
 	public static void gameOverLoss() {
-		
+		//Display pop-up graphic for gameOverLoss
+			//Whatever is needed for game to exit
 	}
 	
 	public static void gameOverWin() {
-		
+		//display pop-up graphic for gameOverWin
+			//Whatever is needed for game to exit
 	}
 
 	public static String stats() {
