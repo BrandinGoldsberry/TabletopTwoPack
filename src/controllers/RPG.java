@@ -3,12 +3,13 @@ package controllers;
 
 import java.util.Random;
 
-
 import Monsters_RPG.Drake;
+import Monsters_RPG.DungeonLord;
 import Monsters_RPG.Ghoul;
 import Monsters_RPG.GiantRat;
 import Monsters_RPG.GigaSlime;
 import Monsters_RPG.MassiveRat;
+import Monsters_RPG.RatKing;
 import Monsters_RPG.Skeleton;
 import Monsters_RPG.Slime;
 import Monsters_RPG.Vanguard;
@@ -27,7 +28,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import models_RPG.Dungeon;
 import models_RPG.Hero;
 import models_RPG.Monster;
 import rpgenums.Job;
@@ -35,11 +35,15 @@ import rpgenums.Job;
 public class RPG {
 	private static String campaignName;
 	private static Hero player;
+	private static Monster monster;
 	private static int playerDungeonLocationX;
 	private static int playerDungeomLocationY;
 	private static int currentFloorNum;
-	private static Dungeon currentFloorDungeon = new Dungeon();
+	private static int dungeonFloorSteps;
+	private static int playerSteps;
 	private static int battleTurn;
+	private static int playerDamage;
+	private static int monsterDamage;
 	private static Job job;
 	
 	private static String name = null;
@@ -48,7 +52,6 @@ public class RPG {
 	public static void run() {
 		
 		makeCharacter();
-		currentFloorDungeon.generateFloor(0);
 		
 		
 	}
@@ -213,29 +216,18 @@ public class RPG {
 	
 	
 	
-	public static void movePlayer(int playerLocation) {
-		//Get direction input
-		//Do collision check
-		//Move player if collision check returns false
-		//Run randomEncounter method
+	public static void movePlayer() {
+		playerSteps++;
+		if(playerSteps == dungeonFloorSteps) {
+			generateFloorBoss();
+			battleProcessing();
+			
+		} else {
+			randomEncounter();
+		}
 	}
 	
-	public static boolean collisionCheck(int playerLocation) {
-		boolean collision = true;
-		
-		//If up input
-		
-		//If down input
-		
-		//If right input
-		
-		//If left input
-		
-		return false;
-		
-	}
-	
-	public static void overworldInventory(Hero hero) {
+	public static void inventory(Hero hero) {
 		//Display list of items
 			//Players can click on items to use them
 		//Remove item from list when button is pressed
@@ -247,7 +239,8 @@ public class RPG {
 		
 		if (chance > 90) {
 			
-			battleProcessing(generateMonster(determineMonsterToBattle(currentFloorNum)));
+			generateMonster(determineMonsterToBattle(currentFloorNum));
+			battleProcessing();
 		}
 		
 	}
@@ -272,8 +265,8 @@ public class RPG {
 		return monsterKey;
 	}
 	
-	public static Monster generateMonster(int monsterKey) {
-		Monster monster = null;
+	public static void generateMonster(int monsterKey) {
+		monster = null;
 		
 		switch(monsterKey) {
 		case 1:
@@ -304,35 +297,97 @@ public class RPG {
 			monster = new Drake();
 			break;
 		}
-		
-		
-		
-		return monster;
 	}
 	
-	public static void battleProcessing(Monster monster) {
+	public static void generateFloorBoss() {
+		if(currentFloorNum == 1) {
+			monster = new RatKing();
+		} else if (currentFloorNum == 2) {
+			monster = new DungeonLord();
+		}
+	}
+	
+	public static void battleProcessing() {
+		
+		do {
+			playerTurn();
+			enemyTurn();
+			//Turns result pop-up
+		} while (monster.isAlive() == true && player.isAlive() == true);
+		
+		if(player.isAlive() == false) {
+			
+		} else if(monster.isAlive() == false) {
+			battleResults();							
+		}
 		
 	}
 	
 	public static void playerTurn() {
+		//Menu for player
+		int attack = 0;
+			
+			//if(playerInput == attack) {
+				//attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
+				//monster.takeDamage(attack);
+			//} else if(playerInput == magicAttack) {
+				//attack = player.caclulateMagicAttack();
+				//monster.takeDamage(attack);
+			//} else if(playerInput == useItem) {
+				//inventory();
+			//}
+		playerDamage = attack;
 		
 	}
 	
 	public static void enemyTurn() {
-		//RNG to decide if enemy does a normal or magic attack
-			//if normal attack, do normal attack and damage calculation
-			//if magic attack, check if the enemy would have enough MP to use magic
-				//if they don't, use a normal attack instead
-				//if they do, use the mp and perform a magic attack
+		int attack = 0;
+		
+		if(player.isAlive() && monster.isAlive()) {
+			int roll = rng.nextInt(2);
+			if(roll == 0) {
+				attack = monster.calculateAttack();
+				player.takeDamage(attack);
+			} else {
+				attack = monster.caclulateMagicAttack();
+				player.takeDamage(attack);
+			}
+		} else {
+			
+		}
+		
+		monsterDamage = attack;
 	}
 	
-	public static void battleResults(Monster monster) {
+	public static void turnResults() {
+		//Pop-up that shows:
+			//Player action
+				//If player attacked display "Player attacked Monster!"
+				//If player used itme display "Player used X!"
+			//Monster action
+				//Display "Monster attacked Player!"
+			//Display damage taken
+				//Monster damage taken display as "Monster took X damage!"
+				//Hero damage taken display as "Player took X damage!"
+			//Display healing done if any
+	}
+	
+	public static void battleResults() {
+		player.earnEXP(monster.getEXPValue());
 		//Award EXP
 			//Display EXP earned
 			//Display previous EXP
 				//Call level-up processing
 					//If level up occurs, display a message, allow player to allocate their 5 stat points and continue
 				//Display new EXP and new level/stats if applicable
+	}
+	
+	public static void gameOverLoss() {
+		
+	}
+	
+	public static void gameOverWin() {
+		
 	}
 		
 }
