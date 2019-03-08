@@ -52,6 +52,7 @@ public class RPG {
 	public static void run() {
 		
 		makeCharacter();
+		playerTurn();
 		
 		
 	}
@@ -327,6 +328,9 @@ public class RPG {
 	public static void playerTurn() {
 		//Menu for player
 		int attack = 0;
+		
+		final String on = "-fx-background-color: red";
+
 			
 			//if(playerInput == attack) {
 				//attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
@@ -339,6 +343,63 @@ public class RPG {
 				//attack = 0;
 			//}
 		playerDamage = attack;
+		
+		Stage stage = new Stage();
+		
+		Label label = new Label();
+		 label.setStyle(on);
+	        
+	        label.setMinSize(1600, 600);
+	        label.setAlignment(Pos.TOP_CENTER);
+		
+		VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
+		
+		Text text = new Text();
+        text.setTextAlignment(TextAlignment.LEFT);
+        
+       
+        text.setText(stats());
+        
+        Button[] buttons = new Button[3];
+        
+        buttons[0] = new Button("Items"); 
+        buttons[1] = new Button("Step"); 
+        buttons[2] = new Button("Save"); 
+        
+        buttons[0].setAlignment(Pos.CENTER_LEFT);
+        buttons[1].setAlignment(Pos.CENTER_LEFT);
+        buttons[2].setAlignment(Pos.CENTER_LEFT);
+        
+        VBox[] switchBox = new VBox[3];
+        
+        switchBox[0] = new VBox();
+        switchBox[0].setAlignment(Pos.CENTER);
+        switchBox[0].setPadding(new Insets(20, 80, 20, 80));
+        switchBox[0].getChildren().addAll( label);
+        
+        switchBox[1] = new VBox();
+        switchBox[1].setAlignment(Pos.CENTER_LEFT);
+        switchBox[1].getChildren().add(text);
+        
+        switchBox[2] = new VBox();
+        switchBox[2].setAlignment(Pos.CENTER);
+        switchBox[2].setPadding(new Insets(20, 80, 20, 80));
+        switchBox[2].getChildren().addAll( buttons);
+        
+        
+        root.getChildren().addAll(switchBox);
+       // root.getChildren().addAll(buttons);
+        
+        Scene scene = new Scene(root, 1600, 750);
+
+        stage.setScene(scene);
+        stage.setTitle("Game");
+      
+        stage.show();
+
+        
+		
 		
 	}
 	
