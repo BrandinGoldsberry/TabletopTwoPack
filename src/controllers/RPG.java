@@ -53,6 +53,11 @@ public class RPG {
 	public static void run() {
 		
 		makeCharacter();
+		//generateFloor();
+		
+		generateMonster(9);
+		
+		//this method still needs to be finished i.e. combat stuff
 		playerTurn();
 		
 		
@@ -185,11 +190,11 @@ public class RPG {
         	@Override
         	public void handle(ActionEvent event) {
         		
-        		name = textField.getText();
+        		name = textField.getText().trim();
         		
-        		if(textField.getText().isEmpty() == true) {
+        		if(textField.getText().isEmpty() == true || textField.getText().trim().isEmpty() == true) {
         			
-        			name = "Are you too lazy to make a name?";
+        			name = "Billy Herrington";
         		}
         		
         		stage.close();
@@ -257,6 +262,11 @@ public class RPG {
 			//2 ghoul
 			//3 slime
 			//4 skeleton
+			
+			
+			
+			
+			
 		} else if(floorNumber == 2);
 			monsterKey = rng.nextInt(6) + 4;
 			//4 skeleton
@@ -265,6 +275,8 @@ public class RPG {
 			//7 zombie knight
 			//8 vanguard
 			//9 Drake
+		
+		
 		return monsterKey;
 	}
 	
@@ -316,14 +328,18 @@ public class RPG {
 			playerTurn();
 			enemyTurn();
 			turnResults();
-		} while (monster.isAlive() == true && player.isAlive() == true);
 		
+		} while (monster.isAlive() == true && player.isAlive() == true);
+
 		if(player.isAlive() == false) {
+			
+			gameOverLoss();
 			
 		} else if(monster.isAlive() == false) {
 			battleResults();							
 		}
 		
+
 	}
 	
 	public static void playerTurn() {
@@ -350,8 +366,8 @@ public class RPG {
 		Label label = new Label();
 		 label.setStyle(on);
 	        
-	        label.setMinSize(1600, 600);
-	        label.setAlignment(Pos.TOP_CENTER);
+	     label.setMinSize(1600, 600);
+	     label.setAlignment(Pos.TOP_CENTER);
 		
 		VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
@@ -362,17 +378,21 @@ public class RPG {
        
         text.setText(stats());
         
+        Text monsterText = new Text();
+        monsterText.setTextAlignment(TextAlignment.RIGHT);
+        monsterText.setText(monStats());
+        
         Button[] buttons = new Button[3];
         
-        buttons[0] = new Button("Items"); 
-        buttons[1] = new Button("Step"); 
-        buttons[2] = new Button("Save"); 
+        buttons[0] = new Button("Attack"); 
+        buttons[1] = new Button("Magic"); 
+        buttons[2] = new Button("Item"); 
         
         buttons[0].setAlignment(Pos.CENTER_LEFT);
         buttons[1].setAlignment(Pos.CENTER_LEFT);
         buttons[2].setAlignment(Pos.CENTER_LEFT);
         
-        VBox[] switchBox = new VBox[3];
+        VBox[] switchBox = new VBox[4];
         
         switchBox[0] = new VBox();
         switchBox[0].setAlignment(Pos.CENTER);
@@ -388,6 +408,10 @@ public class RPG {
         switchBox[2].setPadding(new Insets(20, 80, 20, 80));
         switchBox[2].getChildren().addAll( buttons);
         
+        switchBox[3] = new VBox();
+        switchBox[3].setAlignment(Pos.CENTER_RIGHT);
+        switchBox[3].setPadding(new Insets(20, 80, 20, 80));
+        switchBox[3].getChildren().addAll(monsterText);
         
         root.getChildren().addAll(switchBox);
        // root.getChildren().addAll(buttons);
@@ -399,9 +423,47 @@ public class RPG {
       
         stage.show();
 
+        buttons[0].setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+
+				//pass in basic bitch attack
+				
+				
+				System.out.println("dong slap");
+				
+			}
+		});	
         
+        buttons[1].setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+
+				//pass in basic bitch magic attack
+				
+				System.out.println("wizard shit");
+				
+				
+			}
+		});	
+
+        buttons[2].setOnAction(new EventHandler<ActionEvent>() {
+	
+        	@Override
+        	public void handle(ActionEvent event) {
+
+        		//pass in basic bitch magic attack
+		
+        		System.out.println("item shit");
 		
 		
+			}
+        });	
+		
+       
+	
 	}
 	
 	public static void enemyTurn() {
@@ -446,7 +508,6 @@ public class RPG {
 				//Display new EXP and new level/stats if applicable
 	}
 	
-
 	public static void gameOverLoss() {
 		//Display pop-up graphic for gameOverLoss
 			//Whatever is needed for game to exit
@@ -469,6 +530,15 @@ public class RPG {
 		
 		return playerStats;
 		
+	}
+	
+	public static String monStats() {
+		
+		
+		String monsterStats = "Name: " + monster.getName() + "\n" +
+							  "Current Hp: " + monster.getCurrentHP() + " / " + monster.getBaseHP();
+
+		return monsterStats;
 	}
 	
 	public static void generateFloor() {
