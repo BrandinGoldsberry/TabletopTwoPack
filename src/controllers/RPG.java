@@ -390,10 +390,10 @@ public class RPG {
         text.setTextAlignment(TextAlignment.LEFT);
         
        
-        text.setText(stats());
+        text.setText(stats() + "\n");
         
         Text monsterText = new Text();
-        monsterText.setTextAlignment(TextAlignment.RIGHT);
+        monsterText.setTextAlignment(TextAlignment.LEFT);
         monsterText.setText(monStats());
         
         Button[] buttons = new Button[3];
@@ -406,7 +406,7 @@ public class RPG {
         buttons[1].setAlignment(Pos.CENTER_LEFT);
         buttons[2].setAlignment(Pos.CENTER_LEFT);
         
-        VBox[] switchBox = new VBox[4];
+        VBox[] switchBox = new VBox[3];
         
         switchBox[0] = new VBox();
         switchBox[0].setAlignment(Pos.CENTER);
@@ -415,17 +415,14 @@ public class RPG {
         
         switchBox[1] = new VBox();
         switchBox[1].setAlignment(Pos.CENTER_LEFT);
-        switchBox[1].getChildren().add(text);
+        switchBox[1].getChildren().addAll(text, monsterText);
         
         switchBox[2] = new VBox();
         switchBox[2].setAlignment(Pos.CENTER);
         switchBox[2].setPadding(new Insets(20, 80, 20, 80));
         switchBox[2].getChildren().addAll( buttons);
         
-        switchBox[3] = new VBox();
-        switchBox[3].setAlignment(Pos.CENTER_RIGHT);
-        switchBox[3].setPadding(new Insets(20, 80, 20, 80));
-        switchBox[3].getChildren().addAll(monsterText);
+        
         
         root.getChildren().addAll(switchBox);
        // root.getChildren().addAll(buttons);
@@ -543,7 +540,7 @@ public class RPG {
         button.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
+				
 				primaryStage.close();
 			}
 		});
@@ -589,7 +586,7 @@ public class RPG {
 	            button.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
-						// TODO Auto-generated method stub
+						
 						primaryStage.close();
 					}
 				});
@@ -614,7 +611,7 @@ public class RPG {
         button.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
+				
 				primaryStage.close();
 			}
 		});
