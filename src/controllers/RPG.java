@@ -324,6 +324,10 @@ public class RPG {
 		}
 	}
 	
+	public static void navigationProcessing() {
+		
+	}
+	
 	public static void battleProcessing() {
 		
 		do {
