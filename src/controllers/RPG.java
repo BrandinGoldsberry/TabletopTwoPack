@@ -1,6 +1,9 @@
 package controllers;
 
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Random;
 
 import Monsters_RPG.Drake;
@@ -18,13 +21,17 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -55,7 +62,7 @@ public class RPG {
 	
 	public static void run() {
 		makeCharacter();
-		//generateFloor();
+		generateFloor();
 		
 		generateMonster(9);
 		
@@ -183,7 +190,6 @@ public class RPG {
 		Scene scene = new Scene(root, 400, 400);
 
 		
-		
         stage.setScene(scene);
         stage.setTitle("RPG");
         
@@ -210,7 +216,6 @@ public class RPG {
 		
 	}
 	
-	
 	private static void makeCharacter() {
 
 		player = new Hero( makeName(), choseClass());
@@ -223,9 +228,7 @@ public class RPG {
 		
 			System.out.println(player.toString());
 	}
-	
-	
-	
+		
 	public static void movePlayer() {
 		playerSteps++;
 		if(playerSteps == dungeonFloorSteps) {
@@ -374,10 +377,10 @@ public class RPG {
         text.setTextAlignment(TextAlignment.LEFT);
         
        
-        text.setText(stats());
+        text.setText(stats() + "\n");
         
         Text monsterText = new Text();
-        monsterText.setTextAlignment(TextAlignment.RIGHT);
+        monsterText.setTextAlignment(TextAlignment.LEFT);
         monsterText.setText(monStats());
         
         Button[] buttons = new Button[3];
@@ -390,7 +393,7 @@ public class RPG {
         buttons[1].setAlignment(Pos.CENTER_LEFT);
         buttons[2].setAlignment(Pos.CENTER_LEFT);
         
-        VBox[] switchBox = new VBox[4];
+        VBox[] switchBox = new VBox[3];
         
         switchBox[0] = new VBox();
         switchBox[0].setAlignment(Pos.CENTER);
@@ -399,17 +402,14 @@ public class RPG {
         
         switchBox[1] = new VBox();
         switchBox[1].setAlignment(Pos.CENTER_LEFT);
-        switchBox[1].getChildren().add(text);
+        switchBox[1].getChildren().addAll(text, monsterText);
         
         switchBox[2] = new VBox();
         switchBox[2].setAlignment(Pos.CENTER);
         switchBox[2].setPadding(new Insets(20, 80, 20, 80));
         switchBox[2].getChildren().addAll( buttons);
         
-        switchBox[3] = new VBox();
-        switchBox[3].setAlignment(Pos.CENTER_RIGHT);
-        switchBox[3].setPadding(new Insets(20, 80, 20, 80));
-        switchBox[3].getChildren().addAll(monsterText);
+        
         
         root.getChildren().addAll(switchBox);
        // root.getChildren().addAll(buttons);
@@ -467,8 +467,8 @@ public class RPG {
         	@Override
         	public void handle(ActionEvent event) {
 
-        		//pass in basic bitch magic attack
-		
+        		//pass in item shit
+        		
         		System.out.println("item shit");
 		
 		
@@ -542,7 +542,7 @@ public class RPG {
         button.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
+				
 				primaryStage.close();
 			}
 		});
@@ -656,7 +656,7 @@ public class RPG {
 	            button.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
-						// TODO Auto-generated method stub
+						
 						primaryStage.close();
 					}
 				});
@@ -681,10 +681,11 @@ public class RPG {
         button.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
+				
 				primaryStage.close();
 			}
 		});
+        
         primaryStage.showAndWait();
 	}
 
@@ -694,10 +695,7 @@ public class RPG {
 				 			 "Level: "	+ player.getLevel() + "\n" +
 							 "Current Health: "  + player.getCurrentHP() + " / " + player.getBaseHP() + "\n" + 
 							 "Current MP: " + player.getBaseMP() + " / " + player.getCurrentMP();
-		
-		
-		
-		
+	
 		return playerStats;
 		
 	}
@@ -714,7 +712,22 @@ public class RPG {
 	public static void generateFloor() {
 		
 		
-		final String on = "-fx-background-color: red";
+		//final String on = "-fx-background-color: red";
+		
+		FileInputStream inputStream = null ;
+		try {
+			inputStream = new FileInputStream("resources/RPG_Graphics/Dungeon_Empty.png");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		
+		Image image = new Image(inputStream);
+		
+		ImageView imageView = new ImageView();
+		imageView.setImage(image);
+		imageView.setSmooth(true);
+		imageView.setVisible(true);
 		
 		Stage stage = new Stage();
 		
@@ -722,19 +735,16 @@ public class RPG {
 		text.setText(RPG.stats());
 		
 		VBox root = new VBox();
-        root.setAlignment(Pos.CENTER);
-		   
-        Label label = new Label();
+       // root.setAlignment(Pos.CENTER);
+		
         
-        label.setStyle(on);
+        HBox box = new HBox();
         
-        label.setMinSize(1600, 600);
-        label.setAlignment(Pos.TOP_CENTER);
+        //box.setAlignment(Pos.CENTER);
+       // box.setPadding(new Insets(0, 80, 20, 80));
+        box.getChildren().add(imageView);
         
-        VBox box = new VBox();
         
-        box.setAlignment(Pos.CENTER);
-        box.setPadding(new Insets(0, 80, 20, 80));
         
         Button[] buttons = new Button[3];
         
@@ -756,12 +766,13 @@ public class RPG {
 
         
 
-        root.getChildren().addAll(label ,box);
+        //box.getChildren().add(imageView);
+        root.getChildren().addAll(box);
         root.getChildren().addAll(gridPane);
         root.getChildren().add(text);
+        Scene scene = new Scene(root, 500, 800);
         
-        Scene scene = new Scene(root, 1600, 900);
-
+        
         stage.setScene(scene);
         stage.setTitle("RPG");
        
