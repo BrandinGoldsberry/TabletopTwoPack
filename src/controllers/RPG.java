@@ -231,7 +231,6 @@ public class RPG {
 		if(playerSteps == dungeonFloorSteps) {
 			generateFloorBoss();
 			battleProcessing();
-			
 		} else {
 			randomEncounter();
 		}
@@ -264,11 +263,6 @@ public class RPG {
 			//2 ghoul
 			//3 slime
 			//4 skeleton
-			
-			
-			
-			
-			
 		} else if(floorNumber == 2);
 			monsterKey = rng.nextInt(6) + 4;
 			//4 skeleton
@@ -325,7 +319,7 @@ public class RPG {
 	}
 	
 	public static void navigationProcessing() {
-		
+		//Fill with nav screen related things
 	}
 	
 	public static void battleProcessing() {
@@ -358,20 +352,6 @@ public class RPG {
 		
 		final String on = "-fx-background-color: red";
 
-			
-			//if(playerInput == attack) {
-				//attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
-				//monster.takeDamage(attack);
-			//} else if(playerInput == magicAttack) {
-				//attack = player.caclulateMagicAttack();
-				//monster.takeDamage(attack);
-			//} else if(playerInput == useItem) {
-				//inventory();
-				//playerItemUsed = inventory.get(inventoryIndexForUsedItem);
-				//if(tempHeroHP < player.getCurrentHP()){
-					//playerHealing = player.getCurrentHP() - 
-				//}
-			//}
 		if(tempMonsterHP > monster.getCurrentHP()) {
 			attack = (int) (monster.getCurrentHP() - tempMonsterHP);
 		} else {
@@ -441,13 +421,28 @@ public class RPG {
       
         stage.show();
 
+      //if(playerInput == attack) {
+		//attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
+		//monster.takeDamage(attack);
+	//} else if(playerInput == magicAttack) {
+		//attack = player.caclulateMagicAttack();
+		//monster.takeDamage(attack);
+	//} else if(playerInput == useItem) {
+		//inventory();
+		//playerItemUsed = inventory.get(inventoryIndexForUsedItem);
+		//if(tempHeroHP < player.getCurrentHP()){
+			//playerHealing = player.getCurrentHP() - 
+		//}
+	//}
+        
         buttons[0].setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
 
 				//pass in basic bitch attack
-				
+				//attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
+				//monster.takeDamage(attack);
 				
 				System.out.println("dong slap");
 				
@@ -516,7 +511,7 @@ public class RPG {
         if(playerItemUsed != null) {
         	playerItem = new Text(player.getName() + " used " + playerItemUsed.getName());
         } else {
-        	playerItem = new Text(player.getName() + " did not use an itme this round.");
+        	playerItem = new Text(player.getName() + " did not use an item this round.");
         }
         
         if(playerDamage > 0) {
@@ -541,7 +536,7 @@ public class RPG {
         Button button = new Button("Okay");
         root.getChildren().addAll(playerItem, playerAttack, monsterAttack, playerHealingDone, button);
         
-        Scene scene = new Scene(root, 300, 300);
+        Scene scene = new Scene(root, 250, 200);
         primaryStage.setScene(scene);
         
         button.setOnAction(new EventHandler<ActionEvent>() {
@@ -566,13 +561,81 @@ public class RPG {
 	}
 	
 	public static void battleResults() {
+		int roll = 0;
+		int tempWeaponRating = player.getWeaponRating();
+		boolean newWeapon = false;
+		int tempArmorRating = player.getArmorRating();
+		boolean newArmor = false;
 		player.earnEXP(monster.getEXPValue());
+		
+		if(currentFloorNum == 1) {
+			roll = rng.nextInt(100 + (player.getLuc() / 3)) + 1;
+			if(roll > 40) {
+				player.setWeaponRating(player.getWeaponRating() + rng.nextInt(3) + 1);
+				player.randomWeapon();
+				newWeapon = true;
+			} else {
+				
+			}
+			roll = rng.nextInt(100 + (player.getLuc() / 3)) + 1;
+			if(roll > 40) {
+				player.setArmorRating(player.getWeaponRating() + rng.nextInt(3) + 1);
+				player.randomArmor();
+			} else {
+				
+			}
+			
+		} else if (currentFloorNum == 2) {
+			roll = rng.nextInt(100 + (player.getLuc() / 3)) + 1;
+			if(roll > 40) {
+				player.setWeaponRating(player.getWeaponRating() + rng.nextInt(5) + 1);
+				player.randomWeapon();
+				newWeapon = true;
+			} else {
+				
+			}
+			roll = rng.nextInt(100 + (player.getLuc() / 3)) + 1;
+			if(roll > 40) {
+				player.setArmorRating(player.getWeaponRating() + rng.nextInt(5) + 1);
+				player.randomArmor();
+			} else {
+				
+			}
+		}
+		
+		Stage primaryStage = new Stage();				
+		VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
+        
+        Text playerAttack = new Text("Null field");
+        Text monsterAttack = new Text("Null field");
+        Text playerItem = new Text ("Null field");
+        Text playerHealingDone = new Text("Null field");
+        
+        Button button = new Button("Okay");
+        root.getChildren().addAll(playerItem, playerAttack, monsterAttack, playerHealingDone, button);
+        
+        Scene scene = new Scene(root, 300, 200);
+        primaryStage.setScene(scene);
+        
+        button.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				primaryStage.close();
+			}
+		});
+        primaryStage.showAndWait();
 		//Award EXP
 			//Display EXP earned
 			//Display previous EXP
 				//Call level-up processing
 					//If level up occurs, display a message, allow player to allocate their 5 stat points and continue
 				//Display new EXP and new level/stats if applicable
+	}
+	
+	public static void levelUpScreen() {
+		//TODO
 	}
 	
 	public static void gameOverLoss() {
