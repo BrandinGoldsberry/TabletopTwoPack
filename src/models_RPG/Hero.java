@@ -235,5 +235,4 @@ public class Hero extends BaseCharacter {
 	
 	
 	
-	
 }

@@ -137,6 +137,7 @@ public class RPG {
         	}
         });
               	
+        
         stage.setScene(scene);
         stage.setTitle("RPG");
         stage.showAndWait();
@@ -333,6 +334,20 @@ public class RPG {
 				//Call level-up processing
 					//If level up occurs, display a message, allow player to allocate their 5 stat points and continue
 				//Display new EXP and new level/stats if applicable
+	}
+	
+	public static String stats() {
+		
+		String playerStats = "Name: " + player.getName() + "\n" +
+				 			 "Level: "	+ player.getLevel() + "\n" +
+							 "Current Health: "  + player.getCurrentHP() + " / " + player.getBaseHP() + "\n" + 
+							 "Current MP: " + player.getBaseMP() + " / " + player.getCurrentMP();
+		
+		
+		
+		
+		return playerStats;
+		
 	}
 		
 }
