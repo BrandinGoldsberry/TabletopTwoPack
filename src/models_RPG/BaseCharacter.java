@@ -13,7 +13,7 @@ public class BaseCharacter {
 	protected int mag;
 	protected int luc;
   
-	private boolean isAlive;
+	private boolean isAlive = true;
 	private static Random rng = new Random();
 	
 	public BaseCharacter(String name, int str, int dex, int mag, int luc) {
@@ -127,6 +127,8 @@ public class BaseCharacter {
 
 
 	public boolean isAlive() {
+		
+		
 		return isAlive;
 	}
 

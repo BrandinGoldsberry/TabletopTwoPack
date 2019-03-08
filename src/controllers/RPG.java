@@ -65,13 +65,18 @@ public class RPG {
 	public static void run() {
 		makeCharacter();
 		generateFloor();
-		generateMonster(6);
-		combatWindow();
+		//generateMonster(6);
+		//combatWindow();
 		
+		randomEncounter();
+		
+		battleProcessing();
+		
+		//testWindow();
 
 		
 		//this method still needs to be finished i.e. combat stuff
-		playerTurn();
+		//playerTurn();
 		
 		
 	}
@@ -251,13 +256,24 @@ public class RPG {
 	}
 	
 	public static void randomEncounter() {
-		int chance = rng.nextInt(100) + 1;
 		
-		if (chance > 90) {
+		int chance = 0;
+		
+		currentFloorNum = 1;
+		
+		do {
+		chance = rng.nextInt(100) + 1;
+		
+		if (chance >= 90) {
 			
 			generateMonster(determineMonsterToBattle(currentFloorNum));
+			
+			System.out.println(monStats());
+			
 			battleProcessing();
 		}
+		
+		} while (chance < 90);
 		
 	}
 	
@@ -270,6 +286,9 @@ public class RPG {
 			//2 ghoul
 			//3 slime
 			//4 skeleton
+			
+			
+			
 		} else if(floorNumber == 2);
 			monsterKey = rng.nextInt(6) + 4;
 			//4 skeleton
@@ -360,7 +379,8 @@ public class RPG {
 	public static void battleProcessing() {
 		
 		do {
-			playerTurn();
+			//playerTurn(1);
+			combatWindow();
 			enemyTurn();
 			turnResults();
 		
@@ -377,7 +397,7 @@ public class RPG {
 
 	}
 	
-	public static void playerTurn() {
+	public static void playerTurn(int playerInput) {
 		//Menu for player
 		int attack = 0;
 		int tempHeroHP = (int) player.getCurrentHP();
@@ -393,20 +413,23 @@ public class RPG {
 		} 
 		playerDamage = attack;
 		
+		monster.takeDamage(20);
 		
-      //if(playerInput == attack) {
-		//attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
-		//monster.takeDamage(attack);
-	//} else if(playerInput == magicAttack) {
-		//attack = player.caclulateMagicAttack();
-		//monster.takeDamage(attack);
-	//} else if(playerInput == useItem) {
-		//inventory();
-		//playerItemUsed = inventory.get(inventoryIndexForUsedItem);
-		//if(tempHeroHP < player.getCurrentHP()){
-			//playerHealing = player.getCurrentHP() - 
-		//}
-	//}
+		System.out.println("monster took damage");
+		
+//      if(playerInput == attack) {
+//		attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
+//		monster.takeDamage(attack);
+//	} else if(playerInput == magicAttack) {
+//		attack = player.caclulateMagicAttack();
+//		monster.takeDamage(attack);
+//	} else if(playerInput == useItem) {
+//		inventory();
+//		playerItemUsed = inventory.get(inventoryIndexForUsedItem);
+//		if(tempHeroHP < player.getCurrentHP()){
+//			playerHealing = player.getCurrentHP() - 
+//		}
+//	}
 	
 	}
 	
@@ -724,6 +747,9 @@ public class RPG {
 	
 	private static void combatWindow() {
 		
+		inputStream = null;
+		
+		
 		try {
 			inputStream = new FileInputStream(mapPNG);
 		} catch (FileNotFoundException e) {
@@ -788,7 +814,6 @@ public class RPG {
         stage.setScene(scene);
         stage.setTitle("Game");
       
-        stage.show();
         
         buttons[0].setOnAction(new EventHandler<ActionEvent>() {
 			
@@ -799,7 +824,11 @@ public class RPG {
 				//attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
 				//monster.takeDamage(attack);
 				
+				playerTurn(1);
+				
 				System.out.println("dong slap");
+				
+				stage.close();
 				
 			}
 		});	
@@ -810,6 +839,9 @@ public class RPG {
 			public void handle(ActionEvent event) {
 
 				//pass in basic bitch magic attack
+				
+				playerTurn(2);
+
 				
 				System.out.println("wizard shit");
 				
@@ -824,16 +856,31 @@ public class RPG {
 
         		//pass in item shit
         		
+				playerTurn(3);
+
+        		
         		System.out.println("item shit");
 		
 		
 			}
         });	
+        
+        
+        
 		
+        stage.showAndWait();
+	}
+	
+	private static void testWindow() {
 		
+		for(int i = 1; i < 10; i++) {
+			
+			generateMonster(i);
+			combatWindow();
+			
+		}
 		
 		
 	}
-	
 	
 }
