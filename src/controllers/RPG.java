@@ -56,6 +56,8 @@ public class RPG {
 	private static Item playerItemUsed;
 	private static int playerHealing;
 	private static Job job;
+	private static FileInputStream inputStream = null ;
+	private static String mapPNG;
 	
 	private static String name = null;
 	private static Random rng = new Random();
@@ -63,8 +65,9 @@ public class RPG {
 	public static void run() {
 		makeCharacter();
 		generateFloor();
+		generateMonster(6);
+		combatWindow();
 		
-		generateMonster(9);
 		
 		//this method still needs to be finished i.e. combat stuff
 		playerTurn();
@@ -285,30 +288,91 @@ public class RPG {
 		switch(monsterKey) {
 		case 1:
 			monster = new GiantRat();
+			
+			try {
+				inputStream = new FileInputStream("resources/RPG_Graphics/Dungeon_Empty.png");
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			
 			break;
 		case 2:
 			monster = new Ghoul();
+			
+			try {
+				inputStream = new FileInputStream("resources/RPG_Graphics/Dungeon_Empty.png");
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			
 			break;
 		case 3:
 			monster = new Slime();
+			
+			try {
+				inputStream = new FileInputStream("resources/RPG_Graphics/Dungeon_Empty.png");
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			
 			break;
 		case 4:
 			monster = new Skeleton();
+			
+			try {
+				inputStream = new FileInputStream("resources/RPG_Graphics/Dungeon_Empty.png");
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			
 			break;
 		case 5:
 			monster = new MassiveRat();
+			
+			try {
+				inputStream = new FileInputStream("resources/RPG_Graphics/Dungeon_Empty.png");
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			
 			break;
 		case 6:
 			monster = new GigaSlime();
+			
+			try {
+				inputStream = new FileInputStream("resources/RPG_Graphics/Dungeon_Empty.png");
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			
 			break;
 		case 7:
 			monster = new ZombieKnight();
+			
+			try {
+				inputStream = new FileInputStream("resources/RPG_Graphics/Dungeon_Empty.png");
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			
 			break;
 		case 8:
 			monster = new Vanguard();
+			
+			try {
+				inputStream = new FileInputStream("resources/RPG_Graphics/Dungeon_Empty.png");
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			
 			break;
 		case 9:
 			monster = new Drake();
+			
+			
+				mapPNG = "resources/RPG_Graphics/Dungeon_Drake.png";
+			
+			
 			break;
 		}
 	}
@@ -353,7 +417,6 @@ public class RPG {
 		playerItemUsed = null;
 		playerHealing = 0;
 		
-		final String on = "-fx-background-color: red";
 
 		if(tempMonsterHP > monster.getCurrentHP()) {
 			attack = (int) (monster.getCurrentHP() - tempMonsterHP);
@@ -362,65 +425,7 @@ public class RPG {
 		} 
 		playerDamage = attack;
 		
-		Stage stage = new Stage();
 		
-		Label label = new Label();
-		 label.setStyle(on);
-	        
-	     label.setMinSize(1600, 600);
-	     label.setAlignment(Pos.TOP_CENTER);
-		
-		VBox root = new VBox();
-        root.setAlignment(Pos.CENTER);
-		
-		Text text = new Text();
-        text.setTextAlignment(TextAlignment.LEFT);
-        
-       
-        text.setText(stats() + "\n");
-        
-        Text monsterText = new Text();
-        monsterText.setTextAlignment(TextAlignment.LEFT);
-        monsterText.setText(monStats());
-        
-        Button[] buttons = new Button[3];
-        
-        buttons[0] = new Button("Attack"); 
-        buttons[1] = new Button("Magic"); 
-        buttons[2] = new Button("Item"); 
-        
-        buttons[0].setAlignment(Pos.CENTER_LEFT);
-        buttons[1].setAlignment(Pos.CENTER_LEFT);
-        buttons[2].setAlignment(Pos.CENTER_LEFT);
-        
-        VBox[] switchBox = new VBox[3];
-        
-        switchBox[0] = new VBox();
-        switchBox[0].setAlignment(Pos.CENTER);
-        switchBox[0].setPadding(new Insets(20, 80, 20, 80));
-        switchBox[0].getChildren().addAll( label);
-        
-        switchBox[1] = new VBox();
-        switchBox[1].setAlignment(Pos.CENTER_LEFT);
-        switchBox[1].getChildren().addAll(text, monsterText);
-        
-        switchBox[2] = new VBox();
-        switchBox[2].setAlignment(Pos.CENTER);
-        switchBox[2].setPadding(new Insets(20, 80, 20, 80));
-        switchBox[2].getChildren().addAll( buttons);
-        
-        
-        
-        root.getChildren().addAll(switchBox);
-       // root.getChildren().addAll(buttons);
-        
-        Scene scene = new Scene(root, 1600, 750);
-
-        stage.setScene(scene);
-        stage.setTitle("Game");
-      
-        stage.show();
-
       //if(playerInput == attack) {
 		//attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
 		//monster.takeDamage(attack);
@@ -434,48 +439,6 @@ public class RPG {
 			//playerHealing = player.getCurrentHP() - 
 		//}
 	//}
-        
-        buttons[0].setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent event) {
-
-				//pass in basic bitch attack
-				//attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
-				//monster.takeDamage(attack);
-				
-				System.out.println("dong slap");
-				
-			}
-		});	
-        
-        buttons[1].setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent event) {
-
-				//pass in basic bitch magic attack
-				
-				System.out.println("wizard shit");
-				
-				
-			}
-		});	
-
-        buttons[2].setOnAction(new EventHandler<ActionEvent>() {
-	
-        	@Override
-        	public void handle(ActionEvent event) {
-
-        		//pass in item shit
-        		
-        		System.out.println("item shit");
-		
-		
-			}
-        });	
-		
-       
 	
 	}
 	
@@ -712,9 +675,7 @@ public class RPG {
 	public static void generateFloor() {
 		
 		
-		//final String on = "-fx-background-color: red";
 		
-		FileInputStream inputStream = null ;
 		try {
 			inputStream = new FileInputStream("resources/RPG_Graphics/Dungeon_Empty.png");
 		} catch (FileNotFoundException e) {
@@ -739,9 +700,7 @@ public class RPG {
 		
         
         HBox box = new HBox();
-        
-        //box.setAlignment(Pos.CENTER);
-       // box.setPadding(new Insets(0, 80, 20, 80));
+   
         box.getChildren().add(imageView);
         
         
@@ -770,7 +729,7 @@ public class RPG {
         root.getChildren().addAll(box);
         root.getChildren().addAll(gridPane);
         root.getChildren().add(text);
-        Scene scene = new Scene(root, 500, 800);
+        Scene scene = new Scene(root, 500, 700);
         
         
         stage.setScene(scene);
@@ -781,4 +740,119 @@ public class RPG {
 		
 		
 	}
+	
+	private static void combatWindow() {
+		
+		try {
+			inputStream = new FileInputStream(mapPNG);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		
+		Stage stage = new Stage();
+		
+		Image image = new Image(inputStream);
+		
+		ImageView imageView = new ImageView();
+		imageView.setImage(image);
+		imageView.setSmooth(true);
+		imageView.setVisible(true);
+		
+		
+		VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
+		
+		Text text = new Text();
+        text.setTextAlignment(TextAlignment.LEFT);
+        
+       
+        text.setText(stats() + "\n");
+        
+        Text monsterText = new Text();
+        monsterText.setTextAlignment(TextAlignment.LEFT);
+        monsterText.setText(monStats());
+        
+        Button[] buttons = new Button[3];
+        
+        buttons[0] = new Button("Attack"); 
+        buttons[1] = new Button("Magic"); 
+        buttons[2] = new Button("Item"); 
+        
+        buttons[0].setAlignment(Pos.CENTER_LEFT);
+        buttons[1].setAlignment(Pos.CENTER_LEFT);
+        buttons[2].setAlignment(Pos.CENTER_LEFT);
+        
+        VBox[] switchBox = new VBox[3];
+        
+        switchBox[0] = new VBox();
+        switchBox[0].getChildren().add(imageView);
+        
+        switchBox[1] = new VBox();
+        switchBox[1].setAlignment(Pos.CENTER_LEFT);
+        switchBox[1].getChildren().addAll(text, monsterText);
+        
+        switchBox[2] = new VBox();
+        switchBox[2].setAlignment(Pos.CENTER);
+        switchBox[2].setPadding(new Insets(20, 80, 20, 80));
+        switchBox[2].getChildren().addAll( buttons);
+        
+        
+        
+        root.getChildren().addAll(switchBox);
+       // root.getChildren().addAll(buttons);
+        
+        Scene scene = new Scene(root, 500, 750);
+
+        stage.setScene(scene);
+        stage.setTitle("Game");
+      
+        stage.show();
+        
+        buttons[0].setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+
+				//pass in basic bitch attack
+				//attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
+				//monster.takeDamage(attack);
+				
+				System.out.println("dong slap");
+				
+			}
+		});	
+        
+        buttons[1].setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+
+				//pass in basic bitch magic attack
+				
+				System.out.println("wizard shit");
+				
+				
+			}
+		});	
+
+        buttons[2].setOnAction(new EventHandler<ActionEvent>() {
+	
+        	@Override
+        	public void handle(ActionEvent event) {
+
+        		//pass in item shit
+        		
+        		System.out.println("item shit");
+		
+		
+			}
+        });	
+		
+		
+		
+		
+	}
+	
+	
 }
