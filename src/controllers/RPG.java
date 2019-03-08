@@ -290,87 +290,54 @@ public class RPG {
 		case 1:
 			monster = new GiantRat();
 			
-			try {
-				inputStream = new FileInputStream("resources/RPG_Graphics/Dungeon_Empty.png");
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+			mapPNG = "resources/RPG_Graphics/Dungeon_GiantRat.png";
 			
 			break;
 		case 2:
 			monster = new Ghoul();
 			
-			try {
-				inputStream = new FileInputStream("resources/RPG_Graphics/Dungeon_Empty.png");
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+			mapPNG = "resources/RPG_Graphics/Dungeon_Ghoul.png";
 			
 			break;
 		case 3:
 			monster = new Slime();
 			
-			try {
-				inputStream = new FileInputStream("resources/RPG_Graphics/Dungeon_Empty.png");
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+			mapPNG = "resources/RPG_Graphics/Dungeon_Slime.png";
 			
 			break;
 		case 4:
 			monster = new Skeleton();
 			
-			try {
-				inputStream = new FileInputStream("resources/RPG_Graphics/Dungeon_Empty.png");
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+			mapPNG = "resources/RPG_Graphics/Dungeon_Skeleton.png";
 			
 			break;
 		case 5:
 			monster = new MassiveRat();
 			
-			try {
-				inputStream = new FileInputStream("resources/RPG_Graphics/Dungeon_Empty.png");
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+			mapPNG = "resources/RPG_Graphics/Dungeon_MassiveRat.png";
 			
 			break;
 		case 6:
 			monster = new GigaSlime();
 			
-			try {
-				inputStream = new FileInputStream("resources/RPG_Graphics/Dungeon_Empty.png");
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+			mapPNG = "resources/RPG_Graphics/Dungeon_GigaSlime.png";
 			
 			break;
 		case 7:
 			monster = new ZombieKnight();
 			
-			try {
-				inputStream = new FileInputStream("resources/RPG_Graphics/Dungeon_Empty.png");
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+			mapPNG = "resources/RPG_Graphics/Dungeon_ZombieKnight.png";
 			
 			break;
 		case 8:
 			monster = new Vanguard();
 			
-			try {
-				inputStream = new FileInputStream("resources/RPG_Graphics/Dungeon_Empty.png");
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+			mapPNG = "resources/RPG_Graphics/Dungeon_Vanguard.png";
 			
 			break;
 		case 9:
 			monster = new Drake();
-			
-			
+
 				mapPNG = "resources/RPG_Graphics/Dungeon_Drake.png";
 			
 			
