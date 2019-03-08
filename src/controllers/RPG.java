@@ -68,6 +68,7 @@ public class RPG {
 		generateMonster(6);
 		combatWindow();
 		
+
 		
 		//this method still needs to be finished i.e. combat stuff
 		playerTurn();
@@ -386,7 +387,7 @@ public class RPG {
 	}
 	
 	public static void navigationProcessing() {
-		//Fill with nav screen related things
+		//TODO Fill with nav screen related things
 	}
 	
 	public static void battleProcessing() {
@@ -529,6 +530,7 @@ public class RPG {
 		boolean newWeapon = false;
 		int tempArmorRating = player.getArmorRating();
 		boolean newArmor = false;
+		int tempLevel = player.getLevel();
 		player.earnEXP(monster.getEXPValue());
 		
 		if(currentFloorNum == 1) {
@@ -570,13 +572,25 @@ public class RPG {
 		VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
         
-        Text playerAttack = new Text("Null field");
-        Text monsterAttack = new Text("Null field");
-        Text playerItem = new Text ("Null field");
-        Text playerHealingDone = new Text("Null field");
+        Text expEarned = new Text(player.getName() + " has earned " + monster.getEXPValue() + " EXP from this encounter!");
+        Text levelUp = new Text(player.getName() + " has not leveled up from this encounter.");
+        Text weaponChange = new Text(player.getName() + " didn't find a new weapon after this battle.");
+        Text armorChange = new Text(player.getName() + " didn't find a new set of armor after this battle.");
+        
+        if(player.getLevel() > tempLevel) {
+        	levelUp = new Text(player.getName() + " has gained " + (player.getLevel() - tempLevel) + " levels!");
+        }
+        
+        if(newWeapon) {
+        	weaponChange = new Text(player.getName() + " has obtained a new " + player.getWeapon() + " with a " + player.getWeaponRating() + " rating!");
+        }
+        
+        if(newArmor) {
+        	armorChange = new Text(player.getName() + " has obtained a new set of " + player.getArmor() + " with a " + player.getArmorRating());
+        }
         
         Button button = new Button("Okay");
-        root.getChildren().addAll(playerItem, playerAttack, monsterAttack, playerHealingDone, button);
+        root.getChildren().addAll(expEarned, levelUp, weaponChange, armorChange, button);
         
         Scene scene = new Scene(root, 300, 200);
         primaryStage.setScene(scene);
