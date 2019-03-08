@@ -13,7 +13,7 @@ public class Defender extends Piece {
 	public boolean IsSurrounded(boolean[][] enemiesNear) {
 		boolean ret = false;
 		
-		ret = enemiesNear[1][1] && enemiesNear[1][2] || enemiesNear[2][1] && enemiesNear[2][2];
+		ret = enemiesNear[0][0] && enemiesNear[0][1] || enemiesNear[1][0] && enemiesNear[1][1];
 		
 		return ret;
 	}

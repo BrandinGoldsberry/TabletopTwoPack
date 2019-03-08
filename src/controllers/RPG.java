@@ -140,6 +140,7 @@ public class RPG {
         	}
         });
               	
+        
         stage.setScene(scene);
         stage.setTitle("RPG");
         stage.showAndWait();
@@ -382,11 +383,24 @@ public class RPG {
 				//Display new EXP and new level/stats if applicable
 	}
 	
+
 	public static void gameOverLoss() {
 		
 	}
 	
 	public static void gameOverWin() {
+
+	public static String stats() {
+		
+		String playerStats = "Name: " + player.getName() + "\n" +
+				 			 "Level: "	+ player.getLevel() + "\n" +
+							 "Current Health: "  + player.getCurrentHP() + " / " + player.getBaseHP() + "\n" + 
+							 "Current MP: " + player.getBaseMP() + " / " + player.getCurrentMP();
+		
+		
+		
+		
+		return playerStats;
 		
 	}
 		
