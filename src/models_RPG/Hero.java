@@ -167,6 +167,7 @@ public class Hero extends BaseCharacter {
 			this.level++;
 			assignStatPoints();
 			this.nextLevelEXP = calculateNextLevelEXP(this.level);
+			assignStatPoints();
 			int tempBaseHP = this.getBaseHP();
 			this.setBaseHP(tempBaseHP + 5 + (this.getStr() * 2));
 			int tempBaseMP = this.getBaseMP();
@@ -232,7 +233,6 @@ public class Hero extends BaseCharacter {
 		
 		return builder.toString();
 	}
-	
 	
 	
 	
