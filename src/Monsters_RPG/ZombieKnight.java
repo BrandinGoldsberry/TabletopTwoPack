@@ -8,6 +8,7 @@ public class ZombieKnight extends Monster {
 
 	public ZombieKnight() {
 		super();
+		this.setName("Zombie Knight");
 		this.setStr(8);
 		this.setDex(9);
 		this.setMag(6);

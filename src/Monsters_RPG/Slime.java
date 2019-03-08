@@ -8,6 +8,7 @@ public class Slime extends Monster {
 
 	public Slime() {
 		super();
+		this.setName("Slime");
 		this.setStr(7);
 		this.setDex(7);
 		this.setMag(0);

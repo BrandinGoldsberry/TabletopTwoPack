@@ -8,6 +8,7 @@ public class Drake extends Monster {
 
 	public Drake() {
 		super();
+		this.setName("Drake");
 		this.setStr(5);
 		this.setDex(11);
 		this.setMag(11);

@@ -8,6 +8,7 @@ public class Vanguard extends Monster {
 
 	public Vanguard() {
 		super();
+		this.setName("Vanguard");
 		this.setStr(8);
 		this.setDex(10);
 		this.setMag(2);
