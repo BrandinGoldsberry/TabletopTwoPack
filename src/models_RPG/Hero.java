@@ -7,7 +7,7 @@ import rpgenums.*;
 
 
 public class Hero extends BaseCharacter {
-	private static String defaultName = "Hero";
+	private static String defaultName = "Billy Herrington";
 	private int EXP = 0;
 	private int nextLevelEXP;
 	private int level;
