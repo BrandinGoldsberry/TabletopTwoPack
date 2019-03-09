@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Hnefatafl {
@@ -35,6 +36,7 @@ public class Hnefatafl {
 	private static boolean firstClick = false;
 	
 	private static ImageView lastClicked;
+	private static ImageView lastHovered;
 	
 	public static void run() {
 		init();
@@ -52,6 +54,7 @@ public class Hnefatafl {
 		for(int i = 0; i < 11; i++) {
 			for(int j = 0; j < 11; j++) {
 				ImageView newImage = new ImageView();
+				Text debugId = new Text();
 				newImage.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
 					@Override
 					public void handle(Event event) {
@@ -60,6 +63,10 @@ public class Hnefatafl {
 							firstX = GridPane.getRowIndex(lastClicked);
 							firstY = GridPane.getColumnIndex(lastClicked);
 							firstClick = true;
+							int x = GridPane.getRowIndex(newImage);
+							int y = GridPane.getColumnIndex(newImage);
+							Piece hovered = game.getPieces().get(new CoordinateKey(x, y));
+							debugId.setText(Integer.toString(hovered.getId()));
 						} else {
 							lastClicked = newImage;
 							moveX = GridPane.getRowIndex(lastClicked);
@@ -68,12 +75,32 @@ public class Hnefatafl {
 							} else {
 								System.out.println(game.movePiece(firstX, firstY, moveX, moveY));
 								firstClick = false;
+								int x = GridPane.getRowIndex(newImage);
+								int y = GridPane.getColumnIndex(newImage);
+								Piece hovered = game.getPieces().get(new CoordinateKey(x, y));
+								debugId.setText(Integer.toString(hovered.getId()));
 								update();																
 							}
 						}
 					}
 				});
+				
+				newImage.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<Event>() {
+					@Override
+					public void handle(Event arg0) {
+						// TODO Auto-generated method stub
+						lastHovered = newImage;
+						int x = GridPane.getRowIndex(newImage);
+						int y = GridPane.getColumnIndex(newImage);
+						Piece hovered = game.getPieces().get(new CoordinateKey(x, y));
+						if(hovered != null) {
+							debugId.setText(Integer.toString(hovered.getId()));
+							System.out.println(hovered.getId());						
+						}
+					}
+				});
 				grid.add(newImage, j, i, 1, 1);
+				grid.add(debugId, j, i, 1, 1);
 			}
 		}
 		nhef.setScene(SC);
@@ -204,7 +231,6 @@ public class Hnefatafl {
 				IV.setImage(new Image("file:resources/nhefetafl/emptyWhite.png", 75, 75, true, true));
 			}
 		}
-		movePiece();
 	}
 	
 	
