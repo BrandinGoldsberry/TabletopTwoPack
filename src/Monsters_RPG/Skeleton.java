@@ -8,6 +8,7 @@ public class Skeleton extends Monster {
 
 	public Skeleton() {
 		super();
+		this.setName("Skeleton");
 		this.setStr(8);
 		this.setDex(6);
 		this.setMag(6);

@@ -1,14 +1,18 @@
 package controllers;
 
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Random;
 
-
 import Monsters_RPG.Drake;
+import Monsters_RPG.DungeonLord;
 import Monsters_RPG.Ghoul;
 import Monsters_RPG.GiantRat;
 import Monsters_RPG.GigaSlime;
 import Monsters_RPG.MassiveRat;
+import Monsters_RPG.RatKing;
 import Monsters_RPG.Skeleton;
 import Monsters_RPG.Slime;
 import Monsters_RPG.Vanguard;
@@ -17,38 +21,62 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import models_RPG.Dungeon;
 import models_RPG.Hero;
+import models_RPG.Item;
 import models_RPG.Monster;
 import rpgenums.Job;
 
 public class RPG {
 	private static String campaignName;
 	private static Hero player;
+	private static Monster monster;
 	private static int playerDungeonLocationX;
 	private static int playerDungeomLocationY;
 	private static int currentFloorNum;
-	private static Dungeon currentFloorDungeon = new Dungeon();
+	private static int dungeonFloorSteps;
+	private static int playerSteps;
 	private static int battleTurn;
+	private static int playerDamage;
+	private static int monsterDamage;
+	private static Item playerItemUsed;
+	private static int playerHealing;
 	private static Job job;
+	private static FileInputStream inputStream = null ;
+	private static String mapPNG;
 	
 	private static String name = null;
 	private static Random rng = new Random();
 	
 	public static void run() {
-		
 		makeCharacter();
-		currentFloorDungeon.generateFloor(0);
+		generateFloor();
+		//generateMonster(6);
+		//combatWindow();
+		
+		randomEncounter();
+		
+		battleProcessing();
+		
+		//testWindow();
+
+		
+		//this method still needs to be finished i.e. combat stuff
+		//playerTurn();
 		
 		
 	}
@@ -137,6 +165,7 @@ public class RPG {
         	}
         });
               	
+        
         stage.setScene(scene);
         stage.setTitle("RPG");
         stage.showAndWait();
@@ -170,7 +199,6 @@ public class RPG {
 		Scene scene = new Scene(root, 400, 400);
 
 		
-		
         stage.setScene(scene);
         stage.setTitle("RPG");
         
@@ -179,11 +207,11 @@ public class RPG {
         	@Override
         	public void handle(ActionEvent event) {
         		
-        		name = textField.getText();
+        		name = textField.getText().trim();
         		
-        		if(textField.getText().isEmpty() == true) {
+        		if(textField.getText().isEmpty() == true || textField.getText().trim().isEmpty() == true) {
         			
-        			name = "Are you too lazy to make a name?";
+        			name = "Billy Herrington";
         		}
         		
         		stage.close();
@@ -197,7 +225,6 @@ public class RPG {
 		
 	}
 	
-	
 	private static void makeCharacter() {
 
 		player = new Hero( makeName(), choseClass());
@@ -210,32 +237,18 @@ public class RPG {
 		
 			System.out.println(player.toString());
 	}
-	
-	
-	
-	public static void movePlayer(int playerLocation) {
-		//Get direction input
-		//Do collision check
-		//Move player if collision check returns false
-		//Run randomEncounter method
+		
+	public static void movePlayer() {
+		playerSteps++;
+		if(playerSteps == dungeonFloorSteps) {
+			generateFloorBoss();
+			battleProcessing();
+		} else {
+			randomEncounter();
+		}
 	}
 	
-	public static boolean collisionCheck(int playerLocation) {
-		boolean collision = true;
-		
-		//If up input
-		
-		//If down input
-		
-		//If right input
-		
-		//If left input
-		
-		return false;
-		
-	}
-	
-	public static void overworldInventory(Hero hero) {
+	public static void inventory(Hero hero) {
 		//Display list of items
 			//Players can click on items to use them
 		//Remove item from list when button is pressed
@@ -243,12 +256,24 @@ public class RPG {
 	}
 	
 	public static void randomEncounter() {
-		int chance = rng.nextInt(100) + 1;
 		
-		if (chance > 90) {
+		int chance = 0;
+		
+		currentFloorNum = 1;
+		
+		do {
+		chance = rng.nextInt(100) + 1;
+		
+		if (chance >= 90) {
 			
-			battleProcessing(generateMonster(determineMonsterToBattle(currentFloorNum)));
+			generateMonster(determineMonsterToBattle(currentFloorNum));
+			
+			System.out.println(monStats());
+			
+			battleProcessing();
 		}
+		
+		} while (chance < 90);
 		
 	}
 	
@@ -261,6 +286,9 @@ public class RPG {
 			//2 ghoul
 			//3 slime
 			//4 skeleton
+			
+			
+			
 		} else if(floorNumber == 2);
 			monsterKey = rng.nextInt(6) + 4;
 			//4 skeleton
@@ -269,64 +297,302 @@ public class RPG {
 			//7 zombie knight
 			//8 vanguard
 			//9 Drake
+		
+		
 		return monsterKey;
 	}
 	
-	public static Monster generateMonster(int monsterKey) {
-		Monster monster = null;
+	public static void generateMonster(int monsterKey) {
+		monster = null;
 		
 		switch(monsterKey) {
 		case 1:
 			monster = new GiantRat();
+			
+			mapPNG = "resources/RPG_Graphics/Dungeon_GiantRat.png";
+			
 			break;
 		case 2:
 			monster = new Ghoul();
+			
+			mapPNG = "resources/RPG_Graphics/Dungeon_Ghoul.png";
+			
 			break;
 		case 3:
 			monster = new Slime();
+			
+			mapPNG = "resources/RPG_Graphics/Dungeon_Slime.png";
+			
 			break;
 		case 4:
 			monster = new Skeleton();
+			
+			mapPNG = "resources/RPG_Graphics/Dungeon_Skeleton.png";
+			
 			break;
 		case 5:
 			monster = new MassiveRat();
+			
+			mapPNG = "resources/RPG_Graphics/Dungeon_MassiveRat.png";
+			
 			break;
 		case 6:
 			monster = new GigaSlime();
+			
+			mapPNG = "resources/RPG_Graphics/Dungeon_GigaSlime.png";
+			
 			break;
 		case 7:
 			monster = new ZombieKnight();
+			
+			mapPNG = "resources/RPG_Graphics/Dungeon_ZombieKnight.png";
+			
 			break;
 		case 8:
 			monster = new Vanguard();
+			
+			mapPNG = "resources/RPG_Graphics/Dungeon_Vanguard.png";
+			
 			break;
 		case 9:
 			monster = new Drake();
+
+				mapPNG = "resources/RPG_Graphics/Dungeon_Drake.png";
+			
+			
 			break;
 		}
-		
-		
-		
-		return monster;
 	}
 	
-	public static void battleProcessing(Monster monster) {
-		
+	public static void generateFloorBoss() {
+		if(currentFloorNum == 1) {
+			monster = new RatKing();
+		} else if (currentFloorNum == 2) {
+			monster = new DungeonLord();
+		}
 	}
 	
-	public static void playerTurn() {
+	public static void navigationProcessing() {
+		//TODO Fill with nav screen related things
+	}
+	
+	public static void battleProcessing() {
 		
+		do {
+			//playerTurn(1);
+			combatWindow();
+			enemyTurn();
+			turnResults();
+		
+		} while (monster.isAlive() == true && player.isAlive() == true);
+
+		if(player.isAlive() == false) {
+			
+			gameOverLoss();
+			
+		} else if(monster.isAlive() == false) {
+			battleResults();							
+		}
+		
+
+	}
+	
+	public static void playerTurn(int playerInput) {
+		//Menu for player
+		int attack = 0;
+		int tempHeroHP = (int) player.getCurrentHP();
+		int tempMonsterHP = (int) monster.getCurrentHP();
+		playerItemUsed = null;
+		playerHealing = 0;
+		
+
+		if(tempMonsterHP > monster.getCurrentHP()) {
+			attack = (int) (monster.getCurrentHP() - tempMonsterHP);
+		} else {
+			
+		} 
+		playerDamage = attack;
+		
+		monster.takeDamage(20);
+		
+		System.out.println("monster took damage");
+		
+//      if(playerInput == attack) {
+//		attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
+//		monster.takeDamage(attack);
+//	} else if(playerInput == magicAttack) {
+//		attack = player.caclulateMagicAttack();
+//		monster.takeDamage(attack);
+//	} else if(playerInput == useItem) {
+//		inventory();
+//		playerItemUsed = inventory.get(inventoryIndexForUsedItem);
+//		if(tempHeroHP < player.getCurrentHP()){
+//			playerHealing = player.getCurrentHP() - 
+//		}
+//	}
+	
 	}
 	
 	public static void enemyTurn() {
-		//RNG to decide if enemy does a normal or magic attack
-			//if normal attack, do normal attack and damage calculation
-			//if magic attack, check if the enemy would have enough MP to use magic
-				//if they don't, use a normal attack instead
-				//if they do, use the mp and perform a magic attack
+		int attack = 0;
+		
+		if(player.isAlive() && monster.isAlive()) {
+			int roll = rng.nextInt(2);
+			if(roll == 0) {
+				attack = monster.calculateAttack();
+				player.takeDamage(attack);
+			} else {
+				attack = monster.caclulateMagicAttack();
+				player.takeDamage(attack);
+			}
+		} else {
+			
+		}
+		
+		monsterDamage = attack;
 	}
 	
-	public static void battleResults(Monster monster) {
+	public static void turnResults() {
+		Stage primaryStage = new Stage();				
+		VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
+        
+        Text playerAttack = new Text("Null field");
+        Text monsterAttack = new Text("Null field");
+        Text playerItem = new Text ("Null field");
+        Text playerHealingDone = new Text("Null field");
+        
+        if(playerItemUsed != null) {
+        	playerItem = new Text(player.getName() + " used " + playerItemUsed.getName());
+        } else {
+        	playerItem = new Text(player.getName() + " did not use an item this round.");
+        }
+        
+        if(playerDamage > 0) {
+        	playerAttack = new Text(player.getName() + " attacked " + monster.getName() + " for " + playerDamage + " damage!");
+        } else {
+        	playerAttack = new Text(player.getName() + " did not do any damage this round.");
+        }
+        
+        if(monsterDamage > 0) {
+        	monsterAttack = new Text(monster.getName() + " attacked " + player.getName() + " for " + monsterDamage + " damage!");
+        } else {
+        	monsterAttack = new Text(monster.getName() + " did not do any damage this round.");
+        }
+        
+        if(playerHealing > 0) {
+        	playerHealingDone = new Text(player.getName() + " healed for " + playerHealing + " this round!");
+        } else {
+        	playerHealingDone = new Text(player.getName() + " did not do any healing this round.");
+        }
+        
+        
+        Button button = new Button("Okay");
+        root.getChildren().addAll(playerItem, playerAttack, monsterAttack, playerHealingDone, button);
+        
+        Scene scene = new Scene(root, 250, 200);
+        primaryStage.setScene(scene);
+        
+        button.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				
+				primaryStage.close();
+			}
+		});
+        primaryStage.showAndWait();
+		
+		//Pop-up that shows:
+			//Player action
+				//If player attacked display "Player attacked Monster!"
+				//If player used itme display "Player used X!"
+			//Monster action
+				//Display "Monster attacked Player!"
+			//Display damage taken
+				//Monster damage taken display as "Monster took X damage!"
+				//Hero damage taken display as "Player took X damage!"
+			//Display healing done if any as "Player healed X HP!"
+	}
+	
+	public static void battleResults() {
+		int roll = 0;
+		int tempWeaponRating = player.getWeaponRating();
+		boolean newWeapon = false;
+		int tempArmorRating = player.getArmorRating();
+		boolean newArmor = false;
+		int tempLevel = player.getLevel();
+		player.earnEXP(monster.getEXPValue());
+		
+		if(currentFloorNum == 1) {
+			roll = rng.nextInt(100 + (player.getLuc() / 3)) + 1;
+			if(roll > 40) {
+				player.setWeaponRating(player.getWeaponRating() + rng.nextInt(3) + 1);
+				player.randomWeapon();
+				newWeapon = true;
+			} else {
+				
+			}
+			roll = rng.nextInt(100 + (player.getLuc() / 3)) + 1;
+			if(roll > 40) {
+				player.setArmorRating(player.getWeaponRating() + rng.nextInt(3) + 1);
+				player.randomArmor();
+			} else {
+				
+			}
+			
+		} else if (currentFloorNum == 2) {
+			roll = rng.nextInt(100 + (player.getLuc() / 3)) + 1;
+			if(roll > 40) {
+				player.setWeaponRating(player.getWeaponRating() + rng.nextInt(5) + 1);
+				player.randomWeapon();
+				newWeapon = true;
+			} else {
+				
+			}
+			roll = rng.nextInt(100 + (player.getLuc() / 3)) + 1;
+			if(roll > 40) {
+				player.setArmorRating(player.getWeaponRating() + rng.nextInt(5) + 1);
+				player.randomArmor();
+			} else {
+				
+			}
+		}
+		
+		Stage primaryStage = new Stage();				
+		VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
+        
+        Text expEarned = new Text(player.getName() + " has earned " + monster.getEXPValue() + " EXP from this encounter!");
+        Text levelUp = new Text(player.getName() + " has not leveled up from this encounter.");
+        Text weaponChange = new Text(player.getName() + " didn't find a new weapon after this battle.");
+        Text armorChange = new Text(player.getName() + " didn't find a new set of armor after this battle.");
+        
+        if(player.getLevel() > tempLevel) {
+        	levelUp = new Text(player.getName() + " has gained " + (player.getLevel() - tempLevel) + " levels!");
+        }
+        
+        if(newWeapon) {
+        	weaponChange = new Text(player.getName() + " has obtained a new " + player.getWeapon() + " with a " + player.getWeaponRating() + " rating!");
+        }
+        
+        if(newArmor) {
+        	armorChange = new Text(player.getName() + " has obtained a new set of " + player.getArmor() + " with a " + player.getArmorRating());
+        }
+        
+        Button button = new Button("Okay");
+        root.getChildren().addAll(expEarned, levelUp, weaponChange, armorChange, button);
+        
+        Scene scene = new Scene(root, 300, 200);
+        primaryStage.setScene(scene);
+        
+        button.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				primaryStage.close();
+			}
+		});
+        primaryStage.showAndWait();
 		//Award EXP
 			//Display EXP earned
 			//Display previous EXP
@@ -334,5 +600,287 @@ public class RPG {
 					//If level up occurs, display a message, allow player to allocate their 5 stat points and continue
 				//Display new EXP and new level/stats if applicable
 	}
+	
+	public static void levelUpScreen() {
+		//TODO
+	}
+	
+	public static void gameOverLoss() {
+		//Display pop-up graphic for gameOverLoss
+		//Whatever is needed for game to exit
+		Stage primaryStage = new Stage();				
+				VBox root = new VBox();
+	            root.setAlignment(Pos.CENTER);
+
+	            Text text = new Text("You Are Dead.");
+	            
+	            Button button = new Button("Okay");
+	            root.getChildren().addAll(text, button);
+	            
+	            Scene scene = new Scene(root, 150, 150);
+	            primaryStage.setScene(scene);
+	            
+	            button.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						
+						primaryStage.close();
+					}
+				});
+	            primaryStage.showAndWait();
+	}
+	
+	public static void gameOverWin() {
+		//display pop-up graphic for gameOverWin
+			//Whatever is needed for game to exit
+		Stage primaryStage = new Stage();				
+		VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
+
+        Text text = new Text("You have shown the Dungeon Lord who's lord of this dungeon!");
+        
+        Button button = new Button("Okay");
+        root.getChildren().addAll(text, button);
+        
+        Scene scene = new Scene(root, 150, 150);
+        primaryStage.setScene(scene);
+        
+        button.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				
+				primaryStage.close();
+			}
+		});
+        
+        primaryStage.showAndWait();
+	}
+
+	public static String stats() {
 		
+		String playerStats = "Name: " + player.getName() + "\n" +
+				 			 "Level: "	+ player.getLevel() + "\n" +
+							 "Current Health: "  + player.getCurrentHP() + " / " + player.getBaseHP() + "\n" + 
+							 "Current MP: " + player.getBaseMP() + " / " + player.getCurrentMP();
+	
+		return playerStats;
+		
+	}
+	
+	public static String monStats() {
+		
+		
+		String monsterStats = "Name: " + monster.getName() + "\n" +
+							  "Current Hp: " + monster.getCurrentHP() + " / " + monster.getBaseHP();
+
+		return monsterStats;
+	}
+	
+	public static void generateFloor() {
+		
+		
+		
+		try {
+			inputStream = new FileInputStream("resources/RPG_Graphics/Dungeon_Empty.png");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		
+		Image image = new Image(inputStream);
+		
+		ImageView imageView = new ImageView();
+		imageView.setImage(image);
+		imageView.setSmooth(true);
+		imageView.setVisible(true);
+		
+		Stage stage = new Stage();
+		
+		Text text = new Text();
+		text.setText(RPG.stats());
+		
+		VBox root = new VBox();
+       // root.setAlignment(Pos.CENTER);
+		
+        
+        HBox box = new HBox();
+   
+        box.getChildren().add(imageView);
+        
+        
+        
+        Button[] buttons = new Button[3];
+        
+        buttons[0] = new Button("Items"); 
+        buttons[1] = new Button("Step"); 
+        buttons[2] = new Button("Save"); 
+        
+        buttons[0].setAlignment(Pos.CENTER_LEFT);
+        buttons[1].setAlignment(Pos.CENTER_LEFT);
+        buttons[2].setAlignment(Pos.CENTER_LEFT);
+        
+        GridPane gridPane = new GridPane();
+
+
+        gridPane.add(buttons[0], 0, 0, 1, 1);
+        gridPane.add(buttons[1], 1, 0, 1, 1);
+        gridPane.add(buttons[2], 2, 0, 1, 1);
+        gridPane.setAlignment(Pos.CENTER); 
+
+        
+
+        //box.getChildren().add(imageView);
+        root.getChildren().addAll(box);
+        root.getChildren().addAll(gridPane);
+        root.getChildren().add(text);
+        Scene scene = new Scene(root, 500, 700);
+        
+        
+        stage.setScene(scene);
+        stage.setTitle("RPG");
+       
+        
+        stage.show();
+		
+		
+	}
+	
+	private static void combatWindow() {
+		
+		inputStream = null;
+		
+		
+		try {
+			inputStream = new FileInputStream(mapPNG);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		
+		Stage stage = new Stage();
+		
+		Image image = new Image(inputStream);
+		
+		ImageView imageView = new ImageView();
+		imageView.setImage(image);
+		imageView.setSmooth(true);
+		imageView.setVisible(true);
+		
+		
+		VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
+		
+		Text text = new Text();
+        text.setTextAlignment(TextAlignment.LEFT);
+        
+       
+        text.setText(stats() + "\n");
+        
+        Text monsterText = new Text();
+        monsterText.setTextAlignment(TextAlignment.LEFT);
+        monsterText.setText(monStats());
+        
+        Button[] buttons = new Button[3];
+        
+        buttons[0] = new Button("Attack"); 
+        buttons[1] = new Button("Magic"); 
+        buttons[2] = new Button("Item"); 
+        
+        buttons[0].setAlignment(Pos.CENTER_LEFT);
+        buttons[1].setAlignment(Pos.CENTER_LEFT);
+        buttons[2].setAlignment(Pos.CENTER_LEFT);
+        
+        VBox[] switchBox = new VBox[3];
+        
+        switchBox[0] = new VBox();
+        switchBox[0].getChildren().add(imageView);
+        
+        switchBox[1] = new VBox();
+        switchBox[1].setAlignment(Pos.CENTER_LEFT);
+        switchBox[1].getChildren().addAll(text, monsterText);
+        
+        switchBox[2] = new VBox();
+        switchBox[2].setAlignment(Pos.CENTER);
+        switchBox[2].setPadding(new Insets(20, 80, 20, 80));
+        switchBox[2].getChildren().addAll( buttons);
+        
+        
+        
+        root.getChildren().addAll(switchBox);
+       // root.getChildren().addAll(buttons);
+        
+        Scene scene = new Scene(root, 500, 750);
+
+        stage.setScene(scene);
+        stage.setTitle("Game");
+      
+        
+        buttons[0].setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+
+				//pass in basic bitch attack
+				//attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
+				//monster.takeDamage(attack);
+				
+				playerTurn(1);
+				
+				System.out.println("dong slap");
+				
+				stage.close();
+				
+			}
+		});	
+        
+        buttons[1].setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+
+				//pass in basic bitch magic attack
+				
+				playerTurn(2);
+
+				
+				System.out.println("wizard shit");
+				
+				
+			}
+		});	
+
+        buttons[2].setOnAction(new EventHandler<ActionEvent>() {
+	
+        	@Override
+        	public void handle(ActionEvent event) {
+
+        		//pass in item shit
+        		
+				playerTurn(3);
+
+        		
+        		System.out.println("item shit");
+		
+		
+			}
+        });	
+        
+        
+        
+		
+        stage.showAndWait();
+	}
+	
+	private static void testWindow() {
+		
+		for(int i = 1; i < 10; i++) {
+			
+			generateMonster(i);
+			combatWindow();
+			
+		}
+		
+		
+	}
+	
 }

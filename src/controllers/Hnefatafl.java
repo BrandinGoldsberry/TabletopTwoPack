@@ -49,7 +49,7 @@ public class Hnefatafl {
 		grid = new GridPane();
 		grid.setGridLinesVisible(true);
 		root.getChildren().add(grid);
-		Scene SC = new Scene(root, 500, 500);
+		Scene SC = new Scene(root, 500, 500); 
 		
 		for(int i = 0; i < 11; i++) {
 			for(int j = 0; j < 11; j++) {
