@@ -47,7 +47,7 @@ public class RPG {
 	private static Monster monster;
 	private static int playerDungeonLocationX;
 	private static int playerDungeomLocationY;
-	private static int currentFloorNum;
+	private static int currentFloorNum = 1;
 	private static int dungeonFloorSteps;
 	private static int playerSteps;
 	private static int battleTurn;
@@ -419,6 +419,8 @@ public class RPG {
 		} else if (currentFloorNum == 2) {
 			monster = new DungeonLord();
 		}
+		currentFloorNum++;
+		playerSteps = 0;
 	}
 	
 	public static void navigationProcessing() {
