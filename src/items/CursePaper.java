@@ -7,6 +7,7 @@ public class CursePaper extends Item {
 
 	public CursePaper(String name) {
 		super(name);
+		this.setOffensiveItem(true);
 		// TODO Auto-generated constructor stub
 	}
 

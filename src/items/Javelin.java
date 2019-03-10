@@ -8,6 +8,7 @@ public class Javelin extends Item {
 	
 	public Javelin(String name) {
 		super(name);
+		this.setOffensiveItem(true);
 		// TODO Auto-generated constructor stub
 	}
 

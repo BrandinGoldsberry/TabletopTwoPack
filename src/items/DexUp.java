@@ -7,6 +7,7 @@ public class DexUp extends Item {
 
 	public DexUp(String name) {
 		super(name);
+		this.setOffensiveItem(false);
 		// TODO Auto-generated constructor stub
 	}
 

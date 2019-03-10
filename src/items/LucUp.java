@@ -7,6 +7,7 @@ public class LucUp extends Item {
 
 	public LucUp(String name) {
 		super(name);
+		this.setOffensiveItem(false);
 		// TODO Auto-generated constructor stub
 	}
 

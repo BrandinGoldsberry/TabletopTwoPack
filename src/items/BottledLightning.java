@@ -8,6 +8,7 @@ public class BottledLightning extends Item {
 
 	public BottledLightning(String name) {
 		super(name);
+		this.setOffensiveItem(true);
 		// TODO Auto-generated constructor stub
 	}
 
