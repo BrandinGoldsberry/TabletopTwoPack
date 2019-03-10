@@ -899,13 +899,8 @@ public class RPG {
 						@Override
 						public void handle(ActionEvent event) {
 
-							if(player.getInventory().get(i).getOffensiveItem() == true) {
-							
-								player.getInventory().get(i).use(monster);
-								player.getInventory().remove(i);
-							
-							} else {
-								
+							if(player.getInventory().get(i).getOffensiveItem() == false) {
+														
 								System.out.println("item used on playef");
 								player.getInventory().get(i).use(player);
 								
