@@ -1,5 +1,7 @@
-/controllers/
-/models_RPG/
 /Monsters_RPG/
-/rpgenums/
+/application/
+/controllers/
 /hnefataflModels/
+/items/
+/models_RPG/
+/rpgenums/
