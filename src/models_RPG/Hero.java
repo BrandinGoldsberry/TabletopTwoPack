@@ -137,6 +137,9 @@ public class Hero extends BaseCharacter {
 	
 	public void takeDamage(int incomingDamage) {
 		int takenDamage = incomingDamage - (armorRating * 2);
+		if(takenDamage < 0) {
+			takenDamage = 0;
+		}
 		this.setCurrentHP(this.getCurrentHP() - takenDamage);
 		
 		if(this.determineIsAlive() == false) {

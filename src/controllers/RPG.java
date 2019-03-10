@@ -67,8 +67,8 @@ public class RPG  implements Serializable{
 	private static Job job;
 	private static FileInputStream inputStream = null ;
 	private static String mapPNG;
-	private static boolean playerHitFlag;
-	private static boolean monsterHitFlag;
+	private static boolean playerHitFlag = true;
+	private static boolean monsterHitFlag = true;
 
 	private static String saveName;
 	
@@ -85,7 +85,7 @@ public class RPG  implements Serializable{
 		
 	
 		
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 5; i++) {
 		
 		player.addToInventory(new Potion("Bottled Lightning"));
 		
@@ -427,8 +427,10 @@ public class RPG  implements Serializable{
 	public static void generateFloorBoss() {
 		if(currentFloorNum == 1) {
 			monster = new RatKing();
+			mapPNG = "resources/RPG_Graphics/Dungeon_RatKing.png";
 		} else if (currentFloorNum == 2) {
 			monster = new DungeonLord();
+			mapPNG = "resources/RPG_Graphics/Dungeon_DungeonLord.png";
 		}
 		currentFloorNum = 2;
 		dungeonFloorSteps = 240;
@@ -484,12 +486,13 @@ public class RPG  implements Serializable{
 		}
 
 		if(tempMonsterHP > monster.getCurrentHP()) {
-			attack = (int) (monster.getCurrentHP() - tempMonsterHP);
+			attack = tempMonsterHP - (int) (monster.getCurrentHP());
 		} else {
 			
-		} 
+		}
 		
 		playerDamage = attack;
+		System.out.println(playerDamage);
 		
 		
 //      if(playerInput == attack) {
@@ -609,6 +612,12 @@ public class RPG  implements Serializable{
 		boolean newArmor = false;
 		int tempLevel = player.getLevel();
 		boolean itemDropped = false;
+		
+		if(monster.getName() == "Dungeon Lord") {
+			dungeonLordDED = true;
+		} else {
+			
+		}
 		
 		player.earnEXP(monster.getEXPValue());
 		if(monster.calculateItemDrop() == true) {
