@@ -387,7 +387,6 @@ public class RPG {
 			}
 		}
 		
-		}
 	}
 
 	
