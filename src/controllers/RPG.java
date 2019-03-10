@@ -290,7 +290,7 @@ public class RPG {
 			
 			
 		} else if(floorNumber == 2);
-			monsterKey = rng.nextInt(6) + 4;
+			monsterKey = rng.nextInt(6) + 1;
 			//4 skeleton
 			//5 massive rat
 			//6 giga slime
@@ -305,62 +305,76 @@ public class RPG {
 	public static void generateMonster(int monsterKey) {
 		monster = null;
 		
-		switch(monsterKey) {
-		case 1:
-			monster = new GiantRat();
+		if(currentFloorNum == 1) {
+			switch(monsterKey) {
+			case 1:
+				monster = new GiantRat();
+				
+				mapPNG = "resources/RPG_Graphics/Dungeon_GiantRat.png";
+				
+				break;
+			case 2:
+				monster = new Ghoul();
+				
+				mapPNG = "resources/RPG_Graphics/Dungeon_Ghoul.png";
+				
+				break;
+			case 3:
+				monster = new Slime();
+				
+				mapPNG = "resources/RPG_Graphics/Dungeon_Slime.png";
+				
+				break;
+			case 4:
+				monster = new Skeleton();
+				
+				mapPNG = "resources/RPG_Graphics/Dungeon_Skeleton.png";
+				
+				break;
+			}
+		} else if (currentFloorNum == 2) {
+			switch(monsterKey) {
+			case 1:
+				monster = new Skeleton();
+				
+				mapPNG = "resources/RPG_Graphics/Dungeon_Skeleton.png";
+				
+				break;
 			
-			mapPNG = "resources/RPG_Graphics/Dungeon_GiantRat.png";
-			
-			break;
-		case 2:
-			monster = new Ghoul();
-			
-			mapPNG = "resources/RPG_Graphics/Dungeon_Ghoul.png";
-			
-			break;
-		case 3:
-			monster = new Slime();
-			
-			mapPNG = "resources/RPG_Graphics/Dungeon_Slime.png";
-			
-			break;
-		case 4:
-			monster = new Skeleton();
-			
-			mapPNG = "resources/RPG_Graphics/Dungeon_Skeleton.png";
-			
-			break;
-		case 5:
-			monster = new MassiveRat();
-			
-			mapPNG = "resources/RPG_Graphics/Dungeon_MassiveRat.png";
-			
-			break;
-		case 6:
-			monster = new GigaSlime();
-			
-			mapPNG = "resources/RPG_Graphics/Dungeon_GigaSlime.png";
-			
-			break;
-		case 7:
-			monster = new ZombieKnight();
-			
-			mapPNG = "resources/RPG_Graphics/Dungeon_ZombieKnight.png";
-			
-			break;
-		case 8:
-			monster = new Vanguard();
-			
-			mapPNG = "resources/RPG_Graphics/Dungeon_Vanguard.png";
-			
-			break;
-		case 9:
-			monster = new Drake();
-
+			case 2:
+				monster = new MassiveRat();
+				
+				mapPNG = "resources/RPG_Graphics/Dungeon_MassiveRat.png";
+				
+				break;
+			case 3:
+				monster = new GigaSlime();
+				
+				mapPNG = "resources/RPG_Graphics/Dungeon_GigaSlime.png";
+				
+				break;
+			case 4:
+				monster = new ZombieKnight();
+				
+				mapPNG = "resources/RPG_Graphics/Dungeon_ZombieKnight.png";
+				
+				break;
+			case 5:
+				monster = new Vanguard();
+				
+				mapPNG = "resources/RPG_Graphics/Dungeon_Vanguard.png";
+				
+				break;
+			case 6:
+				monster = new Drake();
+				
 				mapPNG = "resources/RPG_Graphics/Dungeon_Drake.png";
-			
-			
-			break;
+				
+				
+				break;
+			}
+		}
+		
 		}
 	}
 	
