@@ -82,7 +82,7 @@ public class RPG {
 		//generateMonster(6);
 		//combatWindow();
 		
-		randomEncounter();
+		//randomEncounter();
 		
 		//battleProcessing();
 		
@@ -273,9 +273,6 @@ public class RPG {
 		
 		int chance = 0;
 		
-		currentFloorNum = 1;
-		
-	
 		chance = rng.nextInt(100) + 1;
 		
 		if (chance >= 90) {
@@ -758,6 +755,8 @@ public class RPG {
 		
 		Text text2 = new Text("Steps Taken: " + playerSteps);
 		
+		Text text3 = new Text("Current Floor: " + currentFloorNum);
+		
 		VBox root = new VBox();
        // root.setAlignment(Pos.CENTER);
 		
@@ -768,15 +767,17 @@ public class RPG {
         
         
         
-        Button[] buttons = new Button[3];
+        Button[] buttons = new Button[4];
         
         buttons[0] = new Button("Items"); 
         buttons[1] = new Button("Step"); 
         buttons[2] = new Button("Save"); 
+        buttons[3] = new Button("Exit");
         
         buttons[0].setAlignment(Pos.CENTER_LEFT);
         buttons[1].setAlignment(Pos.CENTER_LEFT);
         buttons[2].setAlignment(Pos.CENTER_LEFT);
+        buttons[3].setAlignment(Pos.CENTER_LEFT);
         
         GridPane gridPane = new GridPane();
 
@@ -784,6 +785,8 @@ public class RPG {
         gridPane.add(buttons[0], 0, 0, 1, 1);
         gridPane.add(buttons[1], 1, 0, 1, 1);
         gridPane.add(buttons[2], 2, 0, 1, 1);
+        gridPane.add(buttons[3], 3, 0, 1, 1);
+        
         gridPane.setAlignment(Pos.CENTER); 
 
         
@@ -835,7 +838,19 @@ public class RPG {
 				
 			}
 			
-		});       
+		}); 
+        
+        buttons[3].setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				
+				dungeonLordDED = true;
+				stage.close();
+				
+			}
+			
+		});
         
         stage.showAndWait();
 		
