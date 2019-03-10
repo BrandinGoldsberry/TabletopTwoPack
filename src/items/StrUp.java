@@ -7,6 +7,7 @@ public class StrUp extends Item {
 
 	public StrUp(String name) {
 		super(name);
+		this.setOffensiveItem(false);
 		// TODO Auto-generated constructor stub
 	}
 	

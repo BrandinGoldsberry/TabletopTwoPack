@@ -7,6 +7,7 @@ public class MagUp extends Item {
 
 	public MagUp(String name) {
 		super(name);
+		this.setOffensiveItem(false);
 		// TODO Auto-generated constructor stub
 	}
 

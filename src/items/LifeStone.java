@@ -7,6 +7,7 @@ public class LifeStone extends Item {
 
 	public LifeStone(String name) {
 		super(name);
+		this.setOffensiveItem(false);
 		// TODO Auto-generated constructor stub
 	}
 

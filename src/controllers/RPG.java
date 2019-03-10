@@ -516,16 +516,24 @@ public class RPG {
         	playerItem = new Text(player.getName() + " did not use an item this round.");
         }
         
-        if(playerDamage > 0) {
-        	playerAttack = new Text(player.getName() + " attacked " + monster.getName() + " for " + playerDamage + " damage!");
+        if(playerHitFlag = true) {
+        	if(playerDamage > 0) {
+        		playerAttack = new Text(player.getName() + " attacked " + monster.getName() + " for " + playerDamage + " damage!");
+        	} else {
+        		playerAttack = new Text(player.getName() + " did not do any damage this round.");
+        	}	
         } else {
-        	playerAttack = new Text(player.getName() + " did not do any damage this round.");
+        	playerAttack = new Text(player.getName() + " missed their attack!");
         }
         
-        if(monsterDamage > 0) {
-        	monsterAttack = new Text(monster.getName() + " attacked " + player.getName() + " for " + monsterDamage + " damage!");
+        if(monsterHitFlag = true) {
+        	if(monsterDamage > 0) {
+        		monsterAttack = new Text(monster.getName() + " attacked " + player.getName() + " for " + monsterDamage + " damage!");
+        	} else {
+        		monsterAttack = new Text(monster.getName() + " did not do any damage this round.");
+        	}        	
         } else {
-        	monsterAttack = new Text(monster.getName() + " did not do any damage this round.");
+        	
         }
         
         if(playerHealing > 0) {
@@ -932,13 +940,11 @@ public class RPG {
 			@Override
 			public void handle(ActionEvent event) {
 
-				//pass in basic bitch attack
+				//pass in basic attack
 				//attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
 				//monster.takeDamage(attack);
 				
 				playerTurn(1);
-				
-				System.out.println("dong slap");
 				
 				stage.close();
 				
@@ -950,12 +956,9 @@ public class RPG {
 			@Override
 			public void handle(ActionEvent event) {
 
-				//pass in basic bitch magic attack
+				//pass in magic attack
 				
 				playerTurn(2);
-
-				
-				System.out.println("wizard shit");
 				
 				
 			}
@@ -966,13 +969,10 @@ public class RPG {
         	@Override
         	public void handle(ActionEvent event) {
 
-        		//pass in item shit
+        		//pass in item
         		
 				playerTurn(3);
 
-        		
-        		System.out.println("item shit");
-		
 		
 			}
         });	

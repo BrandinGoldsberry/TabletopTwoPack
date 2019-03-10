@@ -8,6 +8,7 @@ public class HiPotion extends Item {
 
 	public HiPotion(String name) {
 		super(name);
+		this.setOffensiveItem(false);
 		// TODO Auto-generated constructor stub
 	}
 
