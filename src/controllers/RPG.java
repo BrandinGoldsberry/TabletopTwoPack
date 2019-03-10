@@ -17,6 +17,7 @@ import Monsters_RPG.Skeleton;
 import Monsters_RPG.Slime;
 import Monsters_RPG.Vanguard;
 import Monsters_RPG.ZombieKnight;
+import items.Potion;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -27,6 +28,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -37,6 +39,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import models_RPG.BaseCharacter;
 import models_RPG.Hero;
 import models_RPG.Item;
 import models_RPG.Monster;
@@ -72,6 +75,11 @@ public class RPG {
 		
 		makeCharacter();
 		
+		for (int i = 0; i < 50; i++) {
+		
+		player.addToInventory(new Potion("Bottled Lightning"));
+		
+		}
 		
 		
 		do {
@@ -843,6 +851,9 @@ public class RPG {
 				
 				ScrollPane scrollPane = new ScrollPane();
 				
+				scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+				scrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+				
 				VBox root = new VBox();
 				
 				VBox inv = new VBox();
@@ -854,12 +865,12 @@ public class RPG {
 					
 					inv.getChildren().add(buttons[i]);
 					
-					
+					scrollPane.setContent(inv);
 				}
 				
-				root.getChildren().addAll(inv, scrollPane);
+				root.getChildren().addAll(scrollPane, inv);
 				
-				Scene scene = new Scene(root, 300, 200);
+				Scene scene = new Scene(root, 300, 170);
 				
 				stage.setScene(scene);
 				stage.setTitle("Inventory");
