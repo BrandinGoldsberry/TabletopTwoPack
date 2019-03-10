@@ -16,7 +16,7 @@ public class Hero extends BaseCharacter {
 	private Job job;
 	private int weaponRating;
 	private int armorRating;
-	private static ArrayList<Item> inventory = new ArrayList<Item>();
+	private ArrayList<Item> inventory = new ArrayList<Item>();
 	private static Random rng = new Random();
 	
 	
@@ -73,8 +73,12 @@ public class Hero extends BaseCharacter {
 		this.armorRating = 0;
 	}
 
-	public static ArrayList<Item> getInventory() {
+	public ArrayList<Item> getInventory() {
 		return inventory;
+	}
+	
+	public void addToInventory(Item item) {
+		this.getInventory().add(item);
 	}
 
 	public int getEXP() {
