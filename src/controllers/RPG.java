@@ -458,10 +458,16 @@ public class RPG {
 		int tempMonsterHP = (int) monster.getCurrentHP();
 		playerItemUsed = null;
 		playerHealing = 0;
+		playerHitFlag = true;
 		
 		if(playerInput == 1) {
-			attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
-			monster.takeDamage(attack);
+			if(player.calculateHit() == true) {
+				attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
+				monster.takeDamage(attack);
+			} else {
+				attack = 0;
+				playerHitFlag = false;
+			}
 		} else if (playerInput == 2) {
 			attack = player.caclulateMagicAttack();
 			monster.takeDamage(attack);
@@ -499,12 +505,18 @@ public class RPG {
 	
 	public static void enemyTurn() {
 		int attack = 0;
+		monsterHitFlag = true;
 		
 		if(player.isAlive() && monster.isAlive()) {
 			int roll = rng.nextInt(2);
 			if(roll == 0) {
-				attack = monster.calculateAttack();
-				player.takeDamage(attack);
+				if(monster.calculateHit() == true) {
+					attack = monster.calculateAttack();
+					player.takeDamage(attack);					
+				} else {
+					attack = 0;
+					monsterHitFlag = false;
+				}
 			} else {
 				attack = monster.caclulateMagicAttack();
 				player.takeDamage(attack);
@@ -549,7 +561,7 @@ public class RPG {
         		monsterAttack = new Text(monster.getName() + " did not do any damage this round.");
         	}        	
         } else {
-        	
+        	monsterAttack = new Text(monster.getName() + " missed their attack!");
         }
         
         if(playerHealing > 0) {
@@ -685,6 +697,10 @@ public class RPG {
 	}
 	
 	public static void levelUpScreen() {
+		//TODO
+	}
+	
+	public static void saveGame() {
 		//TODO
 	}
 	
