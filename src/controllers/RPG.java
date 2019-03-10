@@ -318,6 +318,10 @@ public class RPG {
 	
 	public static void generateMonster(int monsterKey) {
 		
+		mapPNG = "resources/RPG_Graphics/Dungeon_Skeleton.png";
+		monster = new Skeleton();
+
+		
 		if(currentFloorNum == 1) {
 			switch(monsterKey) {
 			case 1:
@@ -343,6 +347,8 @@ public class RPG {
 				
 				mapPNG = "resources/RPG_Graphics/Dungeon_Skeleton.png";
 				
+				System.out.println("skelebro");
+				
 				break;
 			default:
 				System.out.println("Default case hit");
@@ -358,6 +364,8 @@ public class RPG {
 				monster = new Skeleton();
 				
 				mapPNG = "resources/RPG_Graphics/Dungeon_Skeleton.png";
+				
+				System.out.println("skelebro");
 				
 				break;
 			
@@ -403,7 +411,6 @@ public class RPG {
 		}
 		
 	}
-
 	
 	
 	public static void generateFloorBoss() {
@@ -447,30 +454,15 @@ public class RPG {
 		playerItemUsed = null;
 		playerHealing = 0;
 		
-		switch(playerInput) {
-		case 1:
-			attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
-			monster.takeDamage(attack);
-			break;
-		case 2:
-			attack = player.caclulateMagicAttack();
-			monster.takeDamage(attack);
-			break;
-		case 3:
-			inventory(player);
-			if(tempHeroHP < player.getCurrentHP()) {
-				playerHealing = (int) (player.getCurrentHP() - tempHeroHP);
-			}
-			break;
-		}
-		
-		
+
 		if(tempMonsterHP > monster.getCurrentHP()) {
-			attack = tempMonsterHP - (int) (monster.getCurrentHP());
+			attack = (int) (monster.getCurrentHP() - tempMonsterHP);
 		} else {
 			
 		} 
 		playerDamage = attack;
+		
+		monster.takeDamage(20);
 		
 		System.out.println("monster took damage");
 		
@@ -822,9 +814,7 @@ public class RPG {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				
-				
-				
+
 				movePlayer();
 				stage.close();
 				
