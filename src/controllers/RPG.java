@@ -453,6 +453,15 @@ public class RPG {
 		playerItemUsed = null;
 		playerHealing = 0;
 		
+		if(playerInput == 1) {
+			attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
+			monster.takeDamage(attack);
+		} else if (playerInput == 2) {
+			attack = player.caclulateMagicAttack();
+			monster.takeDamage(attack);
+		} else if (playerInput == 3) {
+			
+		}
 
 		if(tempMonsterHP > monster.getCurrentHP()) {
 			attack = (int) (monster.getCurrentHP() - tempMonsterHP);
@@ -461,9 +470,6 @@ public class RPG {
 		} 
 		playerDamage = attack;
 		
-		monster.takeDamage(20);
-		
-		System.out.println("monster took damage");
 		
 //      if(playerInput == attack) {
 //		attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
