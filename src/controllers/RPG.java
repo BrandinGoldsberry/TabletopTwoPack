@@ -616,7 +616,7 @@ public class RPG {
         Button button = new Button("Okay");
         root.getChildren().addAll(expEarned, levelUp, weaponChange, armorChange, button);
         
-        Scene scene = new Scene(root, 300, 200);
+        Scene scene = new Scene(root, 500, 500);
         primaryStage.setScene(scene);
         
         button.setOnAction(new EventHandler<ActionEvent>() {
