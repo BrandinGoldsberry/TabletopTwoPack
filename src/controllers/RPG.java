@@ -70,7 +70,7 @@ public class RPG {
 		
 		randomEncounter();
 		
-		battleProcessing();
+		//battleProcessing();
 		
 		//testWindow();
 
