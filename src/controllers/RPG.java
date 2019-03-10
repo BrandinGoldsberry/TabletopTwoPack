@@ -3,7 +3,10 @@ package controllers;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Random;
 
 import Monsters_RPG.Drake;
@@ -22,7 +25,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -39,13 +41,16 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import models_RPG.BaseCharacter;
 import models_RPG.Hero;
 import models_RPG.Item;
 import models_RPG.Monster;
 import rpgenums.Job;
 
-public class RPG {
+public class RPG  implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static String campaignName;
 	private static Hero player;
 	private static Monster monster;
@@ -64,6 +69,7 @@ public class RPG {
 	private static String mapPNG;
 	private static boolean playerHitFlag;
 	private static boolean monsterHitFlag;
+	private static String saveName;
 	
 	private static String name = null;
 	private static Random rng = new Random();
@@ -702,6 +708,56 @@ public class RPG {
 	
 	public static void saveGame() {
 		//TODO
+Stage stage = new Stage();
+		
+		VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
+		
+		VBox box = new VBox();
+		box.setAlignment(Pos.CENTER);
+		box.setPadding(new Insets(20, 80, 20, 80));
+		
+		Label label = new Label("File Directory:");
+		
+		TextField textField = new TextField ();
+	
+		Button button = new Button("submit");
+	
+		box.getChildren().addAll(label, textField);
+		
+		
+		root.getChildren().addAll(box, button);
+			
+		Scene scene = new Scene(root, 400, 400);
+
+		
+        stage.setScene(scene);
+        stage.setTitle("Save Game");
+        
+        button.setOnAction(new EventHandler<ActionEvent>() {
+        	
+        	@Override
+        	public void handle(ActionEvent event) {
+        		
+        		saveName = textField.getText().trim() + ".ser";
+    				try {
+    					FileOutputStream file = new FileOutputStream(saveName);
+    					ObjectOutputStream out = new ObjectOutputStream(file);
+    					
+    					//Finish this out.writeObject();
+    					
+    					out.close();
+    					file.close();
+    					
+    					
+    				} catch(IOException ioe) {
+    				} 
+        		stage.close();
+        	}
+        });
+              	
+        stage.showAndWait();
+
 	}
 	
 	public static void gameOverLoss() {
