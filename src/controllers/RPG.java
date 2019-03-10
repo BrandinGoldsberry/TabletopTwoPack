@@ -451,17 +451,27 @@ public class RPG {
 		playerItemUsed = null;
 		playerHealing = 0;
 		
+		if(playerInput == 1) {
+			attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
+			monster.takeDamage(attack);
+		} else if (playerInput == 2) {
+			attack = player.caclulateMagicAttack();
+			monster.takeDamage(attack);
+		} else if (playerInput == 3) {
+			inventory(player);
+			if(tempHeroHP < player.getCurrentHP()) {
+				playerHealing = (int) (player.getCurrentHP() - tempHeroHP);
+			}
+		}
 
 		if(tempMonsterHP > monster.getCurrentHP()) {
 			attack = (int) (monster.getCurrentHP() - tempMonsterHP);
 		} else {
 			
 		} 
+		
 		playerDamage = attack;
 		
-		monster.takeDamage(20);
-		
-		System.out.println("monster took damage");
 		
 //      if(playerInput == attack) {
 //		attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
@@ -570,12 +580,18 @@ public class RPG {
 	
 	public static void battleResults() {
 		int roll = 0;
-		int tempWeaponRating = player.getWeaponRating();
 		boolean newWeapon = false;
-		int tempArmorRating = player.getArmorRating();
 		boolean newArmor = false;
 		int tempLevel = player.getLevel();
+		boolean itemDropped = false;
+		
 		player.earnEXP(monster.getEXPValue());
+		if(monster.calculateItemDrop() == true) {
+			player.addToInventory(monster.getHeldItem());
+			itemDropped = true;
+		} else {
+			
+		}
 		
 		if(currentFloorNum == 1) {
 			roll = rng.nextInt(100 + (player.getLuc() / 3)) + 1;
@@ -620,6 +636,7 @@ public class RPG {
         Text levelUp = new Text(player.getName() + " has not leveled up from this encounter.");
         Text weaponChange = new Text(player.getName() + " didn't find a new weapon after this battle.");
         Text armorChange = new Text(player.getName() + " didn't find a new set of armor after this battle.");
+        Text itemObtained = new Text(player.getName() + " didn't find any items after this battle.");
         
         if(player.getLevel() > tempLevel) {
         	levelUp = new Text(player.getName() + " has gained " + (player.getLevel() - tempLevel) + " levels!");
@@ -633,8 +650,12 @@ public class RPG {
         	armorChange = new Text(player.getName() + " has obtained a new set of " + player.getArmor() + " with a " + player.getArmorRating());
         }
         
+        if(itemDropped) {
+        	itemObtained = new Text(player.getName() + " has obtained " + monster.getHeldItem().getName() + "!");
+        }
+        
         Button button = new Button("Okay");
-        root.getChildren().addAll(expEarned, levelUp, weaponChange, armorChange, button);
+        root.getChildren().addAll(expEarned, levelUp, weaponChange, armorChange, itemObtained, button);
         
         Scene scene = new Scene(root, 500, 500);
         primaryStage.setScene(scene);
