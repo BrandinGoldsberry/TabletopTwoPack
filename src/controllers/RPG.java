@@ -62,9 +62,21 @@ public class RPG {
 	private static String name = null;
 	private static Random rng = new Random();
 	
+	private static boolean dungeonLordDED = false;
+	
+	
 	public static void run() {
+		
 		makeCharacter();
+		
+		
+		
+		do {
+			
 		generateFloor();
+		
+		} while (dungeonLordDED== false);
+		
 		//generateMonster(6);
 		//combatWindow();
 		
@@ -261,7 +273,7 @@ public class RPG {
 		
 		currentFloorNum = 1;
 		
-		do {
+	
 		chance = rng.nextInt(100) + 1;
 		
 		if (chance >= 90) {
@@ -273,7 +285,7 @@ public class RPG {
 			battleProcessing();
 		}
 		
-		} while (chance < 90);
+		
 		
 	}
 	
@@ -376,6 +388,9 @@ public class RPG {
 		}
 		
 		}
+	}
+
+	
 	
 	public static void generateFloorBoss() {
 		if(currentFloorNum == 1) {
@@ -648,6 +663,8 @@ public class RPG {
 	            Scene scene = new Scene(root, 150, 150);
 	            primaryStage.setScene(scene);
 	            
+	            dungeonLordDED = true;
+	            
 	            button.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
@@ -672,6 +689,9 @@ public class RPG {
         
         Scene scene = new Scene(root, 150, 150);
         primaryStage.setScene(scene);
+        
+        dungeonLordDED = true;
+
         
         button.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -727,6 +747,8 @@ public class RPG {
 		Text text = new Text();
 		text.setText(RPG.stats());
 		
+		Text text2 = new Text("Steps Taken: " + playerSteps);
+		
 		VBox root = new VBox();
        // root.setAlignment(Pos.CENTER);
 		
@@ -761,14 +783,54 @@ public class RPG {
         root.getChildren().addAll(box);
         root.getChildren().addAll(gridPane);
         root.getChildren().add(text);
+        root.getChildren().add(text2);
         Scene scene = new Scene(root, 500, 700);
         
         
         stage.setScene(scene);
         stage.setTitle("RPG");
-       
         
-        stage.show();
+        
+        buttons[0].setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				
+				System.out.println("look at yoour damn bag");
+				
+			}
+			
+		});
+        
+        buttons[1].setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				
+				
+				
+				
+				movePlayer();
+				stage.close();
+				
+			}
+			
+		});
+        
+        buttons[2].setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				
+				System.out.println("stop being a pussy by always saving");
+				
+				
+				
+			}
+			
+		});       
+        
+        stage.showAndWait();
 		
 		
 	}
