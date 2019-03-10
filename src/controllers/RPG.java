@@ -26,6 +26,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -419,10 +420,7 @@ public class RPG {
 		currentFloorNum = 2;
 		dungeonFloorSteps = 240;
 	}
-	
-	public static void navigationProcessing() {
-		//TODO Fill with nav screen related things
-	}
+
 	
 	public static void battleProcessing() {
 		
@@ -823,6 +821,37 @@ public class RPG {
 			public void handle(ActionEvent event) {
 				
 				System.out.println("look at yoour damn bag");
+				
+				Stage stage = new Stage();
+				
+				Button[] buttons = new Button[player.getInventory().size()];
+				
+				ScrollPane scrollPane = new ScrollPane();
+				
+				VBox root = new VBox();
+				
+				VBox inv = new VBox();
+				
+				
+				for (int i = 0; i < player.getInventory().size(); i++) {
+					
+					buttons[i] = new Button(player.getInventory().get(i).getName());
+					
+					inv.getChildren().add(buttons[i]);
+					
+					
+				}
+				
+				root.getChildren().addAll(inv, scrollPane);
+				
+				Scene scene = new Scene(root, 300, 200);
+				
+				stage.setScene(scene);
+				stage.setTitle("Inventory");
+				
+				stage.showAndWait();
+				
+				
 				
 			}
 			
