@@ -58,6 +58,8 @@ public class RPG {
 	private static Job job;
 	private static FileInputStream inputStream = null ;
 	private static String mapPNG;
+	private static boolean playerHitFlag;
+	private static boolean monsterHitFlag;
 	
 	private static String name = null;
 	private static Random rng = new Random();
@@ -318,8 +320,7 @@ public class RPG {
 		
 		mapPNG = "resources/RPG_Graphics/Dungeon_Skeleton.png";
 		monster = new Skeleton();
-		
-		
+
 		
 		if(currentFloorNum == 1) {
 			switch(monsterKey) {
@@ -347,6 +348,13 @@ public class RPG {
 				mapPNG = "resources/RPG_Graphics/Dungeon_Skeleton.png";
 				
 				System.out.println("skelebro");
+				
+				break;
+			default:
+				System.out.println("Default case hit");
+				monster = new Skeleton();
+				
+				mapPNG = "resources/RPG_Graphics/Dungeon_Skeleton.png";
 				
 				break;
 			}
@@ -390,6 +398,13 @@ public class RPG {
 				
 				mapPNG = "resources/RPG_Graphics/Dungeon_Drake.png";
 				
+				
+				break;
+			default:
+				System.out.println("Default case hit");
+				monster = new Skeleton();
+				
+				mapPNG = "resources/RPG_Graphics/Dungeon_Skeleton.png";
 				
 				break;
 			}
@@ -708,6 +723,7 @@ public class RPG {
 	
 	public static String monStats() {
 		
+		System.out.println(monster.toString());
 		
 		String monsterStats = "Name: " + monster.getName() + "\n" +
 							  "Current Hp: " + monster.getCurrentHP() + " / " + monster.getBaseHP();
