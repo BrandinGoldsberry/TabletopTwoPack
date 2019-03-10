@@ -376,7 +376,6 @@ public class RPG {
 		}
 		
 		}
-	}
 	
 	public static void generateFloorBoss() {
 		if(currentFloorNum == 1) {
@@ -419,15 +418,30 @@ public class RPG {
 		playerItemUsed = null;
 		playerHealing = 0;
 		
-
+		switch(playerInput) {
+		case 1:
+			attack = player.calculateAttackWithWeapon(player.getStr(), player.getWeaponRating());
+			monster.takeDamage(attack);
+			break;
+		case 2:
+			attack = player.caclulateMagicAttack();
+			monster.takeDamage(attack);
+			break;
+		case 3:
+			inventory(player);
+			if(tempHeroHP < player.getCurrentHP()) {
+				playerHealing = (int) (player.getCurrentHP() - tempHeroHP);
+			}
+			break;
+		}
+		
+		
 		if(tempMonsterHP > monster.getCurrentHP()) {
-			attack = (int) (monster.getCurrentHP() - tempMonsterHP);
+			attack = tempMonsterHP - (int) (monster.getCurrentHP());
 		} else {
 			
 		} 
 		playerDamage = attack;
-		
-		monster.takeDamage(20);
 		
 		System.out.println("monster took damage");
 		
