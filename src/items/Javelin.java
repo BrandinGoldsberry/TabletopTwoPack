@@ -24,6 +24,12 @@ public class Javelin extends Item {
 	public void use(BaseCharacter target) {
 		// TODO Auto-generated method stub
 		target.setCurrentHP(target.getCurrentHP() - damageValue);
+		if(target.getCurrentHP() < 0) {
+			target.setCurrentHP(0);
+			target.setAlive(false);
+		} else {
+			
+		}
 	}
 
 	
