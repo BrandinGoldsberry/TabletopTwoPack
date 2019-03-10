@@ -69,8 +69,10 @@ public class RPG  implements Serializable{
 	private static String mapPNG;
 	private static boolean playerHitFlag;
 	private static boolean monsterHitFlag;
+
 	private static String saveName;
 	
+	private static Item item;
 	private static String name = null;
 	private static Random rng = new Random();
 	
@@ -80,6 +82,8 @@ public class RPG  implements Serializable{
 	public static void run() {
 		
 		makeCharacter();
+		
+	
 		
 		for (int i = 0; i < 50; i++) {
 		
@@ -126,10 +130,8 @@ public class RPG  implements Serializable{
 		
 		text.setTextAlignment(TextAlignment.CENTER);
 		
-		
 		final ToggleGroup group = new ToggleGroup();
 		
-
 		RadioButton rb1 = new RadioButton("Warrior");
 		rb1.setToggleGroup(group);
 		rb1.setSelected(true);
@@ -142,11 +144,8 @@ public class RPG  implements Serializable{
 		
 		RadioButton rb4 = new RadioButton("Lucky Ted");
 		rb4.setToggleGroup(group);
-		
-				
+						
 		Button button = new Button("submit");
-		
-		
 		
 		root.getChildren().addAll(box, text, rb1, rb2, rb3, rb4, button);
 			
@@ -919,7 +918,9 @@ Stage stage = new Stage();
 				
 				Stage stage = new Stage();
 				
-				Button[] buttons = new Button[player.getInventory().size()];
+				int slotSelected = 0;
+				
+				Button[] invButtons = new Button[player.getInventory().size()];
 				
 				ScrollPane scrollPane = new ScrollPane();
 				
@@ -933,9 +934,9 @@ Stage stage = new Stage();
 				
 				for (int i = 0; i < player.getInventory().size(); i++) {
 					
-					buttons[i] = new Button(player.getInventory().get(i).getName());
+					invButtons[i] = new Button(player.getInventory().get(i).getName());
 					
-					inv.getChildren().add(buttons[i]);
+					inv.getChildren().add(invButtons[i]);
 					
 					scrollPane.setContent(inv);
 				}
@@ -947,10 +948,38 @@ Stage stage = new Stage();
 				stage.setScene(scene);
 				stage.setTitle("Inventory");
 				
+				for(int i = 0; i < player.getInventory().size(); i++) {
+					
+					invButtons[i].setOnAction(new EventHandler<ActionEvent>() {
+						
+						int i;
+						
+						@Override
+						public void handle(ActionEvent event) {
+
+							if(player.getInventory().get(i).getOffensiveItem() == true) {
+							
+								player.getInventory().get(i).use(monster);
+								player.getInventory().remove(i);
+							
+							} else {
+								
+								System.out.println("item used on playef");
+								player.getInventory().get(i).use(player);
+								
+								player.getInventory().remove(i);
+							}
+							
+							
+							stage.close();
+							
+						}
+					});
+					
+					
+				}
+				
 				stage.showAndWait();
-				
-				
-				
 			}
 			
 		});
