@@ -175,7 +175,6 @@ public class Hnefatafl {
 		game = new Game(board);
 		update();
 	}
-	
 
 	
 	private static void playGame() {
@@ -214,10 +213,6 @@ public class Hnefatafl {
 	
 	private static void takeTurn() {
 		checkForWin();
-	}
-	
-	private static void movePiece() {
-		
 	}
 
 //	private static void removePiece() {
