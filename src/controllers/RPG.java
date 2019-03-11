@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.lang.annotation.Target;
 import java.util.Random;
 
 import Monsters_RPG.Drake;
@@ -36,6 +37,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -304,43 +306,40 @@ public class RPG  implements Serializable{
 			
 			invButtons[i] = new Button(player.getInventory().get(i).getName());
 			
+			invButtons[i].setId("id" +i);
+			
 			inv.getChildren().add(invButtons[i]);
 			
 			scrollPane.setContent(inv);
-		}
-		
-		root.getChildren().addAll(scrollPane, inv);
-		
-		Scene scene = new Scene(root, 300, 170);
-		
-		stage.setScene(scene);
-		stage.setTitle("Inventory");
-		
-		for(int i = 0; i < player.getInventory().size(); i++) {
 			
-			invButtons[i].setOnAction(new EventHandler<ActionEvent>() {
+			int intI = i;
+			
+			invButtons[intI].setOnAction(new EventHandler<ActionEvent>() {
 				
-				int i;
+				
 				
 				@Override
 				public void handle(ActionEvent event) {
-
-					if(player.getInventory().get(i).getOffensiveItem() == false) {
-												
-						System.out.println("item used on playef");
-						player.getInventory().get(i).use(player);
-						
-						player.getInventory().remove(i);
 					
+					
+					
+					
+					if(player.getInventory().get(intI).getOffensiveItem() == false) {
+						
+						System.out.println("item used on playef");
+						player.getInventory().get(intI).use(player);
+						
+						player.getInventory().remove(intI);
+						
 					} else {
 						
 						if (combat == true) {
 							
 							System.out.println("item used on monster");
-							player.getInventory().get(i).use(monster);
-						
-							player.getInventory().remove(i);
-						
+							player.getInventory().get(intI).use(monster);
+							
+							player.getInventory().remove(intI);
+							
 						}
 						
 					}
@@ -350,12 +349,26 @@ public class RPG  implements Serializable{
 				}
 				
 			});
+			
+		}
+		
+		root.getChildren().addAll(scrollPane, inv);
+		
+		Scene scene = new Scene(root, 300, 170);
+		
+		stage.setScene(scene);
+		stage.setTitle("Inventory");
+		
+		
+		
+	
+			
+		stage.showAndWait();
 
 		}
 		
-		stage.showAndWait();
 		
-	}
+	
 	
 	public static void randomEncounter() {
 		
@@ -364,6 +377,8 @@ public class RPG  implements Serializable{
 		chance = rng.nextInt(100) + 1;
 		
 		if (chance >= 90) {
+			
+			combat = true;
 			
 			generateMonster(determineMonsterToBattle(currentFloorNum));
 			
