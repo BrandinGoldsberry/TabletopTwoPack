@@ -192,7 +192,7 @@ public class Hnefatafl {
 	private static CoordinateKey[] initDef() {
 		int ckCount = 0;
 		
-		CoordinateKey[] defenderPos = new CoordinateKey[13];
+		[][] defenderPos = new CoordinateKey[13];
 		
 		defenderPos[ckCount] = new CoordinateKey(3, 5);
 		ckCount++;
