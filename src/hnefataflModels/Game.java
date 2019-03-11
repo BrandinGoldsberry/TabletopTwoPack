@@ -89,6 +89,11 @@ public class Game {
 	public boolean update(int x, int y, boolean isAttacker) {
 		boolean kingDied = false;
 		boolean[][] enemiesNear = null;
+		
+		if(pieces[x][y].toString().equals("Defender")) {
+			isAttacker = !isAttacker;
+		}
+		
 		if (pieces[x + 1][y] != null) {
 			enemiesNear = isAttacker ? setAttackerSurroundings(x + 1, y) : setDefenderSurroundings(x + 1, y);
 			if (pieces[x + 1][y].IsSurrounded(enemiesNear)) {
