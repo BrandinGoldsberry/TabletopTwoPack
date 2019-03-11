@@ -58,11 +58,13 @@ public class Hnefatafl {
 							lastClicked = newImage;
 							firstX = GridPane.getRowIndex(lastClicked);
 							firstY = GridPane.getColumnIndex(lastClicked);
-							firstClick = true;
 							int x = GridPane.getRowIndex(newImage);
 							int y = GridPane.getColumnIndex(newImage);
 							Piece hovered = game.getPieces()[x][y];
-							debugId.setText(Integer.toString(hovered.getId()));
+							if(hovered != null) {
+								firstClick = true;
+								debugId.setText(Integer.toString(hovered.getId()));								
+							}
 						} else {
 							lastClicked = newImage;
 							moveX = GridPane.getRowIndex(lastClicked);
