@@ -56,8 +56,8 @@ public class Game {
 				} else if (startY == endY) {
 					if (startX > endX) {
 						for (int i = startX - 1; i >= endX; i--) {
-							System.out.println(pieces[startX][i] + " Third, " + i);
-							if (pieces[startX][i] != null) {
+							System.out.println(pieces[i][startY] + " Third, " + i);
+							if (pieces[i][startY] != null) {
 								canMove = false;
 							}
 						}
@@ -65,8 +65,8 @@ public class Game {
 
 					if (startX < endX) {
 						for (int i = startX + 1; i <= endX; i++) {
-							System.out.println(pieces[startX][i] + " Fourth, " + i);
-							if (pieces[startX][i] != null) {
+							System.out.println(pieces[i][startY] + " Fourth, " + i);
+							if (pieces[i][startY] != null) {
 								canMove = false;
 							}
 						}
