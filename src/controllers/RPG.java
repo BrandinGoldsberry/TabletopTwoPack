@@ -328,7 +328,7 @@ public class RPG implements Serializable{
 						
 						System.out.println("item used on playef");
 						player.getInventory().get(intI).use(player);
-						
+						playerItemUsed = player.getInventory().get(intI);
 						player.getInventory().remove(intI);
 						
 					} else {
@@ -337,7 +337,7 @@ public class RPG implements Serializable{
 							
 							System.out.println("item used on monster");
 							player.getInventory().get(intI).use(monster);
-							
+							playerItemUsed = player.getInventory().get(intI);
 							player.getInventory().remove(intI);
 							
 						}
@@ -637,6 +637,7 @@ public class RPG implements Serializable{
         
         if(playerItemUsed != null) {
         	playerItem = new Text(player.getName() + " used " + playerItemUsed.getName());
+        	playerItemUsed = null;
         } else {
         	playerItem = new Text(player.getName() + " did not use an item this round.");
         }
@@ -671,7 +672,7 @@ public class RPG implements Serializable{
         Button button = new Button("Okay");
         root.getChildren().addAll(playerItem, playerAttack, monsterAttack, playerHealingDone, button);
         
-        Scene scene = new Scene(root, 250, 200);
+        Scene scene = new Scene(root, 300, 200);
         primaryStage.setScene(scene);
         
         button.setOnAction(new EventHandler<ActionEvent>() {
