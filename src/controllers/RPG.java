@@ -6,8 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.lang.annotation.Target;
 import java.util.Random;
 
 import Monsters_RPG.Drake;
@@ -37,18 +35,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import models_RPG.BaseCharacter;
 import models_RPG.Hero;
 import models_RPG.Item;
 import models_RPG.Monster;
 import rpgenums.Job;
+import utils.SaveGame;
+import utils.Writer;
 
 public class RPG {
 	/**
@@ -73,6 +71,8 @@ public class RPG {
 	private static boolean playerHitFlag = true;
 	private static boolean monsterHitFlag = true;
 	private static boolean combat = false;
+	
+	private static SaveGame saveGame;
 
 	private static String saveName;
 	
@@ -81,21 +81,23 @@ public class RPG {
 	private static Random rng = new Random();
 	
 	private static boolean dungeonLordDED = false;
+	private static int choice = 1;
 	
 	
 	public static void run() {
 		
-		makeCharacter();
-		
-	
-		
-		for (int i = 0; i < 5; i++) {
-		
-		player.addToInventory(new Potion("Test Potion"));
-		player.addToInventory(new BottledLightning("lighging test"));
-		
+		MainMenu();
+		if(choice == 1) {
+			makeCharacter();			
+			for (int i = 0; i < 5; i++) {
+				
+				player.addToInventory(new Potion("Test Potion"));
+				player.addToInventory(new BottledLightning("lightning test"));
+				
+			}
+		} else if (choice == 2) {
+			loadGame();
 		}
-		
 		
 		do {
 			
@@ -245,6 +247,8 @@ public class RPG {
         		if(textField.getText().isEmpty() == true || textField.getText().trim().isEmpty() == true) {
         			
         			name = "Billy Herrington";
+        			campaignName = name + "'s adventure";
+        			saveName = campaignName;
         		}
         		
         		stage.close();
@@ -803,6 +807,45 @@ public class RPG {
 		//TODO
 	}
 	
+	public static void MainMenu() {
+		Stage primaryStage = new Stage();				
+		VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
+
+        Text text = new Text("Dungeon Lord RPG");
+        
+        Button newGame = new Button("New Game");
+        
+        Button loadGame = new Button("Load Game");
+        				
+        root.getChildren().addAll(text, newGame, loadGame);
+        
+        Scene scene = new Scene(root, 150, 150);
+        primaryStage.setScene(scene);
+        
+        dungeonLordDED = true;
+        
+        newGame.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				
+				choice = 1;
+				primaryStage.close();
+			}
+		});
+        	
+        loadGame.setOnAction(new EventHandler<ActionEvent>() {
+        	@Override
+        	public void handle(ActionEvent event) {
+        		choice = 2;
+        		primaryStage.close();
+        	}
+        	
+        });
+        
+        primaryStage.showAndWait();
+	}
+	
 	public static void saveGame() {
 		//TODO
 Stage stage = new Stage();
@@ -814,7 +857,7 @@ Stage stage = new Stage();
 		box.setAlignment(Pos.CENTER);
 		box.setPadding(new Insets(20, 80, 20, 80));
 		
-		Label label = new Label("File Directory:");
+		Label label = new Label("File Directory and Name:");
 		
 		TextField textField = new TextField ();
 	
@@ -836,19 +879,76 @@ Stage stage = new Stage();
         	@Override
         	public void handle(ActionEvent event) {
         		
-        		saveName = textField.getText().trim() + ".ser";
-    				try {
-    					FileOutputStream file = new FileOutputStream(saveName);
-    					ObjectOutputStream out = new ObjectOutputStream(file);
-    					
-    					//Finish this out.writeObject();
-    					
-    					out.close();
-    					file.close();
-    					
-    					
-    				} catch(IOException ioe) {
-    				} 
+        		String fileLocation = textField.getText().trim() + ".ser";
+        		saveGame = new SaveGame(saveName, player, monster, playerDungeonLocationX, playerDungeomLocationY, currentFloorNum, dungeonFloorSteps, playerSteps, battleTurn, playerDamage, monsterDamage, playerItemUsed, playerHealing, job, mapPNG, playerHitFlag, monsterHitFlag, combat, saveName, item, name, dungeonLordDED);
+        		
+        		Writer.Write(fileLocation, saveGame);
+        		
+        		
+        		stage.close();
+        	}
+        });
+              	
+        stage.showAndWait();
+
+	}
+	
+	public static void loadGame() {
+Stage stage = new Stage();
+		
+		VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
+		
+		VBox box = new VBox();
+		box.setAlignment(Pos.CENTER);
+		box.setPadding(new Insets(20, 80, 20, 80));
+		
+		Label label = new Label("File Directory and Name(Be exact):");
+		
+		TextField textField = new TextField ();
+	
+		Button button = new Button("submit");
+	
+		box.getChildren().addAll(label, textField);
+		
+		
+		root.getChildren().addAll(box, button);
+			
+		Scene scene = new Scene(root, 400, 400);
+
+		
+        stage.setScene(scene);
+        stage.setTitle("Save Game");
+        
+        button.setOnAction(new EventHandler<ActionEvent>() {
+        	
+        	@Override
+        	public void handle(ActionEvent event) {
+        		
+        		String fileLocation = textField.getText().trim();
+        		
+        		saveGame = Writer.Load(fileLocation);
+        		
+        		campaignName = saveGame.campaignName;
+        		player = saveGame.player;
+        		monster = saveGame.monster;
+        		currentFloorNum = saveGame.currentFloorNum;
+        		dungeonFloorSteps = saveGame.dungeonFloorSteps;
+        		playerSteps = saveGame.playerSteps;
+        		playerDamage = saveGame.playerDamage;
+        		monsterDamage = saveGame.monsterDamage;
+        		playerItemUsed = saveGame.playerItemUsed;
+        		playerHealing = saveGame.playerHealing;
+        		job = saveGame.job;
+        		mapPNG = saveGame.mapPNG;
+        		playerHitFlag = saveGame.playerHitFlag;
+        		monsterHitFlag = saveGame.monsterHitFlag;
+        		combat = saveGame.combat;
+        		saveName = saveGame.saveName;
+        		item = saveGame.item;
+        		name = saveGame.name;
+        		dungeonLordDED = saveGame.dungeonLordDED;
+        		
         		stage.close();
         	}
         });
