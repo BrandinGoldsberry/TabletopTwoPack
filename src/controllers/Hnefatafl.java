@@ -1,16 +1,12 @@
 package controllers;
 
-import java.util.HashMap;
-
 import hnefataflModels.Attacker;
-import hnefataflModels.CoordinateKey;
 import hnefataflModels.Defender;
 import hnefataflModels.Game;
 import hnefataflModels.King;
 import hnefataflModels.Piece;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -19,7 +15,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -28,6 +23,7 @@ public class Hnefatafl {
 	private static Game game;
 	private static int turn;
 	private static GridPane grid;
+	private static Piece[][] board = new Piece[11][11];
 	
 	private static int firstX;
 	private static int firstY;
@@ -65,7 +61,7 @@ public class Hnefatafl {
 							firstClick = true;
 							int x = GridPane.getRowIndex(newImage);
 							int y = GridPane.getColumnIndex(newImage);
-							Piece hovered = game.getPieces().get(new CoordinateKey(x, y));
+							Piece hovered = game.getPieces()[x][y];
 							debugId.setText(Integer.toString(hovered.getId()));
 						} else {
 							lastClicked = newImage;
@@ -77,7 +73,7 @@ public class Hnefatafl {
 								firstClick = false;
 								int x = GridPane.getRowIndex(newImage);
 								int y = GridPane.getColumnIndex(newImage);
-								Piece hovered = game.getPieces().get(new CoordinateKey(x, y));
+								Piece hovered = game.getPieces()[x][y];
 								debugId.setText(Integer.toString(hovered.getId()));
 								update();																
 							}
@@ -92,7 +88,7 @@ public class Hnefatafl {
 						lastHovered = newImage;
 						int x = GridPane.getRowIndex(newImage);
 						int y = GridPane.getColumnIndex(newImage);
-						Piece hovered = game.getPieces().get(new CoordinateKey(x, y));
+						Piece hovered = game.getPieces()[x][y];
 						if(hovered != null) {
 							debugId.setText(Integer.toString(hovered.getId()));
 							System.out.println(hovered.getId());						
@@ -115,120 +111,89 @@ public class Hnefatafl {
 		defenderImg = new Image("file:resources/nhefetafl/defender.png", 75, 75, true, true);
 		attackerImg = new Image("file:resources/nhefetafl/attacker.png", 75, 75, true, true);
 		kingImg = new Image("file:resources/nhefetafl/King.png", 75, 75, true, true);
-		
-		CoordinateKey[] defenderPos;
-		CoordinateKey[] attackerPos;
-		
+
 		Defender[] defenders = new Defender[13];
 		Attacker[] attackers = new Attacker[24];
 		
-		defenderPos = initDef();
-		attackerPos = initAtt();
+		board[0][3] = new Attacker(attackerImg);
+		board[0][4] = new Attacker(attackerImg);
+		board[0][5] = new Attacker(attackerImg);
+		board[0][6] = new Attacker(attackerImg);
+		board[0][7] = new Attacker(attackerImg);
+		board[1][5] = new Attacker(attackerImg);
 		
-		HashMap<CoordinateKey, Piece> pieces = new HashMap<>();
+		board[10][3] = new Attacker(attackerImg);
+		board[10][4] = new Attacker(attackerImg);
+		board[10][5] = new Attacker(attackerImg);
+		board[10][6] = new Attacker(attackerImg);
+		board[10][7] = new Attacker(attackerImg);
+		board[9][5] = new Attacker(attackerImg);
 		
-		defenderPos[10].equals(6, 6);
-		defenderPos[11].equals(6, 6);
+		board[3][0] = new Attacker(attackerImg);
+		board[4][0] = new Attacker(attackerImg);
+		board[5][0] = new Attacker(attackerImg);
+		board[6][0] = new Attacker(attackerImg);
+		board[7][0] = new Attacker(attackerImg);
+		board[5][1] = new Attacker(attackerImg);
 		
-		for(int i = 0; i < 11; i++) {
-			for(int j = 0; j < 11; j++) {
-				pieces[i][j] = null;
+		board[3][10] = new Attacker(attackerImg);
+		board[4][10] = new Attacker(attackerImg);
+		board[5][10] = new Attacker(attackerImg);
+		board[6][10] = new Attacker(attackerImg);
+		board[7][10] = new Attacker(attackerImg);
+		board[5][9] = new Attacker(attackerImg);
+		
+		board[5][5] = new King(kingImg);
+		board[4][5] = new Defender(defenderImg);
+		board[6][5] = new Defender(defenderImg);
+		board[7][5] = new Defender(defenderImg);
+		board[3][5] = new Defender(defenderImg);
+		board[4][4] = new Defender(defenderImg);
+		board[4][6] = new Defender(defenderImg);
+		board[5][4] = new Defender(defenderImg);
+		board[6][4] = new Defender(defenderImg);
+		board[5][6] = new Defender(defenderImg);
+		board[5][7] = new Defender(defenderImg);
+		board[5][3] = new Defender(defenderImg);
+		board[6][6] = new Defender(defenderImg);
+		
+		for(int i = 0; i<board.length; i++) {
+			for(int j = 0; j<board[i].length; j++) {
+				if (board[i][j] == null) {
+					Piece toShow = board[i][j];
+					if(toShow != null) {
+						ImageView IV = (ImageView) getNodeFromGridPane(grid, j, i);
+						IV.setImage(board[i][j].GetSprite());
+					} else {
+						ImageView IV = (ImageView) getNodeFromGridPane(grid, j, i);
+						IV.setImage(new Image("file:resources/nhefetafl/emptyWhite.png", 75, 75, true, true));
+					}
+				}
 			}
 		}
 		
-		for(int i = 0; i < 13; i++) {
-			if(defenderPos[i].equals(5, 5)) {
-				defenders[i] = new King(kingImg);
-				pieces.put(defenderPos[i], defenders[i]);	
-			} else {
-				defenders[i] = new Defender(defenderImg);
-				pieces.put(defenderPos[i], defenders[i]);				
-			}
-		}
-		
-		for(int i = 0; i < 24; i++) {
-			attackers[i] = new Attacker(attackerImg);
-			pieces.put(attackerPos[i], attackers[i]);
-		}
-		
-		game = new Game(pieces);
+		game = new Game(board);
 		update();
 	}
 	
-	private static CoordinateKey[] initAtt() {
-		int ckCount = 0;
-		CoordinateKey[] attackerPos = new CoordinateKey[24];
-		
-		for(int i = 4; i <= 8; i++) {
-			attackerPos[ckCount] = new CoordinateKey(0, i-1);
-			ckCount++;
-		}
-		attackerPos[ckCount] = new CoordinateKey(1, 5);
-		ckCount++;
-		
-		for(int i = 4; i <= 8; i++) {
-			attackerPos[ckCount] = new CoordinateKey(i-1, 0);
-			ckCount++;
-		}
-		attackerPos[ckCount] = new CoordinateKey(5, 1);
-		ckCount++;
-		
-		for(int i = 4; i <= 8; i++) {
-			attackerPos[ckCount] = new CoordinateKey(10, i-1);
-			ckCount++;
-		}
-		attackerPos[ckCount] = new CoordinateKey(9, 5);
-		ckCount++;
-		
-		for(int i = 4; i <= 8; i++) {
-			attackerPos[ckCount] = new CoordinateKey(i-1, 10);
-			ckCount++;
-		}
-		attackerPos[ckCount] = new CoordinateKey(5, 9);
-		ckCount++;
-		return attackerPos;
-	}
-	
-	private static CoordinateKey[] initDef() {
-		int ckCount = 0;
-		
-		[][] defenderPos = new CoordinateKey[13];
-		
-		defenderPos[ckCount] = new CoordinateKey(3, 5);
-		ckCount++;
-		
-		for(int i = 5; i <= 7; i++) {
-			defenderPos[ckCount] = new CoordinateKey(4, i-1);
-			ckCount++;
-		}
-		
-		for(int i = 4; i <= 8; i++) {
-			defenderPos[ckCount] = new CoordinateKey(5, i-1);
-			ckCount++;
-		}
-		
-		for(int i = 5; i <= 7; i++) {
-			defenderPos[ckCount] = new CoordinateKey(6, i-1);
-			ckCount++;
-		}
-		
-		defenderPos[ckCount] = new CoordinateKey(7, 5);
-		return defenderPos;
-	}
+
 	
 	private static void playGame() {
 
 	}
 	
-	private static void update() {
-		for(CoordinateKey key : game.getPieces().keySet()) {
-			Piece toShow = game.getPieces().get(key);
-			if(toShow != null) {
-				ImageView IV = (ImageView) getNodeFromGridPane(grid, key.getY(), key.getX());
-				IV.setImage(game.getPieces().get(key).GetSprite());
-			} else {
-				ImageView IV = (ImageView) getNodeFromGridPane(grid, key.getY(), key.getX());
-				IV.setImage(new Image("file:resources/nhefetafl/emptyWhite.png", 75, 75, true, true));
+	public static void update() {
+		for (int i = 0; i < board.length; i++) {
+			for(int j = 0; j < board[i].length; j++) {
+				board = game.getPieces();
+				Piece toShow = board[i][j];
+				if(toShow != null) {
+					ImageView IV = (ImageView) getNodeFromGridPane(grid, j, i);
+					IV.setImage(board[i][j].GetSprite());
+				} else {
+					ImageView IV = (ImageView) getNodeFromGridPane(grid, j, i);
+					IV.setImage(new Image("file:resources/nhefetafl/emptyWhite.png", 75, 75, true, true));
+				}
 			}
 		}
 	}

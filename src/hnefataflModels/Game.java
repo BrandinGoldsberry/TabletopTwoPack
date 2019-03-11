@@ -1,7 +1,6 @@
 package hnefataflModels;
 
-import java.util.HashMap;
-import java.util.Set;
+import controllers.Hnefatafl;
 
 public class Game {
 	private Piece[][] pieces;
@@ -80,7 +79,7 @@ public class Game {
 
 			pieces[endX][endY] = toMove;
 			pieces[startX][startY] = null;
-			//update(end);
+			Hnefatafl.update();
 		}
 
 		return canMove;
