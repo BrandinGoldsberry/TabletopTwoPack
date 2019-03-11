@@ -50,11 +50,10 @@ import models_RPG.Item;
 import models_RPG.Monster;
 import rpgenums.Job;
 
-public class RPG implements Serializable{
+public class RPG {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	private static String campaignName;
 	private static Hero player;
 	private static Monster monster;
