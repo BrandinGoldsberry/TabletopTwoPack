@@ -34,6 +34,12 @@ public class Hnefatafl {
 	private static ImageView lastClicked;
 	private static ImageView lastHovered;
 	
+	private static boolean KingIsDead = false;
+	
+	public static void SetKingIsDead(boolean isDead) {
+		KingIsDead = isDead;
+	}
+	
 	public static void run() {
 		init();
 	}
@@ -52,6 +58,8 @@ public class Hnefatafl {
 				ImageView newImage = new ImageView();
 				Text debugId = new Text();
 				newImage.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
+					boolean isAttacker = false;
+					
 					@Override
 					public void handle(Event event) {
 						if(!firstClick) {
@@ -61,6 +69,7 @@ public class Hnefatafl {
 							int x = GridPane.getRowIndex(newImage);
 							int y = GridPane.getColumnIndex(newImage);
 							Piece hovered = game.getPieces()[x][y];
+							isAttacker = hovered.getClass().getName().equals("hnefataflModels.Attacker");
 							if(hovered != null) {
 								firstClick = true;
 								debugId.setText(Integer.toString(hovered.getId()));								
@@ -71,12 +80,9 @@ public class Hnefatafl {
 							moveY = GridPane.getColumnIndex(lastClicked);
 							if(moveX == firstX && moveY == firstY) {
 							} else {
-								System.out.println(game.movePiece(firstX, firstY, moveX, moveY));
 								firstClick = false;
-								int x = GridPane.getRowIndex(newImage);
-								int y = GridPane.getColumnIndex(newImage);
-								Piece hovered = game.getPieces()[x][y];
-								debugId.setText(Integer.toString(hovered.getId()));
+								
+								game.movePiece(firstX, firstY, moveX, moveY, isAttacker);
 								update();																
 							}
 						}

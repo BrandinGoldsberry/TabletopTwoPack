@@ -1,5 +1,7 @@
 package hnefataflModels;
 
+import java.util.Arrays;
+
 import controllers.Hnefatafl;
 
 public class Game {
@@ -18,10 +20,8 @@ public class Game {
 		this.pieces = pieces;
 	}
 
-	public boolean movePiece(int startX, int startY, int endX, int endY) {
+	public boolean movePiece(int startX, int startY, int endX, int endY, boolean isAttacker) {
 		boolean canMove = false;
-		System.out.println("StartX: " + startX + "StartY: " + startY);
-		System.out.println("EndX: " + endX + "EndY: " + endY);
 		Piece toMove = null;
 
 		if (startX != endX && startY != endY) {
@@ -79,54 +79,91 @@ public class Game {
 
 			pieces[endX][endY] = toMove;
 			pieces[startX][startY] = null;
+			Hnefatafl.SetKingIsDead(update(endX, endY, isAttacker));
 			Hnefatafl.update();
 		}
 
 		return canMove;
 	}
 
-//	public pieces[][] update(CoordinateKey LastMoved) {
-//		HashMap <CoordinateKey, Piece> ret = clonePieces();
-//		
-//		CoordinateKey[] keys = { 
-//			new CoordinateKey(LastMoved.getY() - 1, LastMoved.getX()),
-//			new CoordinateKey(LastMoved.getY(), LastMoved.getX() - 1),
-//			new CoordinateKey(LastMoved.getY(), LastMoved.getX() + 1),
-//			new CoordinateKey(LastMoved.getY() + 1, LastMoved.getX()), 
-//		};
-//
-//		for (CoordinateKey CK : keys) {
-//			Piece toCheck = pieces.get(CK);
-//			if (toCheck != null) {
-//				boolean[][] surroundings = new boolean[2][2];
-//
-//				CoordinateKey North = new CoordinateKey(CK.getY() - 1, CK.getX());
-//				CoordinateKey West = new CoordinateKey(CK.getY(), CK.getX() - 1);
-//				CoordinateKey East = new CoordinateKey(CK.getY(), CK.getX() + 1);
-//				CoordinateKey South = new CoordinateKey(CK.getY() + 1, CK.getX());
-//
-//				if (pieces.get(North) != null) {
-//					surroundings[0][0] = true;
-//				}
-//				if (pieces.get(South) != null) {
-//					surroundings[0][1] = true;
-//				}
-//
-//				if (pieces.get(West) != null) {
-//					surroundings[1][0] = true;
-//				}
-//				if (pieces.get(East) != null) {
-//					surroundings[1][1] = true;
-//				}
-//
-//				if (toCheck.IsSurrounded(surroundings)) {
-//					ret.put(CK, null);
-//				}
-//			}
-//		}
-//
-//		return ret;
-//	}
+	public boolean update(int x, int y, boolean isAttacker) {
+		boolean kingDied = false;
+		boolean[][] enemiesNear = null;
+		if (pieces[x + 1][y] != null) {
+			enemiesNear = isAttacker ? setAttackerSurroundings(x + 1, y) : setDefenderSurroundings(x + 1, y);
+			if (pieces[x + 1][y].IsSurrounded(enemiesNear)) {
+				pieces[x + 1][y] = null;
+			}
+		}
+		if (pieces[x - 1][y] != null) {
+			enemiesNear = isAttacker ? setAttackerSurroundings(x - 1, y) : setDefenderSurroundings(x - 1, y);
+			if (pieces[x - 1][y].IsSurrounded(enemiesNear)) {
+				pieces[x - 1][y] = null;
+			}
+		}
+		if (pieces[x][y + 1] != null) {
+			enemiesNear = isAttacker ? setAttackerSurroundings(x, y + 1) : setDefenderSurroundings(x, y + 1);
+			if (pieces[x][y + 1].IsSurrounded(enemiesNear)) {
+				pieces[x][y + 1] = null;
+			}
+		}
+		if (pieces[x][y - 1] != null) {
+			enemiesNear = isAttacker ? setAttackerSurroundings(x, y - 1) : setDefenderSurroundings(x, y - 1);
+			if (pieces[x][y - 1].IsSurrounded(enemiesNear)) {
+				pieces[x][y - 1] = null;
+			}
+		}
+		
+		return kingDied;
+	}
+
+	public boolean[][] setAttackerSurroundings(int x, int y) {
+		boolean[][] ret = new boolean[2][2];
+
+		try {
+			ret[0][0] = pieces[x + 1][y] != null
+					&& !pieces[x + 1][y].getClass().getName().equals("hnefataflModels.Attacker");
+			ret[0][1] = pieces[x - 1][y] != null
+					&& !pieces[x - 1][y].getClass().getName().equals("hnefataflModels.Attacker");
+			ret[1][0] = pieces[x][y + 1] != null
+					&& !pieces[x][y + 1].getClass().getName().equals("hnefataflModels.Attacker");
+			ret[1][1] = pieces[x][y - 1] != null
+					&& !pieces[x][y - 1].getClass().getName().equals("hnefataflModels.Attacker");
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// TODO: handle exception
+			ret[0][0] = false;
+			ret[0][1] = false;
+			ret[1][0] = false;
+			ret[1][1] = false;
+		}
+		return ret;
+	}
+	
+	public boolean[][] setDefenderSurroundings(int x, int y) {
+		boolean[][] ret = new boolean[2][2];
+
+		try {
+			ret[0][0] = pieces[x + 1][y] != null
+					&& !pieces[x + 1][y].getClass().getName().equals("hnefataflModels.Defender");
+			ret[0][1] = pieces[x - 1][y] != null
+					&& !pieces[x - 1][y].getClass().getName().equals("hnefataflModels.Defender");
+			ret[1][0] = pieces[x][y + 1] != null
+					&& !pieces[x][y + 1].getClass().getName().equals("hnefataflModels.Defender");
+			ret[1][1] = pieces[x][y - 1] != null
+					&& !pieces[x][y - 1].getClass().getName().equals("hnefataflModels.Defender");
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// TODO: handle exception
+			ret[0][0] = false;
+			ret[0][1] = false;
+			ret[1][0] = false;
+			ret[1][1] = false;
+		}
+		
+		for(boolean[] a : ret) {
+			System.out.println(Arrays.toString(a));
+		}
+		return ret;
+	}
 
 //	private HashMap<CoordinateKey, Piece> clonePieces() {
 //		HashMap<CoordinateKey, Piece> ret = new HashMap<>();
