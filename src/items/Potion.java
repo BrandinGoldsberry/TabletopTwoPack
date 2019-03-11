@@ -24,5 +24,8 @@ public class Potion extends Item {
 	public void use(BaseCharacter target) {
 		// TODO Auto-generated method stub
 		target.setCurrentHP(target.getCurrentHP() + healValue);
+		if(target.getCurrentHP() > target.getBaseHP()) {
+			target.setCurrentHP(target.getBaseHP());
+		}
 	}
 }

@@ -17,6 +17,9 @@ public class LifeStone extends Item {
 		float toHeal = target.getBaseHP() * (float)0.3;
 		
 		target.setCurrentHP(target.getBaseHP() + toHeal);
+		if(target.getCurrentHP() > target.getBaseHP()) {
+			target.setCurrentHP(target.getBaseHP());
+		}
 	}
 	
 }

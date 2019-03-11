@@ -20,6 +20,7 @@ import Monsters_RPG.Skeleton;
 import Monsters_RPG.Slime;
 import Monsters_RPG.Vanguard;
 import Monsters_RPG.ZombieKnight;
+import items.BottledLightning;
 import items.Potion;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -41,6 +42,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import models_RPG.BaseCharacter;
 import models_RPG.Hero;
 import models_RPG.Item;
 import models_RPG.Monster;
@@ -67,8 +69,9 @@ public class RPG  implements Serializable{
 	private static Job job;
 	private static FileInputStream inputStream = null ;
 	private static String mapPNG;
-	private static boolean playerHitFlag;
-	private static boolean monsterHitFlag;
+	private static boolean playerHitFlag = true;
+	private static boolean monsterHitFlag = true;
+	private static boolean combat = false;
 
 	private static String saveName;
 	
@@ -85,9 +88,10 @@ public class RPG  implements Serializable{
 		
 	
 		
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 5; i++) {
 		
-		player.addToInventory(new Potion("Bottled Lightning"));
+		player.addToInventory(new Potion("Test Potion"));
+		player.addToInventory(new BottledLightning("lighging test"));
 		
 		}
 		
@@ -281,6 +285,76 @@ public class RPG  implements Serializable{
 			//Players can click on items to use them
 		//Remove item from list when button is pressed
 		//Update list to display the change
+		
+		Stage stage = new Stage();
+		
+		Button[] invButtons = new Button[player.getInventory().size()];
+		
+		ScrollPane scrollPane = new ScrollPane();
+		
+		scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+		scrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+		
+		VBox root = new VBox();
+		
+		VBox inv = new VBox();
+		
+		
+		for (int i = 0; i < player.getInventory().size(); i++) {
+			
+			invButtons[i] = new Button(player.getInventory().get(i).getName());
+			
+			inv.getChildren().add(invButtons[i]);
+			
+			scrollPane.setContent(inv);
+		}
+		
+		root.getChildren().addAll(scrollPane, inv);
+		
+		Scene scene = new Scene(root, 300, 170);
+		
+		stage.setScene(scene);
+		stage.setTitle("Inventory");
+		
+		for(int i = 0; i < player.getInventory().size(); i++) {
+			
+			invButtons[i].setOnAction(new EventHandler<ActionEvent>() {
+				
+				int i;
+				
+				@Override
+				public void handle(ActionEvent event) {
+
+					if(player.getInventory().get(i).getOffensiveItem() == false) {
+												
+						System.out.println("item used on playef");
+						player.getInventory().get(i).use(player);
+						
+						player.getInventory().remove(i);
+					
+					} else {
+						
+						if (combat == true) {
+							
+							System.out.println("item used on monster");
+							player.getInventory().get(i).use(monster);
+						
+							player.getInventory().remove(i);
+						
+						}
+						
+					}
+					
+					stage.close();
+					
+				}
+				
+			});
+
+		}
+		
+		stage.showAndWait();
+		
 	}
 	
 	public static void randomEncounter() {
@@ -427,8 +501,10 @@ public class RPG  implements Serializable{
 	public static void generateFloorBoss() {
 		if(currentFloorNum == 1) {
 			monster = new RatKing();
+			mapPNG = "resources/RPG_Graphics/Dungeon_RatKing.png";
 		} else if (currentFloorNum == 2) {
 			monster = new DungeonLord();
+			mapPNG = "resources/RPG_Graphics/Dungeon_DungeonLord.png";
 		}
 		currentFloorNum = 2;
 		dungeonFloorSteps = 240;
@@ -484,12 +560,13 @@ public class RPG  implements Serializable{
 		}
 
 		if(tempMonsterHP > monster.getCurrentHP()) {
-			attack = (int) (monster.getCurrentHP() - tempMonsterHP);
+			attack = tempMonsterHP - (int) (monster.getCurrentHP());
 		} else {
 			
-		} 
+		}
 		
 		playerDamage = attack;
+		System.out.println(playerDamage);
 		
 		
 //      if(playerInput == attack) {
@@ -610,6 +687,12 @@ public class RPG  implements Serializable{
 		int tempLevel = player.getLevel();
 		boolean itemDropped = false;
 		
+		if(monster.getName() == "Dungeon Lord") {
+			dungeonLordDED = true;
+		} else {
+			
+		}
+		
 		player.earnEXP(monster.getEXPValue());
 		if(monster.calculateItemDrop() == true) {
 			player.addToInventory(monster.getHeldItem());
@@ -688,7 +771,7 @@ public class RPG  implements Serializable{
         button.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
+				
 				primaryStage.close();
 			}
 		});
@@ -838,7 +921,7 @@ Stage stage = new Stage();
 	
 	public static void generateFloor() {
 		
-		
+		combat = false;
 		
 		try {
 			inputStream = new FileInputStream("resources/RPG_Graphics/Dungeon_Empty.png");
@@ -916,70 +999,8 @@ Stage stage = new Stage();
 				
 				System.out.println("look at yoour damn bag");
 				
-				Stage stage = new Stage();
+				inventory(player);
 				
-				int slotSelected = 0;
-				
-				Button[] invButtons = new Button[player.getInventory().size()];
-				
-				ScrollPane scrollPane = new ScrollPane();
-				
-				scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
-				scrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
-				
-				VBox root = new VBox();
-				
-				VBox inv = new VBox();
-				
-				
-				for (int i = 0; i < player.getInventory().size(); i++) {
-					
-					invButtons[i] = new Button(player.getInventory().get(i).getName());
-					
-					inv.getChildren().add(invButtons[i]);
-					
-					scrollPane.setContent(inv);
-				}
-				
-				root.getChildren().addAll(scrollPane, inv);
-				
-				Scene scene = new Scene(root, 300, 170);
-				
-				stage.setScene(scene);
-				stage.setTitle("Inventory");
-				
-				for(int i = 0; i < player.getInventory().size(); i++) {
-					
-					invButtons[i].setOnAction(new EventHandler<ActionEvent>() {
-						
-						int i;
-						
-						@Override
-						public void handle(ActionEvent event) {
-
-							if(player.getInventory().get(i).getOffensiveItem() == true) {
-							
-								player.getInventory().get(i).use(monster);
-								player.getInventory().remove(i);
-							
-							} else {
-								
-								System.out.println("item used on playef");
-								player.getInventory().get(i).use(player);
-								
-								player.getInventory().remove(i);
-							}
-							
-							
-							stage.close();
-							
-						}
-					});
-					
-					
-				}
-				
-				stage.showAndWait();
 			}
 			
 		});
@@ -1030,6 +1051,8 @@ Stage stage = new Stage();
 	private static void combatWindow() {
 		
 		inputStream = null;
+		
+		combat = true;
 		
 		
 		try {
@@ -1121,6 +1144,7 @@ Stage stage = new Stage();
 				//pass in magic attack
 				
 				playerTurn(2);
+				stage.close();
 				
 				
 			}
@@ -1135,7 +1159,7 @@ Stage stage = new Stage();
         		
 				playerTurn(3);
 
-		
+				stage.close();
 			}
         });	
         

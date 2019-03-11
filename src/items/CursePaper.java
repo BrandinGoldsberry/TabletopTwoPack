@@ -15,6 +15,12 @@ public class CursePaper extends Item {
 	public void use(BaseCharacter target) {
 		// TODO Auto-generated method stub
 		target.setCurrentHP(target.getCurrentHP() - (target.getStr() * target.getDex() * target.getMag() - target.getLuc() * 2));
+		if(target.getCurrentHP() < 0) {
+			target.setCurrentHP(0);
+			target.setAlive(false);
+		} else {
+			
+		}
 	}
 
 }

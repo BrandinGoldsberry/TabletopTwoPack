@@ -70,6 +70,9 @@ public class Monster extends BaseCharacter {
 	
 	public void takeDamage(int incomingDamage) {
 		int takenDamage = incomingDamage - (this.defenseRating * 2);
+		if(takenDamage < 0) {
+			takenDamage = 0;
+		}
 		this.setCurrentHP(this.getCurrentHP() - takenDamage);
 		
 		if(this.determineIsAlive() == false) {
