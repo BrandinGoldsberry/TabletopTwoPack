@@ -50,7 +50,7 @@ import models_RPG.Item;
 import models_RPG.Monster;
 import rpgenums.Job;
 
-public class RPG  implements Serializable{
+public class RPG implements Serializable{
 	/**
 	 * 
 	 */
