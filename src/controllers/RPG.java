@@ -369,10 +369,7 @@ public class RPG {
 		stage.showAndWait();
 
 		}
-		
-		
-	
-	
+
 	public static void randomEncounter() {
 		
 		int chance = 0;
@@ -514,8 +511,7 @@ public class RPG {
 		}
 		
 	}
-	
-	
+		
 	public static void generateFloorBoss() {
 		if(currentFloorNum == 1) {
 			monster = new RatKing();
@@ -528,7 +524,6 @@ public class RPG {
 		dungeonFloorSteps = 240;
 	}
 
-	
 	public static void battleProcessing() {
 		
 		do {
