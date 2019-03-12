@@ -7,14 +7,16 @@ import hnefataflModels.King;
 import hnefataflModels.Piece;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -48,19 +50,45 @@ public class Hnefatafl {
 	public static void createWindow() {
 		Stage nhef = new Stage();
 		HBox root = new HBox();
-		root.setAlignment(Pos.CENTER);
+		VBox Misc = new VBox();
+		Button instructions = new Button();
+		Label TurnLabel = new Label();
+//		root.setAlignment(Pos.CENTER);
 		grid = new GridPane();
 		grid.setGridLinesVisible(true);
 		root.getChildren().add(grid);
-		Scene SC = new Scene(root, 500, 500);
-
-		for (int i = 0; i < 11; i++) {
-			for (int j = 0; j < 11; j++) {
+		root.getChildren().add(Misc);
+		Misc.getChildren().add(instructions);
+		Misc.getChildren().add(TurnLabel);
+		
+		
+		instructions.setText("How To Play");
+		
+		instructions.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				Stage HTP = new Stage();
+				VBox root = new VBox();
+				Label text = new Label();
+				text.setText("Hnefatafl is a two-player game where each person is either the attackers or defenders.\r\n" + 
+						"Hnefatafl is played with the attackers going first (black pieces). The goal of the attacker is to capture the King by surrounding it on all four cardinal sides (north, east, south, and west). \r\n" + 
+						"The defenders win by getting the King to any of the four corners. Pieces can only be moved in the afore mentioned cardinal directions. \r\n" + 
+						"Normal pieces are captured by surrounding them on two opposite sides (north and south or east and west).");
+				root.getChildren().add(text);
+				Scene HTPSC = new Scene(root);
+				HTP.setScene(HTPSC);
+				HTP.show();
+			}
+		});
+		
+		Scene SC = new Scene(root, 500, 500); 
+		
+		for(int i = 0; i < 11; i++) {
+			for(int j = 0; j < 11; j++) {
 				ImageView newImage = new ImageView();
 				Text debugId = new Text();
 				newImage.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
-					boolean isAttacker = false;
-
+					
 					@Override
 					public void handle(Event event) {
 						if (!firstClick) {
@@ -88,6 +116,7 @@ public class Hnefatafl {
 										game.movePiece(firstX, firstY, moveX, moveY);
 										update();
 										turnCount++;
+										TurnLabel.setText("It is Now Defender (White's) turn");
 									}
 								} else {
 									if (board[firstX][firstY].toString().equals("Defender")
@@ -95,6 +124,7 @@ public class Hnefatafl {
 										game.movePiece(firstX, firstY, moveX, moveY);
 										update();
 										turnCount++;
+										TurnLabel.setText("It is Now Attacker (Black's) turn");
 									}
 								}
 							}
@@ -121,6 +151,7 @@ public class Hnefatafl {
 			}
 		}
 		nhef.setScene(SC);
+		nhef.setFullScreen(true);
 		nhef.show();
 	}
 
