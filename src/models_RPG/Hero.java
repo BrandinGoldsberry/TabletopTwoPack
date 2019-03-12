@@ -1,12 +1,17 @@
 package models_RPG;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
 import rpgenums.*;
 
 
-public class Hero extends BaseCharacter {
+public class Hero extends BaseCharacter implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static String defaultName = "Billy Herrington";
 	private int EXP = 0;
 	private int nextLevelEXP;

@@ -1,9 +1,15 @@
 package items;
 
+import java.io.Serializable;
+
 import models_RPG.BaseCharacter;
 import models_RPG.Item;
 
-public class Javelin extends Item {
+public class Javelin extends Item implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int damageValue = 75;
 	
 	public Javelin(String name) {

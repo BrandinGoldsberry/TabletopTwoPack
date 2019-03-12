@@ -1,10 +1,16 @@
 package Monsters_RPG;
 
+import java.io.Serializable;
+
 import items.DexUp;
-import models_RPG.Item;
 import models_RPG.Monster;
 
-public class Ghoul extends Monster {
+public class Ghoul extends Monster implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public Ghoul() {
 		super();

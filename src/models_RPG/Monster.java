@@ -1,8 +1,13 @@
 package models_RPG;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Monster extends BaseCharacter {
+public class Monster extends BaseCharacter implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int defenseRating;
 	private Item heldItem;
 	private int EXPValue;

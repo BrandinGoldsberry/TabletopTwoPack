@@ -1,9 +1,15 @@
 package items;
 
+import java.io.Serializable;
+
 import models_RPG.BaseCharacter;
 import models_RPG.Item;
 
-public class HiPotion extends Item {
+public class HiPotion extends Item implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int healValue = 500;
 
 	public HiPotion(String name) {
