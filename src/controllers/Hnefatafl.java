@@ -50,13 +50,14 @@ public class Hnefatafl {
 	
 	public static void createWindow() {
 		Stage nhef = new Stage();
-		HBox root = new HBox();
+		VBox root = new VBox();
 		VBox Misc = new VBox();
 		Button instructions = new Button();
 		Label TurnLabel = new Label();
 		root.setAlignment(Pos.CENTER);
 		grid = new GridPane();
 		grid.setGridLinesVisible(true);
+		grid.setAlignment(Pos.CENTER);
 		root.getChildren().add(grid);
 		root.getChildren().add(Misc);
 		Misc.getChildren().add(instructions);
@@ -85,7 +86,7 @@ public class Hnefatafl {
 		
 		Scene SC = new Scene(root, 500, 500); 
 		
-//		SC.getStylesheets().add(Hnefatafl.getClass().getResource("HnefataflStyle.css").toExternalForm());
+		SC.getStylesheets().add(Hnefatafl.class.getResource("HnefataflStyle.css").toExternalForm());
 		
 		for(int i = 0; i < 11; i++) {
 			for(int j = 0; j < 11; j++) {

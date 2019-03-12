@@ -1,1 +1,6 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.button {
+	-fx-text-alignment: center;
+	-fx-text-fill: white;
+	-fx-background-color: #d2b48c;
+}
