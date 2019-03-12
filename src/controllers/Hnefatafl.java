@@ -23,7 +23,7 @@ public class Hnefatafl {
 	private static Game game;
 	private static int turn;
 	private static GridPane grid;
-	private static Piece[][] board = new Piece[11][11];
+	private static Piece[][] board;
 	private static int turnCount = 0;
 	
 	private static int firstX;
@@ -125,6 +125,7 @@ public class Hnefatafl {
 	
 	private static void init() {
 		createWindow();
+		board = new Piece[11][11];
 		Image defenderImg = null;
 		Image attackerImg = null;
 		Image kingImg = null;
