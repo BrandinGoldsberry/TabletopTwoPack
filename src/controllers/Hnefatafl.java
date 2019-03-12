@@ -276,7 +276,6 @@ public class Hnefatafl {
 		displayEndGameMenu(winner);
 	}
 
-	@SuppressWarnings("null")
 	private static void displayEndGameMenu(String winner) {
 		Label bulb = new Label(winner);
 		
@@ -307,10 +306,10 @@ public class Hnefatafl {
 			
 			Scene scene = new Scene(root, 400, 400);
 			
-			Stage primaryStage = null;
-			primaryStage.setScene(scene);
-			primaryStage.setTitle("End Game");
-			primaryStage.show();
+			Stage endStage = new Stage();
+			endStage.setScene(scene);
+			endStage.setTitle("End Game");
+			endStage.show();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
