@@ -5,8 +5,10 @@ import hnefataflModels.Defender;
 import hnefataflModels.Game;
 import hnefataflModels.King;
 import hnefataflModels.Piece;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -16,15 +18,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Hnefatafl {
 
+	private static Stage primaryStage = null;
 	private static Game game;
-	private static int turn;
 	private static GridPane grid;
 	private static Piece[][] board;
 	private static int turnCount = 0;
@@ -165,9 +165,6 @@ public class Hnefatafl {
 		attackerImg = new Image("file:resources/nhefetafl/attacker.png", 75, 75, true, true);
 		kingImg = new Image("file:resources/nhefetafl/King.png", 75, 75, true, true);
 
-		Defender[] defenders = new Defender[13];
-		Attacker[] attackers = new Attacker[24];
-
 		board[0][3] = new Attacker(attackerImg);
 		board[0][4] = new Attacker(attackerImg);
 		board[0][5] = new Attacker(attackerImg);
@@ -229,10 +226,6 @@ public class Hnefatafl {
 		update();
 	}
 
-	private static void playGame() {
-
-	}
-
 	public static void update() {
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
@@ -263,14 +256,6 @@ public class Hnefatafl {
 		return null;
 	}
 
-	private static void takeTurn() {
-		checkForWin();
-	}
-
-//	private static void removePiece() {
-//		
-//	}
-
 	public static void checkForWin() {
 		String winner = "";
 
@@ -288,10 +273,47 @@ public class Hnefatafl {
 	}
 
 	private static void declareWinner(String winner) {
-		displayEndGameMenu();
+		displayEndGameMenu(winner);
 	}
 
-	private static void displayEndGameMenu() {
+	@SuppressWarnings("null")
+	private static void displayEndGameMenu(String winner) {
+		Label bulb = new Label(winner);
+		
+		try {
+			VBox root = new VBox();
+			root.setAlignment(Pos.CENTER);
+			
+			
+			bulb.setMinSize(340, 240);
+			
+			Button playAgain = new Button("Play Again");
+			//lightSwitch.setOnAction(this);
+			playAgain.setOnAction(new EventHandler<ActionEvent>() {
 
+				@Override
+				public void handle(ActionEvent arg0) {
+					run();
+				}
+			});
+			
+			
+			VBox switchBox = new VBox();
+			switchBox.setAlignment(Pos.CENTER);
+			switchBox.setPadding(new Insets(20, 80, 20, 80));
+			switchBox.getChildren().add(playAgain);
+			
+			root.getChildren().addAll(bulb, switchBox);
+			
+			Scene scene = new Scene(root, 400, 400);
+			
+			Stage primaryStage = null;
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("End Game");
+			primaryStage.show();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
