@@ -840,8 +840,6 @@ public class RPG {
 
 		Text promptText = new Text("How many points would you like to allocate to " + statName + "?");
 
-		Text warning = new Text("THERE IS A BUG WITH THE ALLOCATION OF STATS THAT IS USED FOR DEMONSTRATION OF THE GAME AND WOULD NOT REFLECT ON THE FINAL PRODUCT AND IT IS USED TO MAKE COMBAT EASIER!!!");
-		
 		Button[] buttons = new Button[5];
 
 		buttons[0] = new Button("1");
@@ -854,29 +852,31 @@ public class RPG {
 
 			@Override
 			public void handle(ActionEvent event) {
-
-				if (statNum == 1) {
-
-					player.setStr((player.getStr() + 1));
-					statPoints = statPoints - 1;
-
-				} else if (statNum == 2) {
-
-					player.setMag((player.getMag() + 1));
-					statPoints = statPoints - 1;
-
-				} else if (statNum == 3) {
-
-					player.setDex((player.getDex() + 1));
-					statPoints = statPoints - 1;
-
-				} else if (statNum == 4) {
-
-					player.setLuc((player.getLuc() + 1));
-					statPoints = statPoints - 1;
-
+				
+				if (statPoints >= 1) {
+				 
+					if (statNum == 1) {
+	
+						player.setStr((player.getStr() + 1));
+						statPoints = statPoints - 1;
+	
+					} else if (statNum == 2) {
+	
+						player.setMag((player.getMag() + 1));
+						statPoints = statPoints - 1;
+	
+					} else if (statNum == 3) {
+	
+						player.setDex((player.getDex() + 1));
+						statPoints = statPoints - 1;
+	
+					} else if (statNum == 4) {
+	
+						player.setLuc((player.getLuc() + 1));
+						statPoints = statPoints - 1;
+	
+					}
 				}
-
 				stage.close();
 
 				
@@ -888,6 +888,8 @@ public class RPG {
 			@Override
 			public void handle(ActionEvent event) {
 
+				if (statPoints >=2) {
+				
 				if (statNum == 1) {
 
 					player.setStr((player.getStr() + 2));
@@ -910,6 +912,7 @@ public class RPG {
 
 				}
 				
+				}
 				stage.close();
 
 			}
@@ -920,6 +923,9 @@ public class RPG {
 			@Override
 			public void handle(ActionEvent event) {
 
+				
+				if (statPoints >=3) {
+				
 				if (statNum == 1) {
 
 					player.setStr((player.getStr() + 3));
@@ -942,6 +948,7 @@ public class RPG {
 
 				}
 				
+				}
 				stage.close();
 
 
@@ -953,6 +960,8 @@ public class RPG {
 			@Override
 			public void handle(ActionEvent event) {
 
+				if (statPoints >= 4 ) {
+				
 				if (statNum == 1) {
 
 					player.setStr((player.getStr() + 4));
@@ -975,6 +984,8 @@ public class RPG {
 
 				}
 				
+				}
+				
 				stage.close();
 
 
@@ -986,6 +997,9 @@ public class RPG {
 			@Override
 			public void handle(ActionEvent event) {
 
+				if (statPoints == 5) {
+				
+				
 				if (statNum == 1) {
 
 					player.setStr((player.getStr() + 5));
@@ -1008,6 +1022,7 @@ public class RPG {
 
 				}
 				
+				}
 				stage.close();
 
 			}
@@ -1021,7 +1036,7 @@ public class RPG {
 
 		gridPane.setAlignment(Pos.CENTER);
 
-		root.getChildren().addAll(warning, text1, promptText, gridPane);
+		root.getChildren().addAll(text1, promptText, gridPane);
 
 		Scene scene = new Scene(root, 500, 500);
 
