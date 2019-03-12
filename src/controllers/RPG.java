@@ -87,16 +87,16 @@ public class RPG {
 
 	public static void run() {
 
-		makeCharacter();
-
-		levelUpScreen(statName());
-
-		for (int i = 0; i < 5; i++) {
-
-			player.addToInventory(new Potion("Test Potion"));
-			player.addToInventory(new BottledLightning("lighging test"));
-
-		}
+//		makeCharacter();
+//
+//		levelUpScreen(statName());
+//
+//		for (int i = 0; i < 5; i++) {
+//
+//			player.addToInventory(new Potion("Test Potion"));
+//			player.addToInventory(new BottledLightning("lighging test"));
+//
+//		}
 		MainMenu();
 		if (choice == 1) {
 			makeCharacter();
@@ -1118,7 +1118,6 @@ public class RPG {
 		Scene scene = new Scene(root, 150, 150);
 		primaryStage.setScene(scene);
 
-		dungeonLordDED = true;
 
 		newGame.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
