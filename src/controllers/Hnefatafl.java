@@ -46,7 +46,6 @@ public class Hnefatafl {
 	}
 	
 	public static void createWindow() {
-		board = new Piece[11][11];
 		Stage nhef = new Stage();
 		HBox root = new HBox();
 		root.setAlignment(Pos.CENTER);
@@ -125,6 +124,7 @@ public class Hnefatafl {
 	
 	private static void init() {
 		createWindow();
+		board = new Piece[11][11];
 		Image defenderImg = null;
 		Image attackerImg = null;
 		Image kingImg = null;
