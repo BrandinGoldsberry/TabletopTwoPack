@@ -1,10 +1,17 @@
 package Monsters_RPG;
 
+import java.io.Serializable;
+
 import items.HiPotion;
 import models_RPG.Item;
 import models_RPG.Monster;
 
-public class MassiveRat extends Monster {
+public class MassiveRat extends Monster implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public MassiveRat() {
 		super();

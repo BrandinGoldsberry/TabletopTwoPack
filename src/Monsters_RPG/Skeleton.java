@@ -1,10 +1,17 @@
 package Monsters_RPG;
 
+import java.io.Serializable;
+
 import items.CursePaper;
 import models_RPG.Item;
 import models_RPG.Monster;
 
-public class Skeleton extends Monster {
+public class Skeleton extends Monster implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public Skeleton() {
 		super();

@@ -1,9 +1,16 @@
 package items;
 
+import java.io.Serializable;
+
 import models_RPG.BaseCharacter;
 import models_RPG.Item;
 
-public class LifeStone extends Item {
+public class LifeStone extends Item implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public LifeStone(String name) {
 		super(name);

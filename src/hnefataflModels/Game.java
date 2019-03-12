@@ -69,6 +69,7 @@ public class Game {
 					}
 				}
 			}
+			
 		}
 
 		if (canMove) {
@@ -78,7 +79,7 @@ public class Game {
 			Hnefatafl.SetKingIsDead(update());
 			Hnefatafl.update();
 		}
-
+		Hnefatafl.checkForWin();
 		return canMove;
 	}
 

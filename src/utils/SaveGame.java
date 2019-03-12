@@ -41,26 +41,26 @@ public class SaveGame implements Serializable {
 			String mapPNG, boolean playerHitFlag, boolean monsterHitFlag, boolean combat,
 			String saveName, Item item, String name, boolean dungeonLordDED) {
 		super();
-		this.campaignName = campaignName;
+		this.campaignName = "None";
 		this.player = player;
 		this.monster = monster;
-		this.playerDungeonLocationX = playerDungeonLocationX;
-		this.playerDungeomLocationY = playerDungeomLocationY;
+		this.playerDungeonLocationX = 0;
+		this.playerDungeomLocationY = 0;
 		this.currentFloorNum = currentFloorNum;
 		this.dungeonFloorSteps = dungeonFloorSteps;
 		this.playerSteps = playerSteps;
-		this.battleTurn = battleTurn;
-		this.playerDamage = playerDamage;
-		this.monsterDamage = monsterDamage;
-		this.playerItemUsed = playerItemUsed;
-		this.playerHealing = playerHealing;
+		this.battleTurn = 0;
+		this.playerDamage = 0;
+		this.monsterDamage = 0;
+		this.playerItemUsed = null;
+		this.playerHealing = 0;
 		this.job = job;
 		this.mapPNG = mapPNG;
-		this.playerHitFlag = playerHitFlag;
-		this.monsterHitFlag = monsterHitFlag;
-		this.combat = combat;
+		this.playerHitFlag = false;
+		this.monsterHitFlag = false;
+		this.combat = false;
 		this.saveName = saveName;
-		this.item = item;
+		this.item = null;
 		this.name = name;
 		this.dungeonLordDED = dungeonLordDED;
 	}

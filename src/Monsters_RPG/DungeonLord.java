@@ -1,10 +1,15 @@
 package Monsters_RPG;
 
-import items.DexUp;
-import models_RPG.Item;
+import java.io.Serializable;
+
 import models_RPG.Monster;
 
-public class DungeonLord extends Monster {
+public class DungeonLord extends Monster implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public DungeonLord() {
 		super();

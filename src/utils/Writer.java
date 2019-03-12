@@ -26,6 +26,7 @@ public class Writer {
 			OOS.writeObject(Save);
 		} catch (IOException e) {
 			System.out.println("Error creating save, check path");
+			e.printStackTrace();
 		} finally {
 			try {
 				if(FOS != null && OOS != null) {

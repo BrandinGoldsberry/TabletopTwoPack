@@ -1,8 +1,13 @@
 package models_RPG;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class BaseCharacter {
+public class BaseCharacter implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected String name;
 	protected int baseHP;
 	protected float currentHP;

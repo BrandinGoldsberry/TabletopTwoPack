@@ -1,9 +1,15 @@
 package items;
 
+import java.io.Serializable;
+
 import models_RPG.BaseCharacter;
 import models_RPG.Item;
 
-public class Potion extends Item {
+public class Potion extends Item implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int healValue = 100;
 	
 	public Potion(String name) {

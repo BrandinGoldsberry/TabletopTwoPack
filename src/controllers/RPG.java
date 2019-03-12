@@ -249,11 +249,10 @@ public class RPG {
 			public void handle(ActionEvent event) {
 
 				name = textField.getText().trim();
-
+				saveName = campaignName;
 				if (textField.getText().isEmpty() == true || textField.getText().trim().isEmpty() == true) {
 
 					name = "Billy Herrington";
-					campaignName = name + "'s adventure";
 					saveName = campaignName;
 				}
 
@@ -1225,7 +1224,7 @@ public class RPG {
 		box.setAlignment(Pos.CENTER);
 		box.setPadding(new Insets(20, 80, 20, 80));
 
-		Label label = new Label("File Directory and Name(Be exact):");
+		Label label = new Label("File Directory and File Name:");
 
 		TextField textField = new TextField();
 
@@ -1245,8 +1244,14 @@ public class RPG {
 			@Override
 			public void handle(ActionEvent event) {
 
-				String fileLocation = textField.getText().trim();
+				String fileLocation = textField.getText().trim() + ".ser";
+				System.out.println(fileLocation);
 
+				saveGame = new SaveGame(saveName, player, monster, playerDungeonLocationX, playerDungeomLocationY,
+						currentFloorNum, dungeonFloorSteps, playerSteps, battleTurn, playerDamage, monsterDamage,
+						playerItemUsed, playerHealing, job, mapPNG, playerHitFlag, monsterHitFlag, combat, saveName,
+						item, name, dungeonLordDED);
+				
 				saveGame = Writer.Load(fileLocation);
 
 				campaignName = saveGame.campaignName;
@@ -1445,8 +1450,8 @@ public class RPG {
 
 			@Override
 			public void handle(ActionEvent event) {
-
-				System.out.println("stop being a pussy by always saving");
+				saveGame();
+				
 
 			}
 

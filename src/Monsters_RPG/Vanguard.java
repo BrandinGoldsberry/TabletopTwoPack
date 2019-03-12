@@ -1,10 +1,17 @@
 package Monsters_RPG;
 
+import java.io.Serializable;
+
 import items.LucUp;
 import models_RPG.Item;
 import models_RPG.Monster;
 
-public class Vanguard extends Monster {
+public class Vanguard extends Monster implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public Vanguard() {
 		super();
