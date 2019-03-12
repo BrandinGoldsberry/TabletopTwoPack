@@ -19,32 +19,32 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Hnefatafl {
-	
+
 	private static Game game;
 	private static int turn;
 	private static GridPane grid;
 	private static Piece[][] board;
 	private static int turnCount = 0;
-	
+
 	private static int firstX;
 	private static int firstY;
 	private static int moveX;
 	private static int moveY;
 	private static boolean firstClick = false;
-	
+
 	private static ImageView lastClicked;
 	private static ImageView lastHovered;
-	
+
 	private static boolean KingIsDead = false;
-	
+
 	public static void SetKingIsDead(boolean isDead) {
 		KingIsDead = isDead;
 	}
-	
+
 	public static void run() {
 		init();
 	}
-	
+
 	public static void createWindow() {
 		Stage nhef = new Stage();
 		HBox root = new HBox();
@@ -52,55 +52,56 @@ public class Hnefatafl {
 		grid = new GridPane();
 		grid.setGridLinesVisible(true);
 		root.getChildren().add(grid);
-		Scene SC = new Scene(root, 500, 500); 
-		
-		for(int i = 0; i < 11; i++) {
-			for(int j = 0; j < 11; j++) {
+		Scene SC = new Scene(root, 500, 500);
+
+		for (int i = 0; i < 11; i++) {
+			for (int j = 0; j < 11; j++) {
 				ImageView newImage = new ImageView();
 				Text debugId = new Text();
 				newImage.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
 					boolean isAttacker = false;
-					
+
 					@Override
 					public void handle(Event event) {
-						if(!firstClick) {
+						if (!firstClick) {
 							lastClicked = newImage;
 							firstX = GridPane.getRowIndex(lastClicked);
 							firstY = GridPane.getColumnIndex(lastClicked);
 							int x = GridPane.getRowIndex(newImage);
 							int y = GridPane.getColumnIndex(newImage);
 							Piece hovered = game.getPieces()[x][y];
-							if(hovered != null) {
+							if (hovered != null) {
 								isAttacker = hovered.toString().equals("Attacker");
 								firstClick = true;
-								debugId.setText(Integer.toString(hovered.getId()));								
+								debugId.setText(Integer.toString(hovered.getId()));
 							}
 						} else {
 							lastClicked = newImage;
 							moveX = GridPane.getRowIndex(lastClicked);
 							moveY = GridPane.getColumnIndex(lastClicked);
-							if(moveX == firstX && moveY == firstY) {
+							if (moveX == firstX && moveY == firstY) {
 							} else {
 								firstClick = false;
-								
-								if(turnCount % 2 == 0) {
+
+								if (turnCount % 2 == 0) {
 									if (board[firstX][firstY].toString().equals("Attacker")) {
 										game.movePiece(firstX, firstY, moveX, moveY);
 										update();
 										turnCount++;
 									}
 								} else {
-									if (board[firstX][firstY].toString().equals("Defender") || board[firstX][firstY].toString().equals("King")) {
+									if (board[firstX][firstY].toString().equals("Defender")
+											|| board[firstX][firstY].toString().equals("King")) {
 										game.movePiece(firstX, firstY, moveX, moveY);
 										update();
-										turnCount++;										
+										turnCount++;
 									}
 								}
 							}
 						}
 					}
 				});
-				
+
 				newImage.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<Event>() {
 					@Override
 					public void handle(Event arg0) {
@@ -109,7 +110,7 @@ public class Hnefatafl {
 						int x = GridPane.getRowIndex(newImage);
 						int y = GridPane.getColumnIndex(newImage);
 						Piece hovered = game.getPieces()[x][y];
-						if(hovered != null) {
+						if (hovered != null) {
 							debugId.setText(Integer.toString(hovered.getId()));
 //							System.out.println(hovered.getId());						
 						}
@@ -122,7 +123,7 @@ public class Hnefatafl {
 		nhef.setScene(SC);
 		nhef.show();
 	}
-	
+
 	private static void init() {
 		createWindow();
 		board = new Piece[11][11];
@@ -135,35 +136,35 @@ public class Hnefatafl {
 
 		Defender[] defenders = new Defender[13];
 		Attacker[] attackers = new Attacker[24];
-		
+
 		board[0][3] = new Attacker(attackerImg);
 		board[0][4] = new Attacker(attackerImg);
 		board[0][5] = new Attacker(attackerImg);
 		board[0][6] = new Attacker(attackerImg);
 		board[0][7] = new Attacker(attackerImg);
 		board[1][5] = new Attacker(attackerImg);
-		
+
 		board[10][3] = new Attacker(attackerImg);
 		board[10][4] = new Attacker(attackerImg);
 		board[10][5] = new Attacker(attackerImg);
 		board[10][6] = new Attacker(attackerImg);
 		board[10][7] = new Attacker(attackerImg);
 		board[9][5] = new Attacker(attackerImg);
-		
+
 		board[3][0] = new Attacker(attackerImg);
 		board[4][0] = new Attacker(attackerImg);
 		board[5][0] = new Attacker(attackerImg);
 		board[6][0] = new Attacker(attackerImg);
 		board[7][0] = new Attacker(attackerImg);
 		board[5][1] = new Attacker(attackerImg);
-		
+
 		board[3][10] = new Attacker(attackerImg);
 		board[4][10] = new Attacker(attackerImg);
 		board[5][10] = new Attacker(attackerImg);
 		board[6][10] = new Attacker(attackerImg);
 		board[7][10] = new Attacker(attackerImg);
 		board[5][9] = new Attacker(attackerImg);
-		
+
 		board[5][5] = new King(kingImg);
 		board[4][5] = new Defender(defenderImg);
 		board[6][5] = new Defender(defenderImg);
@@ -177,12 +178,12 @@ public class Hnefatafl {
 		board[5][7] = new Defender(defenderImg);
 		board[5][3] = new Defender(defenderImg);
 		board[6][6] = new Defender(defenderImg);
-		
-		for(int x = 0; x<board.length; x++) {
-			for(int y = 0; y<board[x].length; y++) {
+
+		for (int x = 0; x < board.length; x++) {
+			for (int y = 0; y < board[x].length; y++) {
 				if (board[x][y] == null) {
 					Piece toShow = board[x][y];
-					if(toShow != null) {
+					if (toShow != null) {
 						ImageView IV = (ImageView) getNodeFromGridPane(grid, y, x);
 						IV.setImage(board[x][y].GetSprite());
 					} else {
@@ -192,22 +193,21 @@ public class Hnefatafl {
 				}
 			}
 		}
-		
+
 		game = new Game(board);
 		update();
 	}
 
-	
 	private static void playGame() {
 
 	}
-	
+
 	public static void update() {
 		for (int i = 0; i < board.length; i++) {
-			for(int j = 0; j < board[i].length; j++) {
+			for (int j = 0; j < board[i].length; j++) {
 				board = game.getPieces();
 				Piece toShow = board[i][j];
-				if(toShow != null) {
+				if (toShow != null) {
 					ImageView IV = (ImageView) getNodeFromGridPane(grid, j, i);
 					IV.setImage(board[i][j].GetSprite());
 				} else {
@@ -217,21 +217,21 @@ public class Hnefatafl {
 			}
 		}
 	}
-	
-	
-	//Code orignally from Shreyas Dave - https://stackoverflow.com/questions/20655024/javafx-gridpane-retrieve-specific-cell-content
-	//To be fair, this should be a native part of the GridPane... but its not
+
+	// Code orignally from Shreyas Dave -
+	// https://stackoverflow.com/questions/20655024/javafx-gridpane-retrieve-specific-cell-content
+	// To be fair, this should be a native part of the GridPane... but its not
 	private static Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
-	    for (Node node : gridPane.getChildren()) {
-	    	if(node.getClass().getName().equals("javafx.scene.image.ImageView")) {
-	    		if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
-	    			return node;
-	    		}	    		
-	    	}
-	    }
-	    return null;
+		for (Node node : gridPane.getChildren()) {
+			if (node.getClass().getName().equals("javafx.scene.image.ImageView")) {
+				if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+					return node;
+				}
+			}
+		}
+		return null;
 	}
-	
+
 	private static void takeTurn() {
 		checkForWin();
 	}
@@ -239,16 +239,28 @@ public class Hnefatafl {
 //	private static void removePiece() {
 //		
 //	}
-	
-	private static void checkForWin() {
-		declareWinner();
+
+	public static void checkForWin() {
+		String winner = "";
+
+		if (KingIsDead) {
+			winner = "Attackers win!";
+			declareWinner(winner);
+		} else if (board[0][0].getClass().getName().equals("hnefataflModels.King")
+				|| board[10][0].getClass().getName().equals("hnefataflModels.King")
+				|| board[0][10].getClass().getName().equals("hnefataflModels.King")
+				|| board[10][10].getClass().getName().equals("hnefataflModels.King")) {
+			winner = "Defenders win!";
+			declareWinner(winner);
+		}
+
 	}
-	
-	private static void declareWinner() {
+
+	private static void declareWinner(String winner) {
 		displayEndGameMenu();
 	}
-	
+
 	private static void displayEndGameMenu() {
-		
+
 	}
 }
