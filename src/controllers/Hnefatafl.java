@@ -7,6 +7,7 @@ import hnefataflModels.King;
 import hnefataflModels.Piece;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -53,13 +54,14 @@ public class Hnefatafl {
 		VBox Misc = new VBox();
 		Button instructions = new Button();
 		Label TurnLabel = new Label();
-//		root.setAlignment(Pos.CENTER);
+		root.setAlignment(Pos.CENTER);
 		grid = new GridPane();
 		grid.setGridLinesVisible(true);
 		root.getChildren().add(grid);
 		root.getChildren().add(Misc);
 		Misc.getChildren().add(instructions);
 		Misc.getChildren().add(TurnLabel);
+		
 		
 		
 		instructions.setText("How To Play");
@@ -82,6 +84,8 @@ public class Hnefatafl {
 		});
 		
 		Scene SC = new Scene(root, 500, 500); 
+		
+//		SC.getStylesheets().add(Hnefatafl.getClass().getResource("HnefataflStyle.css").toExternalForm());
 		
 		for(int i = 0; i < 11; i++) {
 			for(int j = 0; j < 11; j++) {
