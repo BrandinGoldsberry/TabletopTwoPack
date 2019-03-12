@@ -85,13 +85,13 @@ public class Hnefatafl {
 								
 								if(turnCount % 2 == 0) {
 									if (board[firstX][firstY].toString().equals("Attacker")) {
-										game.movePiece(firstX, firstY, moveX, moveY, isAttacker);
+										game.movePiece(firstX, firstY, moveX, moveY);
 										update();
 										turnCount++;
 									}
 								} else {
 									if (board[firstX][firstY].toString().equals("Defender") || board[firstX][firstY].toString().equals("King")) {
-										game.movePiece(firstX, firstY, moveX, moveY, isAttacker);
+										game.movePiece(firstX, firstY, moveX, moveY);
 										update();
 										turnCount++;										
 									}
@@ -178,15 +178,15 @@ public class Hnefatafl {
 		board[5][3] = new Defender(defenderImg);
 		board[6][6] = new Defender(defenderImg);
 		
-		for(int i = 0; i<board.length; i++) {
-			for(int j = 0; j<board[i].length; j++) {
-				if (board[i][j] == null) {
-					Piece toShow = board[i][j];
+		for(int x = 0; x<board.length; x++) {
+			for(int y = 0; y<board[x].length; y++) {
+				if (board[x][y] == null) {
+					Piece toShow = board[x][y];
 					if(toShow != null) {
-						ImageView IV = (ImageView) getNodeFromGridPane(grid, j, i);
-						IV.setImage(board[i][j].GetSprite());
+						ImageView IV = (ImageView) getNodeFromGridPane(grid, y, x);
+						IV.setImage(board[x][y].GetSprite());
 					} else {
-						ImageView IV = (ImageView) getNodeFromGridPane(grid, j, i);
+						ImageView IV = (ImageView) getNodeFromGridPane(grid, y, x);
 						IV.setImage(new Image("file:resources/nhefetafl/emptyWhite.png", 75, 75, true, true));
 					}
 				}
