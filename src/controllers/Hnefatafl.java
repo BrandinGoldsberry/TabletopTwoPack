@@ -23,7 +23,6 @@ import javafx.stage.Stage;
 
 public class Hnefatafl {
 
-	private static Stage primaryStage = null;
 	private static Game game;
 	private static GridPane grid;
 	private static Piece[][] board;
@@ -36,8 +35,6 @@ public class Hnefatafl {
 	private static boolean firstClick = false;
 
 	private static ImageView lastClicked;
-	private static ImageView lastHovered;
-
 	private static boolean KingIsDead = false;
 
 	public static void SetKingIsDead(boolean isDead) {
@@ -137,8 +134,6 @@ public class Hnefatafl {
 				newImage.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<Event>() {
 					@Override
 					public void handle(Event arg0) {
-						// TODO Auto-generated method stub
-						lastHovered = newImage;
 						int x = GridPane.getRowIndex(newImage);
 						int y = GridPane.getColumnIndex(newImage);
 						Piece hovered = game.getPieces()[x][y];

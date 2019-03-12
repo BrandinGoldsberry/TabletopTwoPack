@@ -1,7 +1,5 @@
 package hnefataflModels;
 
-import java.util.Arrays;
-
 import controllers.Hnefatafl;
 
 public class Game {
