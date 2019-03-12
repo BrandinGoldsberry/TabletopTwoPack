@@ -91,7 +91,6 @@ public class Hnefatafl {
 		for(int i = 0; i < 11; i++) {
 			for(int j = 0; j < 11; j++) {
 				ImageView newImage = new ImageView();
-				Text debugId = new Text();
 				newImage.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
 					
 					@Override
@@ -104,9 +103,7 @@ public class Hnefatafl {
 							int y = GridPane.getColumnIndex(newImage);
 							Piece hovered = game.getPieces()[x][y];
 							if (hovered != null) {
-								isAttacker = hovered.toString().equals("Attacker");
 								firstClick = true;
-								debugId.setText(Integer.toString(hovered.getId()));
 							}
 						} else {
 							lastClicked = newImage;
@@ -146,13 +143,11 @@ public class Hnefatafl {
 						int y = GridPane.getColumnIndex(newImage);
 						Piece hovered = game.getPieces()[x][y];
 						if (hovered != null) {
-							debugId.setText(Integer.toString(hovered.getId()));
 //							System.out.println(hovered.getId());						
 						}
 					}
 				});
 				grid.add(newImage, j, i, 1, 1);
-				grid.add(debugId, j, i, 1, 1);
 			}
 		}
 		nhef.setScene(SC);
@@ -282,10 +277,10 @@ public class Hnefatafl {
 		if (KingIsDead) {
 			winner = "Attackers win!";
 			declareWinner(winner);
-		} else if (board[0][0].getClass().getName().equals("hnefataflModels.King")
-				|| board[10][0].getClass().getName().equals("hnefataflModels.King")
-				|| board[0][10].getClass().getName().equals("hnefataflModels.King")
-				|| board[10][10].getClass().getName().equals("hnefataflModels.King")) {
+		} else if (board[0][0] != null && board[0][0].getClass().getName().equals("hnefataflModels.King")
+				|| board[10][0] != null && board[10][0].getClass().getName().equals("hnefataflModels.King")
+				|| board[0][10] != null &&  board[0][10].getClass().getName().equals("hnefataflModels.King")
+				|| board[10][10] != null &&  board[10][10].getClass().getName().equals("hnefataflModels.King")) {
 			winner = "Defenders win!";
 			declareWinner(winner);
 		}

@@ -131,6 +131,7 @@ public class Game {
 									if(pieces[x + 1][y].toString().equals("Attacker")) {
 										if(pieces[x][y - 1].toString().equals("Attacker")) {
 											if(pieces[x][y + 1].toString().equals("Attacker")) {
+												KingDied = true;
 												pieces[x][y] = null;
 											}
 										}
