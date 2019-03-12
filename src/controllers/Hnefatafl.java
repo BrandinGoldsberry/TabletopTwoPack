@@ -24,6 +24,7 @@ public class Hnefatafl {
 	private static int turn;
 	private static GridPane grid;
 	private static Piece[][] board = new Piece[11][11];
+	private static int turnCount = 0;
 	
 	private static int firstX;
 	private static int firstY;
@@ -82,8 +83,18 @@ public class Hnefatafl {
 							} else {
 								firstClick = false;
 								
-								game.movePiece(firstX, firstY, moveX, moveY, isAttacker);
-								update();																
+								if(turnCount%2 == 0) {
+									if (board[firstX][firstY].getClass().getName().equals("hnefataflModels.Attacker")) {
+										game.movePiece(firstX, firstY, moveX, moveY, isAttacker);
+										update();
+										turnCount++;
+									}
+								} else {
+									if (board[firstX][firstY].getClass().getName().equals("hnefataflModels.Defender") || board[firstX][firstY].getClass().getName().equals("hnefataflModels.King"))
+									game.movePiece(firstX, firstY, moveX, moveY, isAttacker);
+									update();
+									turnCount++;
+								}
 							}
 						}
 					}
