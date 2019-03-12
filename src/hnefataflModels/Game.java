@@ -96,7 +96,7 @@ public class Game {
 		
 		if (x + 1 <= 11) {
 			if (pieces[x + 1][y] != null) {
-				enemiesNear = isAttacker ? setAttackerSurroundings(x + 1, y) : setDefenderSurroundings(x + 1, y);
+				enemiesNear = !isAttacker ? setAttackerSurroundings(x + 1, y) : setDefenderSurroundings(x + 1, y);
 				System.out.println(pieces[x + 1][y].getId());
 				if (pieces[x + 1][y].IsSurrounded(enemiesNear)) {
 					pieces[x + 1][y] = null;
@@ -105,7 +105,7 @@ public class Game {
 		}
 		if (x - 1 >= 0) {
 			if (pieces[x - 1][y] != null) {
-				enemiesNear = isAttacker ? setAttackerSurroundings(x - 1, y) : setDefenderSurroundings(x - 1, y);
+				enemiesNear = !isAttacker ? setAttackerSurroundings(x - 1, y) : setDefenderSurroundings(x - 1, y);
 				System.out.println(pieces[x - 1][y].getId());
 				if (pieces[x - 1][y].IsSurrounded(enemiesNear)) {
 					pieces[x - 1][y] = null;
@@ -114,7 +114,7 @@ public class Game {
 		}
 		if (y + 1 <= 11) {
 			if (pieces[x][y + 1] != null) {
-				enemiesNear = isAttacker ? setAttackerSurroundings(x, y + 1) : setDefenderSurroundings(x, y + 1);
+				enemiesNear = !isAttacker ? setAttackerSurroundings(x, y + 1) : setDefenderSurroundings(x, y + 1);
 				System.out.println(pieces[x][y + 1].getId());
 				if (pieces[x][y + 1].IsSurrounded(enemiesNear)) {
 					pieces[x][y + 1] = null;
@@ -123,7 +123,7 @@ public class Game {
 		}
 		if (y - 1 >= 0) {
 			if (pieces[x][y - 1] != null) {
-				enemiesNear = isAttacker ? setAttackerSurroundings(x, y - 1) : setDefenderSurroundings(x, y - 1);
+				enemiesNear = !isAttacker ? setAttackerSurroundings(x, y - 1) : setDefenderSurroundings(x, y - 1);
 				System.out.println(pieces[x][y - 1].getId());
 				if (pieces[x][y - 1].IsSurrounded(enemiesNear)) {
 					pieces[x][y - 1] = null;
@@ -184,21 +184,29 @@ public class Game {
 		boolean[][] ret = new boolean[2][2];
 
 		try {
-			if(pieces[x + 1][y] != null) {
-				ret[0][0] = (pieces[x + 1][y].toString().equals("Attacker"));
-				System.out.println(pieces[x + 1][y].toString() + pieces[x + 1][y].toString().equals("Attacker"));
+			if (x + 1 <= 11) {
+				if (pieces[x + 1][y] != null) {
+					ret[0][0] = (pieces[x + 1][y].toString().equals("Attacker"));
+					System.out.println(pieces[x + 1][y].toString() + pieces[x + 1][y].toString().equals("Attacker"));
+				} 
 			}
-			if(pieces[x - 1][y] != null) {
-				ret[0][1] = (pieces[x - 1][y].toString().equals("Attacker"));
-				System.out.println(pieces[x - 1][y].toString() + pieces[x - 1][y].toString().equals("Attacker"));
+			if (x - 1 >= 0) {
+				if (pieces[x - 1][y] != null) {
+					ret[0][1] = (pieces[x - 1][y].toString().equals("Attacker"));
+					System.out.println(pieces[x - 1][y].toString() + pieces[x - 1][y].toString().equals("Attacker"));
+				} 
 			}
-			if(pieces[x][y + 1] != null) {
-				ret[1][0] = (pieces[x][y + 1].toString().equals("Attacker"));
-				System.out.println(pieces[x][y + 1].toString() + pieces[x][y + 1].toString().equals("Attacker"));
+			if (y + 1 <= 11) {
+				if (pieces[x][y + 1] != null) {
+					ret[1][0] = (pieces[x][y + 1].toString().equals("Attacker"));
+					System.out.println(pieces[x][y + 1].toString() + pieces[x][y + 1].toString().equals("Attacker"));
+				} 
 			}
-			if(pieces[x][y - 1] != null) {
-				ret[1][1] = (pieces[x][y - 1].toString().equals("Attacker"));
-				System.out.println(pieces[x][y - 1].toString() + pieces[x][y - 1].toString().equals("Attacker"));
+			if (y - 1 >= 0) {
+				if (pieces[x][y - 1] != null) {
+					ret[1][1] = (pieces[x][y - 1].toString().equals("Attacker"));
+					System.out.println(pieces[x][y - 1].toString() + pieces[x][y - 1].toString().equals("Attacker"));
+				} 
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			// TODO: handle exception
