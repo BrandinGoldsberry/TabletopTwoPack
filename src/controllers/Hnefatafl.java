@@ -70,8 +70,8 @@ public class Hnefatafl {
 							int x = GridPane.getRowIndex(newImage);
 							int y = GridPane.getColumnIndex(newImage);
 							Piece hovered = game.getPieces()[x][y];
-							isAttacker = hovered.getClass().getName().equals("hnefataflModels.Attacker");
 							if(hovered != null) {
+								isAttacker = hovered.toString().equals("Attacker");
 								firstClick = true;
 								debugId.setText(Integer.toString(hovered.getId()));								
 							}
@@ -83,17 +83,18 @@ public class Hnefatafl {
 							} else {
 								firstClick = false;
 								
-								if(turnCount%2 == 0) {
-									if (board[firstX][firstY].getClass().getName().equals("hnefataflModels.Attacker")) {
+								if(turnCount % 2 == 0) {
+									if (board[firstX][firstY].toString().equals("Attacker")) {
 										game.movePiece(firstX, firstY, moveX, moveY, isAttacker);
 										update();
 										turnCount++;
 									}
 								} else {
-									if (board[firstX][firstY].getClass().getName().equals("hnefataflModels.Defender") || board[firstX][firstY].getClass().getName().equals("hnefataflModels.King"))
-									game.movePiece(firstX, firstY, moveX, moveY, isAttacker);
-									update();
-									turnCount++;
+									if (board[firstX][firstY].toString().equals("Defender") || board[firstX][firstY].toString().equals("King")) {
+										game.movePiece(firstX, firstY, moveX, moveY, isAttacker);
+										update();
+										turnCount++;										
+									}
 								}
 							}
 						}
@@ -110,7 +111,7 @@ public class Hnefatafl {
 						Piece hovered = game.getPieces()[x][y];
 						if(hovered != null) {
 							debugId.setText(Integer.toString(hovered.getId()));
-							System.out.println(hovered.getId());						
+//							System.out.println(hovered.getId());						
 						}
 					}
 				});

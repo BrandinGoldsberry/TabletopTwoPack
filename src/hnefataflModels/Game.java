@@ -37,7 +37,6 @@ public class Game {
 				if (startX == endX) {
 					if (startY > endY) {
 						for (int i = startY - 1; i >= endY; i--) {
-							System.out.println(pieces[startX][i] + " First, " + i);
 							if (pieces[startX][i] != null) {
 								canMove = false;
 							}
@@ -46,7 +45,6 @@ public class Game {
 
 					if (startY < endY) {
 						for (int i = startY + 1; i <= endY; i++) {
-							System.out.println(pieces[startX][i] + " Second, " + i);
 							if (pieces[startX][i] != null) {
 								canMove = false;
 							}
@@ -56,7 +54,6 @@ public class Game {
 				} else if (startY == endY) {
 					if (startX > endX) {
 						for (int i = startX - 1; i >= endX; i--) {
-							System.out.println(pieces[i][startY] + " Third, " + i);
 							if (pieces[i][startY] != null) {
 								canMove = false;
 							}
@@ -65,7 +62,6 @@ public class Game {
 
 					if (startX < endX) {
 						for (int i = startX + 1; i <= endX; i++) {
-							System.out.println(pieces[i][startY] + " Fourth, " + i);
 							if (pieces[i][startY] != null) {
 								canMove = false;
 							}
@@ -90,35 +86,50 @@ public class Game {
 		boolean kingDied = false;
 		boolean[][] enemiesNear = null;
 		
-		if(pieces[x][y].toString().equals("Defender")) {
-			isAttacker = !isAttacker;
+		if(pieces[x][y].toString().equals("Attacker")) {
+			isAttacker = true;
+		} else {
+			isAttacker = false;
 		}
 		
-		if (pieces[x + 1][y] != null) {
-			enemiesNear = isAttacker ? setAttackerSurroundings(x + 1, y) : setDefenderSurroundings(x + 1, y);
-			if (pieces[x + 1][y].IsSurrounded(enemiesNear)) {
-				pieces[x + 1][y] = null;
-			}
-		}
-		if (pieces[x - 1][y] != null) {
-			enemiesNear = isAttacker ? setAttackerSurroundings(x - 1, y) : setDefenderSurroundings(x - 1, y);
-			if (pieces[x - 1][y].IsSurrounded(enemiesNear)) {
-				pieces[x - 1][y] = null;
-			}
-		}
-		if (pieces[x][y + 1] != null) {
-			enemiesNear = isAttacker ? setAttackerSurroundings(x, y + 1) : setDefenderSurroundings(x, y + 1);
-			if (pieces[x][y + 1].IsSurrounded(enemiesNear)) {
-				pieces[x][y + 1] = null;
-			}
-		}
-		if (pieces[x][y - 1] != null) {
-			enemiesNear = isAttacker ? setAttackerSurroundings(x, y - 1) : setDefenderSurroundings(x, y - 1);
-			if (pieces[x][y - 1].IsSurrounded(enemiesNear)) {
-				pieces[x][y - 1] = null;
-			}
-		}
+		System.out.println("IsAttacker: " + isAttacker);
 		
+		if (x + 1 <= 11) {
+			if (pieces[x + 1][y] != null) {
+				enemiesNear = isAttacker ? setAttackerSurroundings(x + 1, y) : setDefenderSurroundings(x + 1, y);
+				System.out.println(pieces[x + 1][y].getId());
+				if (pieces[x + 1][y].IsSurrounded(enemiesNear)) {
+					pieces[x + 1][y] = null;
+				}
+			} 
+		}
+		if (x - 1 >= 0) {
+			if (pieces[x - 1][y] != null) {
+				enemiesNear = isAttacker ? setAttackerSurroundings(x - 1, y) : setDefenderSurroundings(x - 1, y);
+				System.out.println(pieces[x - 1][y].getId());
+				if (pieces[x - 1][y].IsSurrounded(enemiesNear)) {
+					pieces[x - 1][y] = null;
+				}
+			} 
+		}
+		if (y + 1 <= 11) {
+			if (pieces[x][y + 1] != null) {
+				enemiesNear = isAttacker ? setAttackerSurroundings(x, y + 1) : setDefenderSurroundings(x, y + 1);
+				System.out.println(pieces[x][y + 1].getId());
+				if (pieces[x][y + 1].IsSurrounded(enemiesNear)) {
+					pieces[x][y + 1] = null;
+				}
+			} 
+		}
+		if (y - 1 >= 0) {
+			if (pieces[x][y - 1] != null) {
+				enemiesNear = isAttacker ? setAttackerSurroundings(x, y - 1) : setDefenderSurroundings(x, y - 1);
+				System.out.println(pieces[x][y - 1].getId());
+				if (pieces[x][y - 1].IsSurrounded(enemiesNear)) {
+					pieces[x][y - 1] = null;
+				}
+			} 
+		}
 		return kingDied;
 	}
 
@@ -126,36 +137,34 @@ public class Game {
 		boolean[][] ret = new boolean[2][2];
 
 		try {
-			ret[0][0] = pieces[x + 1][y] != null
-					&& !pieces[x + 1][y].getClass().getName().equals("hnefataflModels.Attacker");
-			ret[0][1] = pieces[x - 1][y] != null
-					&& !pieces[x - 1][y].getClass().getName().equals("hnefataflModels.Attacker");
-			ret[1][0] = pieces[x][y + 1] != null
-					&& !pieces[x][y + 1].getClass().getName().equals("hnefataflModels.Attacker");
-			ret[1][1] = pieces[x][y - 1] != null
-					&& !pieces[x][y - 1].getClass().getName().equals("hnefataflModels.Attacker");
-		} catch (ArrayIndexOutOfBoundsException e) {
-			// TODO: handle exception
-			ret[0][0] = false;
-			ret[0][1] = false;
-			ret[1][0] = false;
-			ret[1][1] = false;
-		}
-		return ret;
-	}
-	
-	public boolean[][] setDefenderSurroundings(int x, int y) {
-		boolean[][] ret = new boolean[2][2];
-
-		try {
-			ret[0][0] = pieces[x + 1][y] != null
-					&& !pieces[x + 1][y].getClass().getName().equals("hnefataflModels.Defender");
-			ret[0][1] = pieces[x - 1][y] != null
-					&& !pieces[x - 1][y].getClass().getName().equals("hnefataflModels.Defender");
-			ret[1][0] = pieces[x][y + 1] != null
-					&& !pieces[x][y + 1].getClass().getName().equals("hnefataflModels.Defender");
-			ret[1][1] = pieces[x][y - 1] != null
-					&& !pieces[x][y - 1].getClass().getName().equals("hnefataflModels.Defender");
+			if (x + 1 <= 11) {
+				if (pieces[x + 1][y] != null) {
+					ret[0][0] = (pieces[x + 1][y].toString().equals("Defender")
+							|| pieces[x + 1][y].toString().equals("King"));
+					System.out.println(pieces[x + 1][y].toString() + pieces[x + 1][y].getId());
+				} 
+			}
+			if (x - 1 >= 0) {
+				if (pieces[x - 1][y] != null) {
+					ret[0][1] = (pieces[x - 1][y].toString().equals("Defender")
+							|| pieces[x - 1][y].toString().equals("King"));
+					System.out.println(pieces[x - 1][y].toString() + pieces[x - 1][y].getId());
+				} 
+			}
+			if (y + 1 <= 11) {
+				if (pieces[x][y + 1] != null) {
+					ret[1][0] = (pieces[x][y + 1].toString().equals("Defender")
+							|| pieces[x][y + 1].toString().equals("King"));
+					System.out.println(pieces[x][y + 1].toString() + pieces[x][y + 1].getId());
+				} 
+			}
+			if (y - 1 >= 0) {
+				if (pieces[x][y - 1] != null) {
+					ret[1][1] = (pieces[x][y - 1].toString().equals("Defender")
+							|| pieces[x][y - 1].toString().equals("King"));
+					System.out.println(pieces[x][y - 1].toString() + pieces[x][y - 1].getId());
+				} 
+			}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			// TODO: handle exception
 			ret[0][0] = false;
@@ -164,9 +173,45 @@ public class Game {
 			ret[1][1] = false;
 		}
 		
-		for(boolean[] a : ret) {
-			System.out.println(Arrays.toString(a));
+		for(boolean[] b : ret) {
+			System.out.println(Arrays.toString(b));
 		}
+		
+		return ret;
+	}
+	
+	public boolean[][] setDefenderSurroundings(int x, int y) {
+		boolean[][] ret = new boolean[2][2];
+
+		try {
+			if(pieces[x + 1][y] != null) {
+				ret[0][0] = (pieces[x + 1][y].toString().equals("Attacker"));
+				System.out.println(pieces[x + 1][y].toString() + pieces[x + 1][y].toString().equals("Attacker"));
+			}
+			if(pieces[x - 1][y] != null) {
+				ret[0][1] = (pieces[x - 1][y].toString().equals("Attacker"));
+				System.out.println(pieces[x - 1][y].toString() + pieces[x - 1][y].toString().equals("Attacker"));
+			}
+			if(pieces[x][y + 1] != null) {
+				ret[1][0] = (pieces[x][y + 1].toString().equals("Attacker"));
+				System.out.println(pieces[x][y + 1].toString() + pieces[x][y + 1].toString().equals("Attacker"));
+			}
+			if(pieces[x][y - 1] != null) {
+				ret[1][1] = (pieces[x][y - 1].toString().equals("Attacker"));
+				System.out.println(pieces[x][y - 1].toString() + pieces[x][y - 1].toString().equals("Attacker"));
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// TODO: handle exception
+			ret[0][0] = false;
+			ret[0][1] = false;
+			ret[1][0] = false;
+			ret[1][1] = false;
+		}
+		
+		for(boolean[] b : ret) {
+			System.out.println(Arrays.toString(b));
+		}
+		
 		return ret;
 	}
 
