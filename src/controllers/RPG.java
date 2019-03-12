@@ -75,6 +75,7 @@ public class RPG {
 	private static SaveGame saveGame;
 
 	private static int statPoints = 5;
+	private static int statChosen = 1;
 
 	private static String saveName;
 
@@ -100,6 +101,7 @@ public class RPG {
 		MainMenu();
 		if (choice == 1) {
 			makeCharacter();
+			displayStats();
 			for (int i = 0; i < 5; i++) {
 
 				player.addToInventory(new Potion("Test Potion"));
@@ -656,7 +658,7 @@ public class RPG {
 		Button button = new Button("Okay");
 		root.getChildren().addAll(playerItem, playerAttack, monsterAttack, playerHealingDone, button);
 
-		Scene scene = new Scene(root, 300, 200);
+		Scene scene = new Scene(root, 350, 200);
 		primaryStage.setScene(scene);
 
 		button.setOnAction(new EventHandler<ActionEvent>() {
@@ -786,6 +788,8 @@ public class RPG {
 
 					} while (statPoints > 0);
 
+					displayStats();
+					
 				}
 
 				primaryStage.close();
@@ -832,9 +836,13 @@ public class RPG {
 			statName = "Luc";
 
 		}
+		
+		Text text1 = new Text("You have " + statPoints + " stat points left.");
 
 		Text promptText = new Text("How many points would you like to allocate to " + statName + "?");
 
+		Text warning = new Text("THERE IS A BUG WITH THE ALLOCATION OF STATS THAT IS USED FOR DEMONSTRATION OF THE GAME AND WOULD NOT REFLECT ON THE FINAL PRODUCT AND IT IS USED TO MAKE COMBAT EASIER!!!");
+		
 		Button[] buttons = new Button[5];
 
 		buttons[0] = new Button("1");
@@ -870,6 +878,9 @@ public class RPG {
 
 				}
 
+				stage.close();
+
+				
 			}
 		});
 
@@ -899,6 +910,9 @@ public class RPG {
 					statPoints = statPoints - 2;
 
 				}
+				
+				stage.close();
+
 			}
 		});
 
@@ -928,6 +942,9 @@ public class RPG {
 					statPoints = statPoints - 3;
 
 				}
+				
+				stage.close();
+
 
 			}
 		});
@@ -958,6 +975,9 @@ public class RPG {
 					statPoints = statPoints - 4;
 
 				}
+				
+				stage.close();
+
 
 			}
 		});
@@ -988,6 +1008,8 @@ public class RPG {
 					statPoints = statPoints - 5;
 
 				}
+				
+				stage.close();
 
 			}
 		});
@@ -1000,7 +1022,7 @@ public class RPG {
 
 		gridPane.setAlignment(Pos.CENTER);
 
-		root.getChildren().addAll(text, promptText, gridPane);
+		root.getChildren().addAll(warning, text1, promptText, gridPane);
 
 		Scene scene = new Scene(root, 500, 500);
 
@@ -1011,8 +1033,6 @@ public class RPG {
 	}
 
 	private static int statName() {
-
-		int statChosen = 1;
 
 		Stage stage = new Stage();
 
@@ -1034,33 +1054,36 @@ public class RPG {
 
 		buttons[0].setOnAction(new EventHandler<ActionEvent>() {
 
-			int statChosen;
+			
 
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 
 				statChosen = 1;
+				System.out.println("Str was chosen");
 
+				stage.close();
+				
+				
 			}
 		});
 
 		buttons[1].setOnAction(new EventHandler<ActionEvent>() {
-
-			int statChosen;
 
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 
 				statChosen = 2;
+				
+				stage.close();
+
 
 			}
 		});
 
 		buttons[2].setOnAction(new EventHandler<ActionEvent>() {
-
-			int statChosen;
 
 			@Override
 			public void handle(ActionEvent event) {
@@ -1068,21 +1091,26 @@ public class RPG {
 
 				statChosen = 3;
 
+				stage.close();
+
 			}
 		});
 
 		buttons[3].setOnAction(new EventHandler<ActionEvent>() {
-
-			int statChosen;
 
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 
 				statChosen = 4;
+				stage.close();
+
 			}
+			
 		});
 
+		
+		
 		gridPane.add(buttons[0], 0, 0, 1, 1);
 		gridPane.add(buttons[1], 1, 0, 1, 1);
 		gridPane.add(buttons[2], 2, 0, 1, 1);
@@ -1551,6 +1579,47 @@ public class RPG {
 		stage.showAndWait();
 	}
 
+	private static void displayStats() {
+		
+		Stage stage = new Stage();
+		
+		VBox root = new VBox();
+		
+		Text text = new Text(player.toString());
+		
+		text.setTextAlignment(TextAlignment.CENTER);
+		
+		Text space = new Text("");
+		
+		Button button = new Button("Okay");
+		
+		button.setAlignment(Pos.CENTER);
+		
+		button.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent arg0) {
+
+				stage.close();
+				
+			}
+		});
+		
+		root.getChildren().addAll(text, space,  button);
+		
+		root.setAlignment(Pos.CENTER);
+		
+		Scene scene = new Scene(root, 300, 500);
+		
+		stage.setScene(scene);
+		
+		stage.showAndWait();
+		
+		
+	}
+
+	
+	
 	private static void testWindow() {
 
 		for (int i = 1; i < 10; i++) {
