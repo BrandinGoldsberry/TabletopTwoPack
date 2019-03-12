@@ -33,6 +33,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -75,6 +76,9 @@ public class RPG implements Serializable{
 	private static boolean monsterHitFlag = true;
 	private static boolean combat = false;
 
+	private static int statPoints = 5;
+	
+	
 	private static String saveName;
 	
 	private static Item item;
@@ -86,8 +90,10 @@ public class RPG implements Serializable{
 	
 	public static void run() {
 		
+		
 		makeCharacter();
 		
+		levelUpScreen(statName());
 	
 		
 		for (int i = 0; i < 5; i++) {
@@ -763,6 +769,7 @@ public class RPG implements Serializable{
         
         if(player.getLevel() > tempLevel) {
         	levelUp = new Text(player.getName() + " has gained " + (player.getLevel() - tempLevel) + " levels!");
+       
         }
         
         if(newWeapon) {
@@ -787,10 +794,31 @@ public class RPG implements Serializable{
 			@Override
 			public void handle(ActionEvent event) {
 				
+				if(player.getLevel() > tempLevel) {
+					
+					statPoints = 5;
+					
+					do {
+						
+						levelUpScreen(statName());
+						
+					} while (statPoints > 0);
+					
+					
+				}
+				
+				
+				
 				primaryStage.close();
 			}
 		});
         primaryStage.showAndWait();
+        
+        
+        
+        
+        
+        
 		//Award EXP
 			//Display EXP earned
 			//Display previous EXP
@@ -799,13 +827,338 @@ public class RPG implements Serializable{
 				//Display new EXP and new level/stats if applicable
 	}
 	
-	public static void levelUpScreen() {
-		//TODO
+	public static void levelUpScreen(int statNum) {
+	
+		Stage stage = new Stage();
+
+		VBox root = new VBox();
+		root.setAlignment(Pos.CENTER);
+   
+		Text text = new Text("Level-Up");
+		
+		GridPane gridPane = new GridPane();
+
+		String statName = null;
+		
+		if (statNum ==1) {
+		
+			statName = "Str";
+			
+		} else if (statNum == 2) {
+			
+			statName = "Mag";
+			
+		} else if (statNum == 3) {
+			
+			statName = "Dex";
+			
+			
+		} else if (statNum == 4) {
+			
+			statName = "Luc";
+			
+		}
+		
+		
+		
+		Text promptText = new Text("How many points would you like to allocate to " + statName + "?");
+		
+		Button[] buttons = new Button[5];
+		
+		buttons[0] = new Button("1"); 
+		buttons[1] = new Button("2"); 
+		buttons[2] = new Button("3"); 
+		buttons[3] = new Button("4"); 
+		buttons[4] = new Button("5"); 
+
+		buttons[0].setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				
+				if (statNum == 1) {
+					
+					player.setStr((player.getStr() + 1));
+					statPoints = statPoints - 1;
+					
+					} else if (statNum == 2) {
+						
+						player.setMag((player.getMag() + 1));
+						statPoints = statPoints - 1;
+						
+					} else if (statNum == 3) {
+						
+						player.setDex((player.getDex() + 1));
+						statPoints = statPoints - 1;
+						
+					} else if (statNum == 4) {
+						
+						player.setLuc((player.getLuc() + 1));
+						statPoints = statPoints - 1;
+						
+					}
+				
+				
+			
+				
+				
+			}
+		});
+		
+		buttons[1].setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				
+				if (statNum == 1) {
+				
+				player.setStr((player.getStr() + 2));
+				statPoints = statPoints - 2;
+				
+				} else if (statNum == 2) {
+					
+					player.setMag((player.getMag() + 2));
+					statPoints = statPoints - 2;
+					
+				} else if (statNum == 3) {
+					
+					player.setDex((player.getDex() + 2));
+					statPoints = statPoints - 2;
+					
+					
+				} else if (statNum == 4) {
+					
+					player.setLuc((player.getLuc() + 2));
+					statPoints = statPoints - 2;
+					
+				}
+			}
+		});
+		
+		buttons[2].setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				
+				if (statNum == 1) {
+					
+					player.setStr((player.getStr() + 3));
+					statPoints = statPoints - 3;
+					
+					} else if (statNum == 2) {
+						
+						player.setMag((player.getMag() + 3));
+						statPoints = statPoints - 3;
+						
+					} else if (statNum == 3) {
+						
+						player.setDex((player.getDex() + 3));
+						statPoints = statPoints - 3;
+						
+					} else if (statNum == 4) {
+						
+						player.setLuc((player.getLuc() + 3));
+						statPoints = statPoints - 3;
+						
+					}
+				
+				
+			}
+		});
+		
+		buttons[3].setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				
+				if (statNum == 1) {
+					
+					player.setStr((player.getStr() + 4));
+					statPoints = statPoints - 4;
+					
+					} else if (statNum == 2) {
+						
+						player.setMag((player.getMag() + 4));
+						statPoints = statPoints - 4;
+						
+					} else if (statNum == 3) {
+						
+						player.setDex((player.getDex() + 4));
+						statPoints = statPoints - 4;
+						
+					} else if (statNum == 4) {
+						
+						player.setLuc((player.getLuc() + 4));
+						statPoints = statPoints - 4;
+						
+					}
+				
+			}
+		});
+		
+		buttons[4].setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				
+				if (statNum == 1) {
+					
+					player.setStr((player.getStr() + 5));
+					statPoints = statPoints - 5;
+					
+					} else if (statNum == 2) {
+						
+						player.setMag((player.getMag() + 5));
+						statPoints = statPoints - 5;
+						
+					} else if (statNum == 3) {
+						
+						player.setDex((player.getDex() + 5));
+						statPoints = statPoints - 5;
+						
+						
+					} else if (statNum == 4) {
+						
+						player.setLuc((player.getLuc() + 5));
+						statPoints = statPoints - 5;
+						
+					}
+				
+			}
+		});
+		
+		gridPane.add(buttons[0], 0, 0, 1, 1);
+        gridPane.add(buttons[1], 1, 0, 1, 1);
+        gridPane.add(buttons[2], 2, 0, 1, 1);
+        gridPane.add(buttons[3], 3, 0, 1, 1);
+        gridPane.add(buttons[4], 4, 0, 1, 1);
+        
+        gridPane.setAlignment(Pos.CENTER);
+		
+		root.getChildren().addAll(text, promptText, gridPane);
+		
+    	Scene scene = new Scene(root, 500, 500);
+
+    
+    	stage.setScene(scene);
+    
+    	
+   
+	stage.showAndWait();
+		
+	
+		
+	}
+	
+	
+	private static int statName() {
+		
+		int statChosen = 1;
+		
+		Stage stage = new Stage();
+
+		VBox root = new VBox();
+		root.setAlignment(Pos.CENTER);
+   
+		Text text = new Text("Level-Up");
+		
+		GridPane gridPane = new GridPane();
+		
+		
+		
+		Text promptText = new Text("What stat would you like to allocate points to?");
+		
+		Button[] buttons = new Button[6];
+		
+		buttons[0] = new Button("Str"); 
+		buttons[1] = new Button("Mag"); 
+		buttons[2] = new Button("Dex"); 
+		buttons[3] = new Button("Luc"); 
+
+		buttons[0].setOnAction(new EventHandler<ActionEvent>() {
+			
+			int statChosen;
+			
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				
+				statChosen = 1;
+				
+			
+				
+				
+			}
+		});
+		
+		buttons[1].setOnAction(new EventHandler<ActionEvent>() {
+			
+			int statChosen;
+			
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				
+				statChosen = 2;
+				
+			}
+		});
+		
+		buttons[2].setOnAction(new EventHandler<ActionEvent>() {
+			
+			int statChosen;
+			
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				
+				statChosen = 3;
+				
+			}
+		});
+		
+		buttons[3].setOnAction(new EventHandler<ActionEvent>() {
+			
+			int statChosen;
+			
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				
+				statChosen = 4;
+			}
+		});
+		
+			
+		
+		gridPane.add(buttons[0], 0, 0, 1, 1);
+        gridPane.add(buttons[1], 1, 0, 1, 1);
+        gridPane.add(buttons[2], 2, 0, 1, 1);
+        gridPane.add(buttons[3], 3, 0, 1, 1);
+        
+        gridPane.setAlignment(Pos.CENTER);
+		
+		root.getChildren().addAll(text, promptText, gridPane);
+		
+    	Scene scene = new Scene(root, 500, 500);
+
+    
+    	stage.setScene(scene);
+    
+    	
+   
+    	stage.showAndWait();
+		
+    	
+    	
+    	
+    	return statChosen;
+	
 	}
 	
 	public static void saveGame() {
 		//TODO
-Stage stage = new Stage();
+		Stage stage = new Stage();
 		
 		VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
