@@ -6,8 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.lang.annotation.Target;
 import java.util.Random;
 
 import Monsters_RPG.Drake;
@@ -33,28 +31,28 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import models_RPG.BaseCharacter;
 import models_RPG.Hero;
 import models_RPG.Item;
 import models_RPG.Monster;
 import rpgenums.Job;
+import utils.SaveGame;
+import utils.Writer;
 
-public class RPG implements Serializable{
+public class RPG {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	private static String campaignName;
 	private static Hero player;
 	private static Monster monster;
@@ -74,7 +72,12 @@ public class RPG implements Serializable{
 	private static boolean playerHitFlag = true;
 	private static boolean monsterHitFlag = true;
 	private static boolean combat = false;
+	
+	private static SaveGame saveGame;
 
+	private static int statPoints = 5;
+	
+	
 	private static String saveName;
 	
 	private static Item item;
@@ -82,12 +85,15 @@ public class RPG implements Serializable{
 	private static Random rng = new Random();
 	
 	private static boolean dungeonLordDED = false;
+	private static int choice = 1;
 	
 	
 	public static void run() {
 		
+		
 		makeCharacter();
 		
+		levelUpScreen(statName());
 	
 		
 		for (int i = 0; i < 5; i++) {
@@ -95,8 +101,19 @@ public class RPG implements Serializable{
 		player.addToInventory(new Potion("Test Potion"));
 		player.addToInventory(new BottledLightning("lighging test"));
 		
+
+		MainMenu();
+		if(choice == 1) {
+			makeCharacter();			
+			for (int i = 0; i < 5; i++) {
+				
+				player.addToInventory(new Potion("Test Potion"));
+				player.addToInventory(new BottledLightning("lightning test"));
+				
+			}
+		} else if (choice == 2) {
+			loadGame();
 		}
-		
 		
 		do {
 			
@@ -246,6 +263,8 @@ public class RPG implements Serializable{
         		if(textField.getText().isEmpty() == true || textField.getText().trim().isEmpty() == true) {
         			
         			name = "Billy Herrington";
+        			campaignName = name + "'s adventure";
+        			saveName = campaignName;
         		}
         		
         		stage.close();
@@ -328,7 +347,7 @@ public class RPG implements Serializable{
 						
 						System.out.println("item used on playef");
 						player.getInventory().get(intI).use(player);
-						
+						playerItemUsed = player.getInventory().get(intI);
 						player.getInventory().remove(intI);
 						
 					} else {
@@ -337,7 +356,7 @@ public class RPG implements Serializable{
 							
 							System.out.println("item used on monster");
 							player.getInventory().get(intI).use(monster);
-							
+							playerItemUsed = player.getInventory().get(intI);
 							player.getInventory().remove(intI);
 							
 						}
@@ -366,10 +385,7 @@ public class RPG implements Serializable{
 		stage.showAndWait();
 
 		}
-		
-		
-	
-	
+
 	public static void randomEncounter() {
 		
 		int chance = 0;
@@ -511,8 +527,7 @@ public class RPG implements Serializable{
 		}
 		
 	}
-	
-	
+		
 	public static void generateFloorBoss() {
 		if(currentFloorNum == 1) {
 			monster = new RatKing();
@@ -525,7 +540,6 @@ public class RPG implements Serializable{
 		dungeonFloorSteps = 240;
 	}
 
-	
 	public static void battleProcessing() {
 		
 		do {
@@ -637,6 +651,7 @@ public class RPG implements Serializable{
         
         if(playerItemUsed != null) {
         	playerItem = new Text(player.getName() + " used " + playerItemUsed.getName());
+        	playerItemUsed = null;
         } else {
         	playerItem = new Text(player.getName() + " did not use an item this round.");
         }
@@ -671,7 +686,7 @@ public class RPG implements Serializable{
         Button button = new Button("Okay");
         root.getChildren().addAll(playerItem, playerAttack, monsterAttack, playerHealingDone, button);
         
-        Scene scene = new Scene(root, 250, 200);
+        Scene scene = new Scene(root, 300, 200);
         primaryStage.setScene(scene);
         
         button.setOnAction(new EventHandler<ActionEvent>() {
@@ -763,6 +778,7 @@ public class RPG implements Serializable{
         
         if(player.getLevel() > tempLevel) {
         	levelUp = new Text(player.getName() + " has gained " + (player.getLevel() - tempLevel) + " levels!");
+       
         }
         
         if(newWeapon) {
@@ -787,10 +803,31 @@ public class RPG implements Serializable{
 			@Override
 			public void handle(ActionEvent event) {
 				
+				if(player.getLevel() > tempLevel) {
+					
+					statPoints = 5;
+					
+					do {
+						
+						levelUpScreen(statName());
+						
+					} while (statPoints > 0);
+					
+					
+				}
+				
+				
+				
 				primaryStage.close();
 			}
 		});
         primaryStage.showAndWait();
+        
+        
+        
+        
+        
+        
 		//Award EXP
 			//Display EXP earned
 			//Display previous EXP
@@ -799,13 +836,377 @@ public class RPG implements Serializable{
 				//Display new EXP and new level/stats if applicable
 	}
 	
-	public static void levelUpScreen() {
-		//TODO
+	public static void levelUpScreen(int statNum) {
+	
+		Stage stage = new Stage();
+
+		VBox root = new VBox();
+		root.setAlignment(Pos.CENTER);
+   
+		Text text = new Text("Level-Up");
+		
+		GridPane gridPane = new GridPane();
+
+		String statName = null;
+		
+		if (statNum ==1) {
+		
+			statName = "Str";
+			
+		} else if (statNum == 2) {
+			
+			statName = "Mag";
+			
+		} else if (statNum == 3) {
+			
+			statName = "Dex";
+			
+			
+		} else if (statNum == 4) {
+			
+			statName = "Luc";
+			
+		}
+		
+		
+		
+		Text promptText = new Text("How many points would you like to allocate to " + statName + "?");
+		
+		Button[] buttons = new Button[5];
+		
+		buttons[0] = new Button("1"); 
+		buttons[1] = new Button("2"); 
+		buttons[2] = new Button("3"); 
+		buttons[3] = new Button("4"); 
+		buttons[4] = new Button("5"); 
+
+		buttons[0].setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				
+				if (statNum == 1) {
+					
+					player.setStr((player.getStr() + 1));
+					statPoints = statPoints - 1;
+					
+					} else if (statNum == 2) {
+						
+						player.setMag((player.getMag() + 1));
+						statPoints = statPoints - 1;
+						
+					} else if (statNum == 3) {
+						
+						player.setDex((player.getDex() + 1));
+						statPoints = statPoints - 1;
+						
+					} else if (statNum == 4) {
+						
+						player.setLuc((player.getLuc() + 1));
+						statPoints = statPoints - 1;
+						
+					}
+				
+				
+			
+				
+				
+			}
+		});
+		
+		buttons[1].setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				
+				if (statNum == 1) {
+				
+				player.setStr((player.getStr() + 2));
+				statPoints = statPoints - 2;
+				
+				} else if (statNum == 2) {
+					
+					player.setMag((player.getMag() + 2));
+					statPoints = statPoints - 2;
+					
+				} else if (statNum == 3) {
+					
+					player.setDex((player.getDex() + 2));
+					statPoints = statPoints - 2;
+					
+					
+				} else if (statNum == 4) {
+					
+					player.setLuc((player.getLuc() + 2));
+					statPoints = statPoints - 2;
+					
+				}
+			}
+		});
+		
+		buttons[2].setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				
+				if (statNum == 1) {
+					
+					player.setStr((player.getStr() + 3));
+					statPoints = statPoints - 3;
+					
+					} else if (statNum == 2) {
+						
+						player.setMag((player.getMag() + 3));
+						statPoints = statPoints - 3;
+						
+					} else if (statNum == 3) {
+						
+						player.setDex((player.getDex() + 3));
+						statPoints = statPoints - 3;
+						
+					} else if (statNum == 4) {
+						
+						player.setLuc((player.getLuc() + 3));
+						statPoints = statPoints - 3;
+						
+					}
+				
+				
+			}
+		});
+		
+		buttons[3].setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				
+				if (statNum == 1) {
+					
+					player.setStr((player.getStr() + 4));
+					statPoints = statPoints - 4;
+					
+					} else if (statNum == 2) {
+						
+						player.setMag((player.getMag() + 4));
+						statPoints = statPoints - 4;
+						
+					} else if (statNum == 3) {
+						
+						player.setDex((player.getDex() + 4));
+						statPoints = statPoints - 4;
+						
+					} else if (statNum == 4) {
+						
+						player.setLuc((player.getLuc() + 4));
+						statPoints = statPoints - 4;
+						
+					}
+				
+			}
+		});
+		
+		buttons[4].setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				
+				if (statNum == 1) {
+					
+					player.setStr((player.getStr() + 5));
+					statPoints = statPoints - 5;
+					
+					} else if (statNum == 2) {
+						
+						player.setMag((player.getMag() + 5));
+						statPoints = statPoints - 5;
+						
+					} else if (statNum == 3) {
+						
+						player.setDex((player.getDex() + 5));
+						statPoints = statPoints - 5;
+						
+						
+					} else if (statNum == 4) {
+						
+						player.setLuc((player.getLuc() + 5));
+						statPoints = statPoints - 5;
+						
+					}
+				
+			}
+		});
+		
+		gridPane.add(buttons[0], 0, 0, 1, 1);
+        gridPane.add(buttons[1], 1, 0, 1, 1);
+        gridPane.add(buttons[2], 2, 0, 1, 1);
+        gridPane.add(buttons[3], 3, 0, 1, 1);
+        gridPane.add(buttons[4], 4, 0, 1, 1);
+        
+        gridPane.setAlignment(Pos.CENTER);
+		
+		root.getChildren().addAll(text, promptText, gridPane);
+		
+    	Scene scene = new Scene(root, 500, 500);
+
+    
+    	stage.setScene(scene);
+    
+    	
+   
+	stage.showAndWait();
+		
+	
+		
+	}
+	
+	
+	private static int statName() {
+		
+		int statChosen = 1;
+		
+		Stage stage = new Stage();
+
+		VBox root = new VBox();
+		root.setAlignment(Pos.CENTER);
+   
+		Text text = new Text("Level-Up");
+		
+		GridPane gridPane = new GridPane();
+		
+		
+		
+		Text promptText = new Text("What stat would you like to allocate points to?");
+		
+		Button[] buttons = new Button[6];
+		
+		buttons[0] = new Button("Str"); 
+		buttons[1] = new Button("Mag"); 
+		buttons[2] = new Button("Dex"); 
+		buttons[3] = new Button("Luc"); 
+
+		buttons[0].setOnAction(new EventHandler<ActionEvent>() {
+			
+			int statChosen;
+			
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				
+				statChosen = 1;
+				
+			
+				
+				
+			}
+		});
+		
+		buttons[1].setOnAction(new EventHandler<ActionEvent>() {
+			
+			int statChosen;
+			
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				
+				statChosen = 2;
+				
+			}
+		});
+		
+		buttons[2].setOnAction(new EventHandler<ActionEvent>() {
+			
+			int statChosen;
+			
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				
+				statChosen = 3;
+				
+			}
+		});
+		
+		buttons[3].setOnAction(new EventHandler<ActionEvent>() {
+			
+			int statChosen;
+			
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				
+				statChosen = 4;
+			}
+		});
+		
+			
+		
+		gridPane.add(buttons[0], 0, 0, 1, 1);
+        gridPane.add(buttons[1], 1, 0, 1, 1);
+        gridPane.add(buttons[2], 2, 0, 1, 1);
+        gridPane.add(buttons[3], 3, 0, 1, 1);
+        
+        gridPane.setAlignment(Pos.CENTER);
+		
+		root.getChildren().addAll(text, promptText, gridPane);
+		
+    	Scene scene = new Scene(root, 500, 500);
+
+    
+    	stage.setScene(scene);
+    
+    	
+   
+    	stage.showAndWait();
+		
+    	
+    	
+    	
+    	return statChosen;
+	
+	}
+	
+	public static void MainMenu() {
+		Stage primaryStage = new Stage();				
+		VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
+
+        Text text = new Text("Dungeon Lord RPG");
+        
+        Button newGame = new Button("New Game");
+        
+        Button loadGame = new Button("Load Game");
+        				
+        root.getChildren().addAll(text, newGame, loadGame);
+        
+        Scene scene = new Scene(root, 150, 150);
+        primaryStage.setScene(scene);
+        
+        dungeonLordDED = true;
+        
+        newGame.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				
+				choice = 1;
+				primaryStage.close();
+			}
+		});
+        	
+        loadGame.setOnAction(new EventHandler<ActionEvent>() {
+        	@Override
+        	public void handle(ActionEvent event) {
+        		choice = 2;
+        		primaryStage.close();
+        	}
+        	
+        });
+        
+        primaryStage.showAndWait();
 	}
 	
 	public static void saveGame() {
 		//TODO
-Stage stage = new Stage();
+		Stage stage = new Stage();
 		
 		VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
@@ -814,7 +1215,7 @@ Stage stage = new Stage();
 		box.setAlignment(Pos.CENTER);
 		box.setPadding(new Insets(20, 80, 20, 80));
 		
-		Label label = new Label("File Directory:");
+		Label label = new Label("File Directory and Name:");
 		
 		TextField textField = new TextField ();
 	
@@ -836,19 +1237,76 @@ Stage stage = new Stage();
         	@Override
         	public void handle(ActionEvent event) {
         		
-        		saveName = textField.getText().trim() + ".ser";
-    				try {
-    					FileOutputStream file = new FileOutputStream(saveName);
-    					ObjectOutputStream out = new ObjectOutputStream(file);
-    					
-    					//Finish this out.writeObject();
-    					
-    					out.close();
-    					file.close();
-    					
-    					
-    				} catch(IOException ioe) {
-    				} 
+        		String fileLocation = textField.getText().trim() + ".ser";
+        		saveGame = new SaveGame(saveName, player, monster, playerDungeonLocationX, playerDungeomLocationY, currentFloorNum, dungeonFloorSteps, playerSteps, battleTurn, playerDamage, monsterDamage, playerItemUsed, playerHealing, job, mapPNG, playerHitFlag, monsterHitFlag, combat, saveName, item, name, dungeonLordDED);
+        		
+        		Writer.Write(fileLocation, saveGame);
+        		
+        		
+        		stage.close();
+        	}
+        });
+              	
+        stage.showAndWait();
+
+	}
+	
+	public static void loadGame() {
+Stage stage = new Stage();
+		
+		VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
+		
+		VBox box = new VBox();
+		box.setAlignment(Pos.CENTER);
+		box.setPadding(new Insets(20, 80, 20, 80));
+		
+		Label label = new Label("File Directory and Name(Be exact):");
+		
+		TextField textField = new TextField ();
+	
+		Button button = new Button("submit");
+	
+		box.getChildren().addAll(label, textField);
+		
+		
+		root.getChildren().addAll(box, button);
+			
+		Scene scene = new Scene(root, 400, 400);
+
+		
+        stage.setScene(scene);
+        stage.setTitle("Save Game");
+        
+        button.setOnAction(new EventHandler<ActionEvent>() {
+        	
+        	@Override
+        	public void handle(ActionEvent event) {
+        		
+        		String fileLocation = textField.getText().trim();
+        		
+        		saveGame = Writer.Load(fileLocation);
+        		
+        		campaignName = saveGame.campaignName;
+        		player = saveGame.player;
+        		monster = saveGame.monster;
+        		currentFloorNum = saveGame.currentFloorNum;
+        		dungeonFloorSteps = saveGame.dungeonFloorSteps;
+        		playerSteps = saveGame.playerSteps;
+        		playerDamage = saveGame.playerDamage;
+        		monsterDamage = saveGame.monsterDamage;
+        		playerItemUsed = saveGame.playerItemUsed;
+        		playerHealing = saveGame.playerHealing;
+        		job = saveGame.job;
+        		mapPNG = saveGame.mapPNG;
+        		playerHitFlag = saveGame.playerHitFlag;
+        		monsterHitFlag = saveGame.monsterHitFlag;
+        		combat = saveGame.combat;
+        		saveName = saveGame.saveName;
+        		item = saveGame.item;
+        		name = saveGame.name;
+        		dungeonLordDED = saveGame.dungeonLordDED;
+        		
         		stage.close();
         	}
         });
